@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
+import com.hart.meliorem.passwordreset.PasswordReset;
 import com.hart.meliorem.profile.Profile;
 import com.hart.meliorem.refreshtoken.RefreshToken;
 import com.hart.meliorem.setting.Setting;
@@ -90,6 +91,9 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RefreshToken> refreshTokens;
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PasswordReset> passwordResets;
+
     public User() {
 
     }
@@ -149,6 +153,10 @@ public class User implements UserDetails {
         return refreshTokens;
     }
 
+    public List<PasswordReset> getPasswordResets() {
+        return passwordResets;
+    }
+
     public List<Token> getTokens() {
         return tokens;
     }
@@ -196,6 +204,10 @@ public class User implements UserDetails {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public void setPasswordResets(List<PasswordReset> passwordResets) {
+        this.passwordResets = passwordResets;
     }
 
     public void setRole(Role role) {

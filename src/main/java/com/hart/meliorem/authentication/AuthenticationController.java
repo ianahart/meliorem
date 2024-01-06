@@ -1,10 +1,15 @@
 package com.hart.meliorem.authentication;
 
+import java.io.IOException;
+
 import com.hart.meliorem.authentication.request.LoginRequest;
 import com.hart.meliorem.authentication.request.RegisterRequest;
 import com.hart.meliorem.authentication.response.LoginResponse;
 import com.hart.meliorem.authentication.response.RegisterResponse;
 import com.hart.meliorem.config.JwtService;
+import com.hart.meliorem.email.EmailService;
+import com.hart.meliorem.email.request.ForgotPasswordRequest;
+import com.hart.meliorem.email.response.ForgotPasswordResponse;
 import com.hart.meliorem.refreshtoken.RefreshToken;
 import com.hart.meliorem.refreshtoken.RefreshTokenService;
 import com.hart.meliorem.refreshtoken.request.RefreshTokenRequest;
@@ -21,6 +26,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import freemarker.template.TemplateException;
+import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 
 @RestController
@@ -35,6 +42,7 @@ public class AuthenticationController {
     private final JwtService jwtService;
     private final TokenService tokenService;
     private final UserService userService;
+    private final EmailService emailService;
 
     @Autowired
     public AuthenticationController(
@@ -42,12 +50,14 @@ public class AuthenticationController {
             RefreshTokenService refreshTokenService,
             JwtService jwtService,
             TokenService tokenService,
-            UserService userService) {
+            UserService userService,
+            EmailService emailService) {
         this.authenticationService = authenticationService;
         this.refreshTokenService = refreshTokenService;
         this.jwtService = jwtService;
         this.tokenService = tokenService;
         this.userService = userService;
+        this.emailService = emailService;
     }
 
     @PostMapping("/register")
@@ -73,6 +83,16 @@ public class AuthenticationController {
 
         return ResponseEntity.status(200).body(
                 new RefreshTokenResponse(token, refreshToken.getRefreshToken()));
+    }
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<ForgotPasswordResponse> forgotPassword(@RequestBody ForgotPasswordRequest request)
+            throws IOException,
+            TemplateException, MessagingException {
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(this.emailService.sendForgotPasswordEmail(request));
     }
 
 }
