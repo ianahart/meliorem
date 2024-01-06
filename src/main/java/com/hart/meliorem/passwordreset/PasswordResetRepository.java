@@ -14,6 +14,16 @@ public interface PasswordResetRepository extends JpaRepository<PasswordReset, Lo
 
     Optional<PasswordReset> findByToken(String token);
 
+    @Query(value = """
+            SELECT EXISTS(SELECT 1 FROM PasswordReset pr
+            INNER JOIN pr.user u
+            WHERE pr.token = :token
+            AND u.id = :userId
+            )
+                """)
+
+    boolean findPasswordResetByUserIdAndToken(@Param("userId") Long userId, @Param("token") String token);
+
     @Modifying
     @Query(value = """
                 DELETE FROM password_reset pr

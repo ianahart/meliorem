@@ -10,6 +10,9 @@ import com.hart.meliorem.config.JwtService;
 import com.hart.meliorem.email.EmailService;
 import com.hart.meliorem.email.request.ForgotPasswordRequest;
 import com.hart.meliorem.email.response.ForgotPasswordResponse;
+import com.hart.meliorem.passwordreset.PasswordResetService;
+import com.hart.meliorem.passwordreset.request.ResetPasswordRequest;
+import com.hart.meliorem.passwordreset.response.ResetPasswordResponse;
 import com.hart.meliorem.refreshtoken.RefreshToken;
 import com.hart.meliorem.refreshtoken.RefreshTokenService;
 import com.hart.meliorem.refreshtoken.request.RefreshTokenRequest;
@@ -43,6 +46,7 @@ public class AuthenticationController {
     private final TokenService tokenService;
     private final UserService userService;
     private final EmailService emailService;
+    private final PasswordResetService passwordResetService;
 
     @Autowired
     public AuthenticationController(
@@ -51,13 +55,15 @@ public class AuthenticationController {
             JwtService jwtService,
             TokenService tokenService,
             UserService userService,
-            EmailService emailService) {
+            EmailService emailService,
+            PasswordResetService passwordResetService) {
         this.authenticationService = authenticationService;
         this.refreshTokenService = refreshTokenService;
         this.jwtService = jwtService;
         this.tokenService = tokenService;
         this.userService = userService;
         this.emailService = emailService;
+        this.passwordResetService = passwordResetService;
     }
 
     @PostMapping("/register")
@@ -86,7 +92,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/forgot-password")
-    public ResponseEntity<ForgotPasswordResponse> forgotPassword(@RequestBody ForgotPasswordRequest request)
+    public ResponseEntity<ForgotPasswordResponse> forgotPassword(@Valid @RequestBody ForgotPasswordRequest request)
             throws IOException,
             TemplateException, MessagingException {
 
@@ -95,4 +101,11 @@ public class AuthenticationController {
                 .body(this.emailService.sendForgotPasswordEmail(request));
     }
 
+    @PostMapping("/reset-password")
+    public ResponseEntity<ResetPasswordResponse> resetPassword(@Valid @RequestBody ResetPasswordRequest request) {
+        this.passwordResetService.resetPassword(request);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(new ResetPasswordResponse("success"));
+    }
 }

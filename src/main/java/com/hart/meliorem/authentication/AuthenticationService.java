@@ -30,6 +30,8 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Safelist;
 
 @Service
 public class AuthenticationService {
@@ -94,9 +96,9 @@ public class AuthenticationService {
         String firstName = MyUtil.capitalize(request.getFirstName());
         String lastName = MyUtil.capitalize(request.getLastName());
         User user = new User(
-                request.getEmail(),
-                firstName,
-                lastName,
+                Jsoup.clean(request.getEmail(), Safelist.none()),
+                Jsoup.clean(firstName, Safelist.none()),
+                Jsoup.clean(lastName, Safelist.none()),
                 String.format("%s %s", firstName, lastName),
                 request.getRole().equals("USER") ? Role.USER : Role.TEACHER,
                 false,
@@ -140,8 +142,8 @@ public class AuthenticationService {
         try {
             this.authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            request.getEmail(),
-                            request.getPassword()));
+                            Jsoup.clean(request.getEmail(), Safelist.none()),
+                            Jsoup.clean(request.getPassword(), Safelist.none())));
 
         } catch (BadCredentialsException e) {
             throw new ForbiddenException("Credentials are invalid");
