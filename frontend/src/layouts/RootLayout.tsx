@@ -1,14 +1,13 @@
 import { Box } from '@chakra-ui/react';
-import { NavLink, Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import Footer from '../components/Shared/Footer';
+import Navigation from '../components/Shared/Navigation';
 
 const RootLayout = () => {
   return (
     <>
       <Box as="header">
-        <NavLink to="/">Home</NavLink>
-        <NavLink to="/login">Login</NavLink>
-        <NavLink to="/register">Create Account</NavLink>
+        <Navigation />
       </Box>
       <Box className="content" as="main">
         <Outlet />
