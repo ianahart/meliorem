@@ -45,7 +45,7 @@ const Form = () => {
     Client.signUp(form)
       .then(() => {
         setIsLoading(false);
-        navigate('/');
+        navigate('/login');
       })
       .catch((err) => {
         console.log(err);
