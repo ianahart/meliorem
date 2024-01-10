@@ -13,7 +13,6 @@ const Navigation = () => {
   return (
     <Box
       as="nav"
-      bg="lightblue"
       p="1.2rem"
       display="flex"
       justifyContent="space-between"
