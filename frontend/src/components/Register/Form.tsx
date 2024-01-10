@@ -5,15 +5,63 @@ import { IRegisterForm } from '../../interfaces';
 import FormInput from '../Shared/Input/FormInput';
 import { AiOutlineLock, AiOutlineMail, AiOutlineUser } from 'react-icons/ai';
 import { Link as RouterLink } from 'react-router-dom';
+import { Client } from '../../util/client';
+import BasicSpinner from '../Shared/BasicSpinner';
+import { useNavigate } from 'react-router-dom';
 
 const Form = () => {
+  const navigate = useNavigate();
   const [form, setForm] = useState<IRegisterForm>(registerFormState);
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const updateField = (name: string, value: string, attribute: string) => {
     setForm((prevState) => ({
       ...prevState,
       [name]: { ...prevState[name as keyof IRegisterForm], [attribute]: value },
     }));
+  };
+
+  const checkForErrors = (form: IRegisterForm) => {
+    let errors = false;
+    for (const prop of Object.keys(form)) {
+      const { error, value } = form[prop as keyof IRegisterForm];
+      if (value.trim().length === 0 || error.length > 0) {
+        errors = true;
+        setError('There are errors present');
+      }
+    }
+    return errors;
+  };
+
+  const clearErrors = (form: IRegisterForm) => {
+    for (const prop of Object.keys(form)) {
+      updateField(prop, '', 'error');
+    }
+  };
+
+  const signUp = (form: IRegisterForm) => {
+    setIsLoading(true);
+    Client.signUp(form)
+      .then(() => {
+        setIsLoading(false);
+        navigate('/');
+      })
+      .catch((err) => {
+        console.log(err);
+        setError(err.response?.data?.message);
+        setIsLoading(false);
+      });
+  };
+
+  const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    clearErrors(form);
+    setError('');
+    if (checkForErrors(form)) {
+      return;
+    }
+    signUp(form);
   };
 
   return (
@@ -27,7 +75,7 @@ const Form = () => {
       <Heading color="primary.dark" fontSize="3rem" textAlign="left" my="2rem" mt="auto">
         Sign up
       </Heading>
-      <form style={{ paddingTop: '3rem' }}>
+      <form onSubmit={handleOnSubmit} style={{ paddingTop: '3rem' }}>
         <Box my="2rem">
           <FormInput
             updateField={updateField}
@@ -109,18 +157,26 @@ const Form = () => {
             <RouterLink to="/login">Sign In</RouterLink>
           </Box>
         </Flex>
-        <Flex mt="8rem" mb="2rem">
-          <Button
-            type="submit"
-            height="35px"
-            fontSize="1.4rem"
-            colorScheme="purple"
-            bg="primary.light"
-            width="100%"
-          >
-            Sign Up
-          </Button>
-        </Flex>
+        {error.length > 0 && (
+          <Flex justify="center">
+            <Text color="red">{error}</Text>
+          </Flex>
+        )}
+        {isLoading && <BasicSpinner message="Creating account..." color="text.primary" />}
+        {!isLoading && (
+          <Flex mt="8rem" mb="2rem">
+            <Button
+              type="submit"
+              height="35px"
+              fontSize="1.4rem"
+              colorScheme="purple"
+              bg="primary.light"
+              width="100%"
+            >
+              Sign Up
+            </Button>
+          </Flex>
+        )}
       </form>
     </Box>
   );
