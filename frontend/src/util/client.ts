@@ -13,7 +13,7 @@ export const Client = {
       email: form.email.value,
       password: form.password.value,
       confirmPassword: form.confirmPassword.value,
-      role: "USER"
+      role: 'USER',
     };
     return http.post('/auth/register', data);
   },
