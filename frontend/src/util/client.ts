@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { IRegisterForm } from '../interfaces';
+import { ILoginForm, IRegisterForm } from '../interfaces';
 
 export const http = axios.create({
   baseURL: 'http://localhost:5173/api/v1',
@@ -16,5 +16,16 @@ export const Client = {
       role: 'USER',
     };
     return http.post('/auth/register', data);
+  },
+
+  signIn: (form: ILoginForm) => {
+    const data = { email: form.email.value, password: form.password.value };
+    return http.post('/auth/login', data);
+  },
+
+  syncUser: (token: string) => {
+    return http.get('/users/sync', {
+      headers: { Authorization: 'Bearer ' + token },
+    });
   },
 };

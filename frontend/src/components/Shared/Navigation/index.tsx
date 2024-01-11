@@ -3,10 +3,13 @@ import { RxHamburgerMenu } from 'react-icons/rx';
 import HamburgerMenu from './HamburgerMenu';
 
 import { NavLink } from 'react-router-dom';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { UserContext } from '../../../context/user';
+import { IUserContext } from '../../../interfaces';
 
 const Navigation = () => {
   const [hamburgerMenuOpen, setHamburgerMenuOpen] = useState(false);
+  const { user } = useContext(UserContext) as IUserContext;
 
   const closeHamburgerMenu = () => setHamburgerMenuOpen(false);
 
@@ -47,19 +50,23 @@ const Navigation = () => {
         color="text.secondary"
         listStyleType="none"
       >
-        <ListItem fontWeight="bold" mx="1.5rem" p="1rem">
-          <NavLink to="/login">Log in</NavLink>
-        </ListItem>
-        <ListItem
-          bg="primary.light"
-          color="#fff"
-          p="1rem"
-          fontWeight="bold"
-          mx="1.5rem"
-          borderRadius={8}
-        >
-          <NavLink to="/register">Sign up</NavLink>
-        </ListItem>
+        {!user.loggedIn && (
+          <>
+            <ListItem fontWeight="bold" mx="1.5rem" p="1rem">
+              <NavLink to="/login">Log in</NavLink>
+            </ListItem>
+            <ListItem
+              bg="primary.light"
+              color="#fff"
+              p="1rem"
+              fontWeight="bold"
+              mx="1.5rem"
+              borderRadius={8}
+            >
+              <NavLink to="/register">Sign up</NavLink>
+            </ListItem>
+          </>
+        )}
       </UnorderedList>
     </Box>
   );
