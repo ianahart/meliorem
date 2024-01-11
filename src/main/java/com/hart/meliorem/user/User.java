@@ -74,6 +74,9 @@ public class User implements UserDetails {
     @Transient
     private String abbreviation;
 
+    @Transient
+    private String slug;
+
     @Enumerated(EnumType.STRING)
     private Role role;
 
@@ -143,6 +146,10 @@ public class User implements UserDetails {
 
     public String getAbbreviation() {
         return firstName.substring(0, 1).toUpperCase() + lastName.substring(0, 1).toUpperCase();
+    }
+
+    public String getSlug() {
+        return (firstName + lastName).toLowerCase();
     }
 
     public Long getId() {
@@ -264,6 +271,10 @@ public class User implements UserDetails {
 
     public void setAbbreviation(String abbreviation) {
         this.abbreviation = abbreviation;
+    }
+
+    public void setSlug(String slug) {
+        this.slug = slug;
     }
 
     public String getUsername() {

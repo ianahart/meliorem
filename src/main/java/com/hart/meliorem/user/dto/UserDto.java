@@ -14,13 +14,15 @@ public class UserDto {
     private String avatarUrl;
     private String fullName;
     private Long settingId;
+    private String slug;
 
     public UserDto() {
 
     }
 
     public UserDto(Long id, String email, String firstName, String lastName, Role role, String abbreviation,
-            Boolean loggedIn, Long profileId, String avatarUrl, String fullName, Long settingId) {
+            Boolean loggedIn, Long profileId, String avatarUrl, String fullName, Long settingId,
+            String slug) {
         this.id = id;
         this.email = email;
         this.firstName = firstName;
@@ -32,10 +34,15 @@ public class UserDto {
         this.avatarUrl = avatarUrl;
         this.fullName = fullName;
         this.settingId = settingId;
+        this.slug = slug;
     }
 
     public Long getSettingId() {
         return settingId;
+    }
+
+    public String getSlug() {
+        return slug;
     }
 
     public Long getId() {
@@ -120,6 +127,10 @@ public class UserDto {
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
+    }
+
+    public void setSlug(String slug) {
+        this.slug = slug;
     }
 
 }
