@@ -46,7 +46,7 @@ const HamburgerMenu = ({ closeHamburgerMenu }: IHamburgerMenuProps) => {
           <AiOutlineClose />
         </Flex>
       </Flex>
-      <HamburgerMenuLinks />
+      <HamburgerMenuLinks closeHamburgerMenu={closeHamburgerMenu} />
     </Box>
   );
 };
