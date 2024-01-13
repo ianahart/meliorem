@@ -18,7 +18,7 @@ const HamburgerMenuLinks = ({ closeHamburgerMenu }: IHamburgerMenuLinksProps) =>
   ];
 
   return (
-    <Box>
+    <Box color="primary.dark">
       <HamburgerMenuLinkMin
         closeHamburgerMenu={closeHamburgerMenu}
         linkPath="/"

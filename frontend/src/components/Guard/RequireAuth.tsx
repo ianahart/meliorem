@@ -10,7 +10,7 @@ const RequireAuth: React.FC<Props> = ({ children }): JSX.Element => {
   if (retreiveTokens()?.token) {
     return children;
   } else {
-    return <Navigate to="/" replace state={{ path: location.pathname }} />;
+    return <Navigate to="/login" replace state={{ path: location.pathname }} />;
   }
 };
 

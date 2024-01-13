@@ -23,10 +23,15 @@ const Navigation = () => {
     >
       {hamburgerMenuOpen && <HamburgerMenu closeHamburgerMenu={closeHamburgerMenu} />}
       <Flex align="center">
-        <Heading display={['none', 'none', 'block']} color="primary.dark" as="h2">
+        <Heading
+          mx="1rem"
+          display={['none', 'none', 'block']}
+          color="primary.dark"
+          as="h2"
+        >
           Meliorem
         </Heading>
-        <Flex display={['flex', 'flex', 'none']} align="center">
+        <Flex display={['flex', 'flex', 'flex']} align="center">
           <Box
             onClick={() => setHamburgerMenuOpen(true)}
             fontSize="2.5rem"
@@ -35,7 +40,7 @@ const Navigation = () => {
           >
             <RxHamburgerMenu />
           </Box>
-          <Box color="primary.dark">
+          <Box color="primary.dark" display={['block', 'block', 'none']}>
             <NavLink to="/">
               <Text fontWeight="bold" fontSize="2.2rem" mx="1rem">
                 M
@@ -47,7 +52,7 @@ const Navigation = () => {
       <UnorderedList
         display="flex"
         fontSize="1.4rem"
-        color="text.secondary"
+        color="primary.dark"
         listStyleType="none"
       >
         {!user.loggedIn && (

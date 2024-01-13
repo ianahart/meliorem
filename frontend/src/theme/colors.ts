@@ -1,6 +1,6 @@
 export const colors = {
   primary: {
-    dark: '#3B3486',
+    dark: '#fff',
     light: '#864AF9',
   },
   black: {
@@ -13,7 +13,7 @@ export const colors = {
     secondary: '#444447',
   },
   bg: {
-    primary: '#282E32',
+    primary: '#14144d',
   },
   light: {
     primary: '#e4e3e3',

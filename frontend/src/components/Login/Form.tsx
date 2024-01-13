@@ -117,9 +117,9 @@ const Form = () => {
           />
         </Box>
         <Flex my="2rem" fontSize="1rem" justify="flex-end">
-          <Text mr="0.5rem">Already have an account?</Text>
+          <Text color="primary.dark" mr="0.5rem">Don't have an account?</Text>
           <Box color="primary.light" fontWeight="bold">
-            <RouterLink to="/login">Sign In</RouterLink>
+            <RouterLink to="/login">Sign Up</RouterLink>
           </Box>
         </Flex>
         {error.length > 0 && (

@@ -38,7 +38,7 @@ const HamburgerMenuLink = ({
           {icon}
         </Box>
         <Box>
-          <Text fontWeight="bold" color="text.secondary">
+          <Text fontWeight="bold" color="primary.dark">
             {linkName}
           </Text>
         </Box>
@@ -50,13 +50,13 @@ const HamburgerMenuLink = ({
           {subLinks.map((subLink, index) => {
             return (
               <Flex
-                                onClick={closeHamburgerMenu}
+                onClick={closeHamburgerMenu}
                 _hover={{ backgroundColor: 'rgba(134,74,249, 0.2)' }}
                 ml="3rem"
                 p="0.5rem"
                 borderRadius={4}
                 key={index}
-                color="text.secondary"
+                color="primary.dark"
                 my="2rem"
                 fontSize="1.4rem"
                 align="center"

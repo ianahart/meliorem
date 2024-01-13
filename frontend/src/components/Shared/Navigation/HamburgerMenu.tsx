@@ -26,7 +26,7 @@ const HamburgerMenu = ({ closeHamburgerMenu }: IHamburgerMenuProps) => {
   }, [handleResize]);
 
   return (
-    <Box width="100%" minH="100vh" top="0" bg="#fff" zIndex={10} left="0" pos="absolute">
+    <Box width="100%" minH="100vh" top="0" bg="bg.primary" zIndex={10} left="0" pos="absolute">
       <Flex m="1rem" justify="flex-end">
         <Flex
           onClick={closeHamburgerMenu}
@@ -35,7 +35,7 @@ const HamburgerMenu = ({ closeHamburgerMenu }: IHamburgerMenuProps) => {
           _hover={{ background: 'light.primary' }}
           justify="center"
           align="center"
-          color="text.secondary"
+          color="primary.dark"
           fontSize="2.2rem"
           border="1px solid"
           borderColor="border.primary"
