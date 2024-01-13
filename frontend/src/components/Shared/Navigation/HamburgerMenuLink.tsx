@@ -8,9 +8,15 @@ export interface IHamburgerMenuLinkProps {
   linkName: string;
   icon: string | React.ReactNode;
   subLinks: ISubLink[];
+  closeHamburgerMenu: () => void;
 }
 
-const HamburgerMenuLink = ({ linkName, icon, subLinks }: IHamburgerMenuLinkProps) => {
+const HamburgerMenuLink = ({
+  linkName,
+  icon,
+  subLinks,
+  closeHamburgerMenu,
+}: IHamburgerMenuLinkProps) => {
   const [subMenuOpen, setSubMenuOpen] = useState(false);
 
   return (
@@ -44,6 +50,7 @@ const HamburgerMenuLink = ({ linkName, icon, subLinks }: IHamburgerMenuLinkProps
           {subLinks.map((subLink, index) => {
             return (
               <Flex
+                                onClick={closeHamburgerMenu}
                 _hover={{ backgroundColor: 'rgba(134,74,249, 0.2)' }}
                 ml="3rem"
                 p="0.5rem"

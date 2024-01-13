@@ -18,6 +18,9 @@ import { Client } from './util/client';
 import { retreiveTokens } from './util';
 import RequireAuth from './components/Guard/RequireAuth';
 import RequireGuest from './components/Guard/RequireGuest';
+import NotesRoute from './routes/NotesRoute';
+import StudySetRoute from './routes/StudySetRoute';
+import AddFolderRoute from './routes/AddFolderRoute';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -39,13 +42,38 @@ const router = createBrowserRouter(
           </RequireGuest>
         }
       />
-      <Route path="/:name/latest" element={
-                <RequireAuth>
-                <LatestRoute />
-
-                </RequireAuth>
-
-            } />
+      <Route
+        path="/:name/latest"
+        element={
+          <RequireAuth>
+            <LatestRoute />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/notes"
+        element={
+          <RequireAuth>
+            <NotesRoute />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/study-set"
+        element={
+          <RequireAuth>
+            <StudySetRoute />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/add-folder"
+        element={
+          <RequireAuth>
+            <AddFolderRoute />
+          </RequireAuth>
+        }
+      />
     </Route>
   )
 );

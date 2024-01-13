@@ -6,17 +6,27 @@ import { CgNotes } from 'react-icons/cg';
 import { PiCards } from 'react-icons/pi';
 import { FaRegFolder } from 'react-icons/fa';
 
-const HamburgerMenuLinks = () => {
+export interface IHamburgerMenuLinksProps {
+  closeHamburgerMenu: () => void;
+}
+
+const HamburgerMenuLinks = ({ closeHamburgerMenu }: IHamburgerMenuLinksProps) => {
   const createSubLinks = [
     { linkName: '/notes', linkText: 'Notes', icon: <CgNotes /> },
     { linkName: '/study-set', linkText: 'Study set', icon: <PiCards /> },
-    { linkName: '/folder', linkText: 'Folder', icon: <FaRegFolder /> },
+    { linkName: '/add-folder', linkText: 'Folder', icon: <FaRegFolder /> },
   ];
 
   return (
     <Box>
-      <HamburgerMenuLinkMin linkPath="/" linkName="Home" icon="M" />
+      <HamburgerMenuLinkMin
+        closeHamburgerMenu={closeHamburgerMenu}
+        linkPath="/"
+        linkName="Home"
+        icon="M"
+      />
       <HamburgerMenuLink
+        closeHamburgerMenu={closeHamburgerMenu}
         linkName="Create"
         icon={<AiFillEdit />}
         subLinks={createSubLinks}
