@@ -21,6 +21,8 @@ import RequireGuest from './components/Guard/RequireGuest';
 import NotesRoute from './routes/NotesRoute';
 import StudySetRoute from './routes/StudySetRoute';
 import AddFolderRoute from './routes/AddFolderRoute';
+import ProfileRoute from './routes/ProfileRoute';
+import SettingsRoute from './routes/SettingsRoute';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -71,6 +73,22 @@ const router = createBrowserRouter(
         element={
           <RequireAuth>
             <AddFolderRoute />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/:name/profile"
+        element={
+          <RequireAuth>
+            <ProfileRoute />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/:name/settings"
+        element={
+          <RequireAuth>
+            <SettingsRoute />
           </RequireAuth>
         }
       />

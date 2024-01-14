@@ -6,3 +6,24 @@ export const retreiveTokens = () => {
   }
   return tokens;
 };
+
+export const abbreviate = (fullName: string) => {
+  const [firstName, lastName] = fullName.split(' ');
+  if (firstName.length && lastName.length) {
+    return firstName.slice(0, 1) + lastName.slice(0, 1);
+  }
+};
+
+export const elipsisize = (word: string, charLength: number) => {
+  let elipsisized = '';
+
+  for (let i = 0; i < word.length; i++) {
+    if (elipsisized.length >= charLength) {
+      console.log(elipsisized);
+      elipsisized += '...';
+      break;
+    }
+    elipsisized += word[i];
+  }
+  return elipsisized;
+};
