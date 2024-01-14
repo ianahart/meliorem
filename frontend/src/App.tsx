@@ -1,14 +1,9 @@
 import './App.css';
-import {
-  Route,
-  RouterProvider,
-  createBrowserRouter,
-  createRoutesFromElements,
-} from 'react-router-dom';
+import { Route, Routes, BrowserRouter as Router } from 'react-router-dom';
+import { Box } from '@chakra-ui/react';
 
 import LoginRoute from './routes/LoginRoute';
 import RegisterRoute from './routes/RegisterRoute';
-import RootLayout from './layouts/RootLayout';
 import HomeRoute from './routes/HomeRoute';
 import LatestRoute from './routes/LatestRoute';
 import { UserContext } from './context/user';
@@ -23,78 +18,9 @@ import StudySetRoute from './routes/StudySetRoute';
 import AddFolderRoute from './routes/AddFolderRoute';
 import ProfileRoute from './routes/ProfileRoute';
 import SettingsRoute from './routes/SettingsRoute';
-
-const router = createBrowserRouter(
-  createRoutesFromElements(
-    <Route path="/" element={<RootLayout />}>
-      <Route index element={<HomeRoute />} />
-      <Route
-        path="/login"
-        element={
-          <RequireGuest>
-            <LoginRoute />
-          </RequireGuest>
-        }
-      />
-      <Route
-        path="/register"
-        element={
-          <RequireGuest>
-            <RegisterRoute />
-          </RequireGuest>
-        }
-      />
-      <Route
-        path="/:name/latest"
-        element={
-          <RequireAuth>
-            <LatestRoute />
-          </RequireAuth>
-        }
-      />
-      <Route
-        path="/notes"
-        element={
-          <RequireAuth>
-            <NotesRoute />
-          </RequireAuth>
-        }
-      />
-      <Route
-        path="/study-set"
-        element={
-          <RequireAuth>
-            <StudySetRoute />
-          </RequireAuth>
-        }
-      />
-      <Route
-        path="/add-folder"
-        element={
-          <RequireAuth>
-            <AddFolderRoute />
-          </RequireAuth>
-        }
-      />
-      <Route
-        path="/:name/profile"
-        element={
-          <RequireAuth>
-            <ProfileRoute />
-          </RequireAuth>
-        }
-      />
-      <Route
-        path="/:name/settings"
-        element={
-          <RequireAuth>
-            <SettingsRoute />
-          </RequireAuth>
-        }
-      />
-    </Route>
-  )
-);
+import WithAxios from './util/WithAxios';
+import Footer from './components/Shared/Footer';
+import Navigation from './components/Shared/Navigation';
 
 function App() {
   const { updateUser, stowTokens } = useContext(UserContext) as IUserContext;
@@ -117,6 +43,86 @@ function App() {
     }
   }, [shouldRun.current, storeUser]);
 
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <Router>
+        <Box as="header">
+          <Navigation />
+        </Box>
+        <Box className="content" as="main">
+          <WithAxios>
+            <Routes>
+              <Route index element={<HomeRoute />} />
+              <Route
+                path="/login"
+                element={
+                  <RequireGuest>
+                    <LoginRoute />
+                  </RequireGuest>
+                }
+              />
+              <Route
+                path="/register"
+                element={
+                  <RequireGuest>
+                    <RegisterRoute />
+                  </RequireGuest>
+                }
+              />
+              <Route
+                path="/:name/latest"
+                element={
+                  <RequireAuth>
+                    <LatestRoute />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/notes"
+                element={
+                  <RequireAuth>
+                    <NotesRoute />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/study-set"
+                element={
+                  <RequireAuth>
+                    <StudySetRoute />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/add-folder"
+                element={
+                  <RequireAuth>
+                    <AddFolderRoute />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/:name/profile"
+                element={
+                  <RequireAuth>
+                    <ProfileRoute />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/:name/settings"
+                element={
+                  <RequireAuth>
+                    <SettingsRoute />
+                  </RequireAuth>
+                }
+              />
+            </Routes>
+          </WithAxios>
+        </Box>
+        <Footer />
+      </Router>
+    </>
+  );
 }
 export default App;
