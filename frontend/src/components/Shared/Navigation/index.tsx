@@ -6,6 +6,7 @@ import { NavLink } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import { UserContext } from '../../../context/user';
 import { IUserContext } from '../../../interfaces';
+import UserMenu from '../UserMenu';
 
 const Navigation = () => {
   const [hamburgerMenuOpen, setHamburgerMenuOpen] = useState(false);
@@ -20,6 +21,8 @@ const Navigation = () => {
       display="flex"
       justifyContent="space-between"
       alignItems="center"
+      borderBottom="1px solid"
+      borderColor="border.primary"
     >
       {hamburgerMenuOpen && <HamburgerMenu closeHamburgerMenu={closeHamburgerMenu} />}
       <Flex align="center">
@@ -49,13 +52,18 @@ const Navigation = () => {
           </Box>
         </Flex>
       </Flex>
-      <UnorderedList
-        display="flex"
-        fontSize="1.4rem"
-        color="primary.dark"
-        listStyleType="none"
-      >
-        {!user.loggedIn && (
+      {user.loggedIn && (
+        <Flex>
+          <UserMenu />
+        </Flex>
+      )}
+      {!user.loggedIn && (
+        <UnorderedList
+          display="flex"
+          fontSize="1.4rem"
+          color="primary.dark"
+          listStyleType="none"
+        >
           <>
             <ListItem fontWeight="bold" mx="1.5rem" p="1rem">
               <NavLink to="/login">Log in</NavLink>
@@ -71,8 +79,8 @@ const Navigation = () => {
               <NavLink to="/register">Sign up</NavLink>
             </ListItem>
           </>
-        )}
-      </UnorderedList>
+        </UnorderedList>
+      )}
     </Box>
   );
 };
