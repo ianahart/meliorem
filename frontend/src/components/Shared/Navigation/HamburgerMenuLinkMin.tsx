@@ -24,7 +24,7 @@ const HamburgerMenuLinkMin = ({
     <Flex
       cursor="pointer"
       onClick={navigateAway}
-      color="primary.dark"
+      color="primary.light"
       my="1rem"
       align="center"
       _hover={{ borderColor: 'rgba(134,74,249, 0.5)' }}
@@ -34,11 +34,11 @@ const HamburgerMenuLinkMin = ({
       fontSize="1.75rem"
       p="1rem"
     >
-      <Box mr="0.5rem" fontSize="2.5rem" fontWeight="bold" color="primary.dark">
+      <Box mr="0.5rem" fontSize="2.5rem" fontWeight="bold" color="primary.light">
         {icon}
       </Box>
       <Box>
-        <Text fontWeight="bold" color="primary.dark">
+        <Text fontWeight="bold" color="primary.light">
           {linkName}
         </Text>
       </Box>

@@ -71,7 +71,7 @@ const Form = () => {
       borderRadius={8}
       p="1rem"
     >
-      <Heading color="primary.dark" fontSize="3rem" textAlign="left" my="2rem" mt="auto">
+      <Heading color="primary.light" fontSize="3rem" textAlign="left" my="2rem" mt="auto">
         Sign up
       </Heading>
       <form onSubmit={handleOnSubmit} style={{ paddingTop: '3rem' }}>
@@ -151,8 +151,10 @@ const Form = () => {
           />
         </Box>
         <Flex my="2rem" fontSize="1rem" justify="flex-end">
-          <Text mr="0.5rem">Already have an account?</Text>
-          <Box color="primary.light" fontWeight="bold">
+          <Text mr="0.5rem" color="primary.light">
+            Already have an account?
+          </Text>
+          <Box color="primary.dark" fontWeight="bold">
             <RouterLink to="/login">Sign In</RouterLink>
           </Box>
         </Flex>
@@ -169,7 +171,7 @@ const Form = () => {
               height="35px"
               fontSize="1.4rem"
               colorScheme="purple"
-              bg="primary.light"
+              bg="primary.dark"
               width="100%"
             >
               Sign Up

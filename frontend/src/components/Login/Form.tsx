@@ -81,7 +81,7 @@ const Form = () => {
       borderRadius={8}
       p="1rem"
     >
-      <Heading color="primary.dark" fontSize="3rem" textAlign="left" my="5rem">
+      <Heading color="primary.light" fontSize="3rem" textAlign="left" my="5rem">
         Sign In
       </Heading>
 
@@ -117,8 +117,8 @@ const Form = () => {
           />
         </Box>
         <Flex my="2rem" fontSize="1rem" justify="flex-end">
-          <Text color="primary.dark" mr="0.5rem">Don't have an account?</Text>
-          <Box color="primary.light" fontWeight="bold">
+          <Text color="primary.light" mr="0.5rem">Don't have an account?</Text>
+          <Box color="primary.dark" fontWeight="bold">
             <RouterLink to="/login">Sign Up</RouterLink>
           </Box>
         </Flex>
@@ -137,7 +137,7 @@ const Form = () => {
               height="35px"
               fontSize="1.4rem"
               colorScheme="purple"
-              bg="primary.light"
+              bg="primary.dark"
               width="100%"
             >
               Sign Up

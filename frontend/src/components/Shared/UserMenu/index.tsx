@@ -53,7 +53,7 @@ const UserMenu = () => {
                   fontSize="1.4rem"
                 />
               </Box>
-              <Box color="primary.dark">
+              <Box color="primary.light">
                 <Text fontWeight="bold">{elipsisize(user.fullName, 20)}</Text>
                 <Text>{elipsisize(user.email, 20)}</Text>
               </Box>

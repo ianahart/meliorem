@@ -55,7 +55,7 @@ const FormInput = ({
 
   return (
     <FormControl>
-      <FormLabel color="primary.dark" fontWeight="bold" fontSize="1.2rem" htmlFor={id}>
+      <FormLabel color="primary.light" fontWeight="bold" fontSize="1.2rem" htmlFor={id}>
         {label}
       </FormLabel>
       <Box pos="relative">
