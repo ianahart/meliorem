@@ -19,7 +19,6 @@ export const elipsisize = (word: string, charLength: number) => {
 
   for (let i = 0; i < word.length; i++) {
     if (elipsisized.length >= charLength) {
-      console.log(elipsisized);
       elipsisized += '...';
       break;
     }

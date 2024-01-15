@@ -1,3 +1,21 @@
+export interface IStudySetCard {
+  order: number;
+  color: string;
+  bgColor: string;
+  term: string;
+  definition: string;
+  image: string;
+}
+
+export interface IStudySetForm {
+  title: { name: string; value: string; error: string };
+  folder: { name: string; value: string; error: string };
+  schoolName: { name: string; value: string; error: string };
+  description: { name: string; value: string; error: string };
+  course: { name: string; value: string; error: string };
+  cards: IStudySetCard[];
+}
+
 export interface IRegisterForm {
   firstName: { name: string; value: string; error: string; type: string };
   lastName: { name: string; value: string; error: string; type: string };
@@ -43,4 +61,9 @@ export interface IUserContext {
   stowTokens: (tokens: ITokens) => void;
   updateUser: (user: IUser) => void;
   logout: () => void;
+}
+
+export interface IStudySetContext {
+  studySetForm: IStudySetForm;
+  setStudySetForm: (studySetForm: IStudySetForm) => void;
 }
