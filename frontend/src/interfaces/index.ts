@@ -1,3 +1,7 @@
+export interface IUniversity {
+  displayName: string;
+}
+
 export interface IStudySetCard {
   order: number;
   color: string;
@@ -66,4 +70,6 @@ export interface IUserContext {
 export interface IStudySetContext {
   studySetForm: IStudySetForm;
   setStudySetForm: (studySetForm: IStudySetForm) => void;
+  universities: IUniversity[];
+  handleSetUniversities: (unis: IUniversity[]) => void;
 }

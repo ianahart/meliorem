@@ -1,7 +1,7 @@
 export const colors = {
   primary: {
     dark: '#864AF9',
-    light: '#f6f7fb'
+    light: '#f6f7fb',
   },
   black: {
     primary: '#454545',
@@ -18,12 +18,11 @@ export const colors = {
   light: {
     primary: '#e4e3e3',
   },
-  cover: {
-    primary: 'rgba(54, 54, 54, 0.9)',
+
+  form: {
+    primary: '#43439f',
   },
-  transparent: {
-    primary: 'rgba(188, 188, 188, 0.6)',
-  },
+
   border: {
     primary: '#343535',
   },

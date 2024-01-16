@@ -1,12 +1,7 @@
 import { Box, Heading } from '@chakra-ui/react';
-import { useContext } from 'react';
-import { StudySetContext } from '../context/studyset';
-import { IStudySetContext } from '../interfaces';
+import Form from '../components/StudySet/Form';
 
 const StudySetRoute = () => {
-  const { studySetForm, setStudySetForm } = useContext(
-    StudySetContext
-  ) as IStudySetContext;
   return (
     <Box
       maxW="1280px"
@@ -19,6 +14,9 @@ const StudySetRoute = () => {
       <Heading fontSize="3rem" as="h1">
         Create a new study set
       </Heading>
+      <Box m="6rem auto 2rem auto" as="section">
+        <Form />
+      </Box>
     </Box>
   );
 };

@@ -35,4 +35,8 @@ export const Client = {
   heartbeat: () => {
     return http.get('/heartbeat');
   },
+
+  getUniversities: (query: string) => {
+    return http.get(`/universities?query=${query}`);
+  },
 };
