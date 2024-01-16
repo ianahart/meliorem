@@ -29,7 +29,7 @@ const Navigation = () => {
         <Heading
           mx="1rem"
           display={['none', 'none', 'block']}
-          color="primary.dark"
+          color="primary.light"
           as="h2"
         >
           Meliorem
@@ -38,12 +38,12 @@ const Navigation = () => {
           <Box
             onClick={() => setHamburgerMenuOpen(true)}
             fontSize="2.5rem"
-            color="primary.dark"
+            color="primary.light"
             cursor="pointer"
           >
             <RxHamburgerMenu />
           </Box>
-          <Box color="primary.dark" display={['block', 'block', 'none']}>
+          <Box color="primary.light" display={['block', 'block', 'none']}>
             <NavLink to="/">
               <Text fontWeight="bold" fontSize="2.2rem" mx="1rem">
                 M
@@ -61,7 +61,7 @@ const Navigation = () => {
         <UnorderedList
           display="flex"
           fontSize="1.4rem"
-          color="primary.dark"
+          color="primary.light"
           listStyleType="none"
         >
           <>
@@ -69,7 +69,7 @@ const Navigation = () => {
               <NavLink to="/login">Log in</NavLink>
             </ListItem>
             <ListItem
-              bg="primary.light"
+              bg="primary.dark"
               color="#fff"
               p="1rem"
               fontWeight="bold"

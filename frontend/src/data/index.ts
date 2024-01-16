@@ -27,3 +27,17 @@ export const userState = {
   settingId: 0,
   slug: '',
 };
+
+export const studySetFormState = {
+  title: { name: 'title', error: '', value: '' },
+  folder: { name: 'folder', error: '', value: '' },
+  schoolName: { name: 'schoolName', error: '', value: '' },
+  description: { name: 'description', error: '', value: '' },
+  course: { name: 'course', error: '', value: '' },
+  cards: [
+    { order: 0, color: '', bgColor: '', term: '', definition: '', image: '' },
+    { order: 1, color: '', bgColor: '', term: '', definition: '', image: '' },
+    { order: 2, color: '', bgColor: '', term: '', definition: '', image: '' },
+    { order: 3, color: '', bgColor: '', term: '', definition: '', image: '' },
+  ],
+};

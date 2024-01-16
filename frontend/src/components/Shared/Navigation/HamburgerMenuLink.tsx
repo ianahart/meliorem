@@ -34,11 +34,11 @@ const HamburgerMenuLink = ({
         align="center"
         fontSize="1.75rem"
       >
-        <Box mr="0.5rem" fontSize="2.5rem" fontWeight="bold" color="primary.dark">
+        <Box mr="0.5rem" fontSize="2.5rem" fontWeight="bold" color="primary.light">
           {icon}
         </Box>
         <Box>
-          <Text fontWeight="bold" color="primary.dark">
+          <Text fontWeight="bold" color="primary.light">
             {linkName}
           </Text>
         </Box>
@@ -56,7 +56,7 @@ const HamburgerMenuLink = ({
                 p="0.5rem"
                 borderRadius={4}
                 key={index}
-                color="primary.dark"
+                color="primary.light"
                 my="2rem"
                 fontSize="1.4rem"
                 align="center"

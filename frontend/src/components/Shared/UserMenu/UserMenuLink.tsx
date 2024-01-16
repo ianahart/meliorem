@@ -25,7 +25,7 @@ const UserMenuLink = ({ icon, text, path, handleMenuOpen }: IUserMenuLinkProps) 
       fontSize="1.4rem"
       display="flex"
       alignItems="center"
-      color="primary.dark"
+      color="primary.light"
       onClick={navigateToPage}
     >
       <Box mr="0.5rem">{icon}</Box>

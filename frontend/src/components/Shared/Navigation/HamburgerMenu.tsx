@@ -35,7 +35,7 @@ const HamburgerMenu = ({ closeHamburgerMenu }: IHamburgerMenuProps) => {
           _hover={{ background: 'light.primary' }}
           justify="center"
           align="center"
-          color="primary.dark"
+          color="primary.light"
           fontSize="2.2rem"
           border="1px solid"
           borderColor="border.primary"

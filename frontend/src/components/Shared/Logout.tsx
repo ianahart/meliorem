@@ -30,7 +30,7 @@ const Logout = () => {
       fontSize="1.4rem"
       display="flex"
       alignItems="center"
-      color="primary.dark"
+      color="primary.light"
       onClick={handleLogout}
     >
       <Box mr="0.5rem">
