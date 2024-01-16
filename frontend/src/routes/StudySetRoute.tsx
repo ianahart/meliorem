@@ -6,7 +6,6 @@ const StudySetRoute = () => {
     <Box
       maxW="1280px"
       p="1rem"
-      border="1px solid white"
       margin="5rem auto 2rem auto"
       as="section"
       color="primary.light"

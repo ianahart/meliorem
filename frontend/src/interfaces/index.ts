@@ -1,8 +1,16 @@
+export interface IColor {
+  id: number;
+  name: string;
+}
+
 export interface IUniversity {
   displayName: string;
 }
 
 export interface IStudySetCard {
+  [key: string]: string | number;
+  number: number;
+  id: string;
   order: number;
   color: string;
   bgColor: string;
@@ -72,4 +80,5 @@ export interface IStudySetContext {
   setStudySetForm: (studySetForm: IStudySetForm) => void;
   universities: IUniversity[];
   handleSetUniversities: (unis: IUniversity[]) => void;
+  handleSetStudySetForm: (form: IStudySetForm) => void;
 }

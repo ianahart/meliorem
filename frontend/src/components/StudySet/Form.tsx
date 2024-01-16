@@ -2,14 +2,22 @@ import { useContext, useCallback } from 'react';
 import { IStudySetContext, IStudySetForm } from '../../interfaces';
 import { StudySetContext } from '../../context/studyset';
 import FormInput from './FormInput';
-import { Box, Flex } from '@chakra-ui/react';
+import { Box, Button, Flex } from '@chakra-ui/react';
 import FormTextarea from './FormTextarea';
 import { debounce } from 'lodash';
 import { Client } from '../../util/client';
+import StudySetCards from './StudySetCards';
+
+type TStudySetForm = Omit<IStudySetForm, 'cards'>;
 
 const Form = () => {
-  const { studySetForm, setStudySetForm, universities, handleSetUniversities } =
-    useContext(StudySetContext) as IStudySetContext;
+  const {
+    studySetForm,
+    setStudySetForm,
+    universities,
+    handleSetUniversities,
+    handleSetStudySetForm,
+  } = useContext(StudySetContext) as IStudySetContext;
 
   const updateField = (name: string, value: string, attribute: string) => {
     const updatedForm = {
@@ -35,8 +43,45 @@ const Form = () => {
       });
   };
 
+  const clearEmptyStudySetCards = () => {
+    const cards = [...studySetForm.cards]
+      .filter(
+        ({ term, definition }) =>
+          term.trim().length !== 0 && definition.trim().length !== 0
+      )
+      .map((card, index) => {
+        return { ...card, order: index };
+      });
+
+    handleSetStudySetForm({ ...studySetForm, cards });
+  };
+
+  const checkForErrors = () => {
+    let errors = false;
+    const exclude = ['cards'];
+    for (const prop of Object.keys(studySetForm)) {
+      if (!exclude.includes(prop)) {
+        const { value, error } = studySetForm[prop as keyof TStudySetForm];
+        if (value.trim().length === 0 || error.length > 0) {
+          errors = true;
+        }
+      }
+    }
+
+    return errors;
+  };
+
+  const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    clearEmptyStudySetCards();
+    if (checkForErrors()) {
+      return;
+    }
+    console.log('submitted');
+  };
+
   return (
-    <form>
+    <form onSubmit={handleOnSubmit}>
       <FormInput
         updateField={updateField}
         name={studySetForm.folder.name}
@@ -101,6 +146,21 @@ const Form = () => {
             maxLength={200}
           />
         </Box>
+      </Flex>
+      <Box my="5rem">
+        <StudySetCards />
+      </Box>
+      <Flex justify="flex-end">
+        <Button
+          type="submit"
+          height="35px"
+          colorScheme="purple"
+          fontSize="1.4rem"
+          width="100px"
+          size="lg"
+        >
+          Create
+        </Button>
       </Flex>
     </form>
   );
