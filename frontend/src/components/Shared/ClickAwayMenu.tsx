@@ -8,10 +8,10 @@ export interface IClickAwayMenuProps {
   width: string;
   height: string;
   backgroundColor: string;
-  top: string;
-  left: string;
-  right: string;
-  bottom: string;
+  top: string[];
+  left: string[];
+  right: string[];
+  bottom: string[];
   handleMenuOpen: (open: boolean) => void;
 }
 

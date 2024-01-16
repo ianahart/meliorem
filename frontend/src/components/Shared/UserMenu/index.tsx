@@ -34,10 +34,10 @@ const UserMenu = () => {
           handleMenuOpen={handleMenuOpen}
           triggerRef={triggerRef}
           menuRef={menuRef}
-          top="65px"
-          left="unset"
-          right="10px"
-          bottom="unset"
+          top={['65px', '65px', '65px']}
+          left={['unset', 'unset', 'unset']}
+          right={['10px', '10px', '10px']}
+          bottom={['unset', 'unset', 'unset']}
           backgroundColor="bg.primary"
           width="220px"
           height="350px"

@@ -16,6 +16,10 @@ const StudySetContextProvider = ({ children }: IChildren) => {
     setUniversities(unis);
   };
 
+  const handleSetStudySetForm = (form: IStudySetForm) => {
+    setStudySetForm(form);
+  };
+
   return (
     <StudySetContext.Provider
       value={{
@@ -23,6 +27,7 @@ const StudySetContextProvider = ({ children }: IChildren) => {
         setStudySetForm,
         universities,
         handleSetUniversities,
+        handleSetStudySetForm,
       }}
     >
       {children}

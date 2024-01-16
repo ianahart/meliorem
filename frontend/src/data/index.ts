@@ -1,3 +1,5 @@
+import { nanoid } from 'nanoid';
+
 export const registerFormState = {
   firstName: { name: 'firstName', value: '', error: '', type: 'text' },
   lastName: { name: 'lastName', value: '', error: '', type: 'text' },
@@ -35,9 +37,50 @@ export const studySetFormState = {
   description: { name: 'description', error: '', value: '' },
   course: { name: 'course', error: '', value: '' },
   cards: [
-    { order: 0, color: '', bgColor: '', term: '', definition: '', image: '' },
-    { order: 1, color: '', bgColor: '', term: '', definition: '', image: '' },
-    { order: 2, color: '', bgColor: '', term: '', definition: '', image: '' },
-    { order: 3, color: '', bgColor: '', term: '', definition: '', image: '' },
+    {
+      number: 1,
+      id: nanoid(),
+      order: 0,
+      color: '',
+      bgColor: '',
+      term: '',
+      definition: '',
+      image: '',
+    },
+    {
+      number: 2,
+      id: nanoid(),
+      order: 1,
+      color: '',
+      bgColor: '',
+      term: '',
+      definition: '',
+      image: '',
+    },
+    {
+      number: 3,
+      id: nanoid(),
+      order: 2,
+      color: '',
+      bgColor: '',
+      term: '',
+      definition: '',
+      image: '',
+    },
   ],
 };
+
+export const colors = [
+  { id: 1, name: 'yellow' },
+  { id: 2, name: 'red' },
+  { id: 3, name: 'green' },
+  { id: 4, name: 'purple' },
+  { id: 5, name: 'blue' },
+  { id: 6, name: 'brown' },
+  { id: 7, name: 'black' },
+  { id: 8, name: 'white' },
+  { id: 9, name: 'dodgerblue' },
+  { id: 10, name: 'violet' },
+  { id: 11, name: 'mediumseagreen' },
+  { id: 12, name: 'gray' },
+];
