@@ -36,6 +36,7 @@ export const studySetFormState = {
   schoolName: { name: 'schoolName', error: '', value: '' },
   description: { name: 'description', error: '', value: '' },
   course: { name: 'course', error: '', value: '' },
+  visibility: { name: 'visibility', error: '', value: 'everyone' },
   cards: [
     {
       number: 1,

@@ -10,6 +10,8 @@ import com.hart.meliorem.passwordreset.PasswordReset;
 import com.hart.meliorem.profile.Profile;
 import com.hart.meliorem.refreshtoken.RefreshToken;
 import com.hart.meliorem.setting.Setting;
+import com.hart.meliorem.studyset.StudySet;
+import com.hart.meliorem.studysetcard.StudySetCard;
 import com.hart.meliorem.token.Token;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -97,6 +99,12 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PasswordReset> passwordResets;
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<StudySet> studySets;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<StudySetCard> studySetCards;
+
     public User() {
 
     }
@@ -150,6 +158,14 @@ public class User implements UserDetails {
 
     public String getSlug() {
         return (firstName + lastName).toLowerCase();
+    }
+
+    public List<StudySetCard> getStudySetCards() {
+        return studySetCards;
+    }
+
+    public List<StudySet> getStudySets() {
+        return studySets;
     }
 
     public Long getId() {
@@ -213,6 +229,10 @@ public class User implements UserDetails {
         this.id = id;
     }
 
+    public void setStudySetCards(List<StudySetCard> studySetCards) {
+        this.studySetCards = studySetCards;
+    }
+
     public void setPasswordResets(List<PasswordReset> passwordResets) {
         this.passwordResets = passwordResets;
     }
@@ -263,6 +283,10 @@ public class User implements UserDetails {
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
+    }
+
+    public void setStudySets(List<StudySet> studySets) {
+        this.studySets = studySets;
     }
 
     public void setUpdatedAt(Timestamp updatedAt) {

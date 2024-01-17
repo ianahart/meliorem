@@ -1,12 +1,29 @@
 import { useContext, useCallback } from 'react';
-import { IStudySetContext, IStudySetForm } from '../../interfaces';
+import { IStudySetContext, IStudySetForm, IUserContext } from '../../interfaces';
 import { StudySetContext } from '../../context/studyset';
 import FormInput from './FormInput';
-import { Box, Button, Flex } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Flex,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
+  Select,
+  Text,
+} from '@chakra-ui/react';
 import FormTextarea from './FormTextarea';
 import { debounce } from 'lodash';
 import { Client } from '../../util/client';
 import StudySetCards from './StudySetCards';
+import { IoSettingsOutline } from 'react-icons/io5';
+import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../../context/user';
 
 type TStudySetForm = Omit<IStudySetForm, 'cards'>;
 
@@ -18,6 +35,9 @@ const Form = () => {
     handleSetUniversities,
     handleSetStudySetForm,
   } = useContext(StudySetContext) as IStudySetContext;
+  const navigate = useNavigate();
+  const {user} = useContext(UserContext) as IUserContext;
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const updateField = (name: string, value: string, attribute: string) => {
     const updatedForm = {
@@ -71,13 +91,35 @@ const Form = () => {
     return errors;
   };
 
+  const createStudySet = () => {
+
+
+    const data = {
+      title: studySetForm.title.value,
+      folder: studySetForm.folder.value,
+      schoolName: studySetForm.schoolName.value,
+      description: studySetForm.description.value,
+      course: studySetForm.course.value,
+      visibility: studySetForm.visibility.value,
+      cards: studySetForm.cards,
+    };
+
+    Client.createStudySet(data)
+      .then(() => {
+        navigate(`/${user.slug}/latest`);
+      })
+      .catch((err) => {
+        throw new Error(err);
+      });
+  };
+
   const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     clearEmptyStudySetCards();
     if (checkForErrors()) {
       return;
     }
-    console.log('submitted');
+    createStudySet();
   };
 
   return (
@@ -146,6 +188,67 @@ const Form = () => {
             maxLength={200}
           />
         </Box>
+      </Flex>
+      <Flex justify="flex-end" align="center" p="1rem" mx="2rem">
+        <Flex
+          onClick={onOpen}
+          cursor="pointer"
+          justify="center"
+          align="center"
+          width="40px"
+          height="40px"
+          fontSize="3rem"
+          bg="rgba(0,0,0,0.5)"
+          borderRadius={50}
+        >
+          <IoSettingsOutline />
+        </Flex>
+        <Modal isOpen={isOpen} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent minH="300px">
+            <ModalHeader color="#fff" bg="#343437">
+              Options
+            </ModalHeader>
+            <ModalCloseButton color="#fff" />
+            <ModalBody
+              bg="#28282a"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              flexDir="column"
+            >
+              <Text color="#fff" mb="0.5rem" textTransform="uppercase">
+                Visible To
+              </Text>
+              <Select
+                defaultValue={studySetForm.visibility.value}
+                onChange={(e) =>
+                  updateField(studySetForm.visibility.name, e.target.value, 'value')
+                }
+                borderColor="border.primary"
+                color="primary.dark"
+                fontSize="1.2rem"
+              >
+                <option value="me">Just Me</option>
+                <option value="everyone">Everyone</option>
+              </Select>
+            </ModalBody>
+
+            <ModalFooter bg="#28282a">
+              <Button
+                colorScheme="purple"
+                width="100%"
+                height="35px"
+                mr={3}
+                textTransform="uppercase"
+                fontSize="1.2rem"
+                onClick={onClose}
+              >
+                Save
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
       </Flex>
       <Box my="5rem">
         <StudySetCards />
