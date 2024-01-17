@@ -47,4 +47,8 @@ export const Client = {
   createStudySet: <T>(data: T) => {
     return http.post('/studysets', data);
   },
+
+  sendForgotPasswordEmail: (email: string) => {
+    return http.post('/auth/forgot-password', { email });
+  },
 };
