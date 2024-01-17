@@ -29,6 +29,10 @@ export interface IStudySetForm {
   cards: IStudySetCard[];
 }
 
+export interface IForgotPasswordForm {
+  email: { name: string; value: string; error: string; type: string };
+}
+
 export interface IRegisterForm {
   firstName: { name: string; value: string; error: string; type: string };
   lastName: { name: string; value: string; error: string; type: string };
