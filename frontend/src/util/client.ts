@@ -43,4 +43,8 @@ export const Client = {
   getStudySetImages: (searchTerm: string) => {
     return http.get(`/pexels?query=${searchTerm}`);
   },
+
+  createStudySet: <T>(data: T) => {
+    return http.post('/studysets', data);
+  },
 };

@@ -25,6 +25,7 @@ export interface IStudySetForm {
   schoolName: { name: string; value: string; error: string };
   description: { name: string; value: string; error: string };
   course: { name: string; value: string; error: string };
+  visibility: { name: string; value: string; error: string };
   cards: IStudySetCard[];
 }
 
