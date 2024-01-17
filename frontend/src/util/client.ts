@@ -39,4 +39,8 @@ export const Client = {
   getUniversities: (query: string) => {
     return http.get(`/universities?query=${query}`);
   },
+
+  getStudySetImages: (searchTerm: string) => {
+    return http.get(`/pexels?query=${searchTerm}`);
+  },
 };

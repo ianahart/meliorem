@@ -31,6 +31,7 @@ const StudySetCardOptions = ({ studySetCardId }: IStudySetCardOptionsProps) => {
     const cards = studySetForm.cards.map((card) => {
       if (card.id === studySetCardId) {
         card[keyName] = color;
+        card['image'] = '';
       }
       return card;
     });
