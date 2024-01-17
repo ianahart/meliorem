@@ -1,36 +1,42 @@
-package com.hart.meliorem.university;
+package com.hart.meliorem.pexels;
 
-import org.springframework.stereotype.Service;
-import java.util.List;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 import org.json.*;
 
 @Service
-public class UniversityService {
+public class PexelService {
 
-    public List<University> getUniversities(String endpoint, String query) {
+    @Value("${pexels}")
+    private String pexelsKey;
+
+    public List<String> getPexelBackgrounds(String query) {
         try {
-            return getInitial(endpoint + String.join("%20", query.split(" ")));
+            return getInitial(
+                    "https://api.pexels.com/v1/search?query=" + query);
 
         } catch (IOException e) {
             e.printStackTrace();
-            List<University> list = new ArrayList<>();
+            List<String> list = new ArrayList<>();
             return list;
 
         }
     }
 
-    private List<University> getInitial(String endpoint) throws IOException {
+    private List<String> getInitial(String endpoint) throws IOException {
 
         HttpURLConnection connection = (HttpURLConnection) URI.create(endpoint).toURL().openConnection();
 
         connection.setRequestMethod("GET");
+        connection.setRequestProperty("Authorization", pexelsKey);
 
         int responseCode = connection.getResponseCode();
 
@@ -43,27 +49,26 @@ public class UniversityService {
             }
 
             in.close();
-            System.out.println(parseJsonResults(jsonResponseData.toString()));
             return parseJsonResults(jsonResponseData.toString());
         } else {
-            List<University> list = new ArrayList<>();
+            List<String> list = new ArrayList<>();
             return list;
         }
     }
 
-    private List<University> parseJsonResults(String jsonResponseData) {
-        List<University> universities = new ArrayList<>();
+    private List<String> parseJsonResults(String jsonResponseData) {
+        List<String> photos = new ArrayList<>();
         JSONObject obj = new JSONObject(jsonResponseData);
-        JSONArray arr = obj.getJSONArray("results");
+        JSONArray arr = obj.getJSONArray("photos");
 
         for (int i = 0; i < arr.length(); i++) {
-            String displayName = arr
+            String photo = arr
                     .getJSONObject(i)
-                    .get("display_name")
+                    .getJSONObject("src")
+                    .get("large")
                     .toString();
-            universities.add(new University(displayName));
+            photos.add(photo);
         }
-        return universities;
+        return photos;
     }
-
 }
