@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hart.meliorem.studyset.request.CreateStudySetRequest;
 import com.hart.meliorem.studyset.response.CreateStudySetResponse;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping(path = "/api/v1/studysets")
 public class StudySetController {
@@ -20,7 +22,7 @@ public class StudySetController {
   }
 
   @RequestMapping("")
-  ResponseEntity<CreateStudySetResponse> createStudySet(@RequestBody CreateStudySetRequest request) {
+  ResponseEntity<CreateStudySetResponse> createStudySet(@Valid @RequestBody CreateStudySetRequest request) {
 
     this.studySetService.createStudySet(request);
 
