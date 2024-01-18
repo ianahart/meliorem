@@ -22,6 +22,7 @@ import WithAxios from './util/WithAxios';
 import Footer from './components/Shared/Footer';
 import Navigation from './components/Shared/Navigation';
 import ForgotPasswordRoute from './routes/ForgotPasswordRoute';
+import ResetPasswordRoute from './routes/ResetPasswordRoute';
 
 function App() {
   const { updateUser, stowTokens } = useContext(UserContext) as IUserContext;
@@ -62,11 +63,19 @@ function App() {
                   </RequireGuest>
                 }
               />
-                  <Route
+              <Route
                 path="/forgot-password"
                 element={
                   <RequireGuest>
                     <ForgotPasswordRoute />
+                  </RequireGuest>
+                }
+              />
+              <Route
+                path="/reset-password"
+                element={
+                  <RequireGuest>
+                    <ResetPasswordRoute />
                   </RequireGuest>
                 }
               />
