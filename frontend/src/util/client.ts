@@ -51,4 +51,18 @@ export const Client = {
   sendForgotPasswordEmail: (email: string) => {
     return http.post('/auth/forgot-password', { email });
   },
+
+  resetPassword: (
+    id: number,
+    token: string,
+    newPassword: string,
+    confirmPassword: string
+  ) => {
+    return http.post('/auth/reset-password', {
+      id,
+      token,
+      newPassword,
+      confirmPassword,
+    });
+  },
 };
