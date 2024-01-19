@@ -43,7 +43,6 @@ public class UniversityService {
             }
 
             in.close();
-            System.out.println(parseJsonResults(jsonResponseData.toString()));
             return parseJsonResults(jsonResponseData.toString());
         } else {
             List<University> list = new ArrayList<>();

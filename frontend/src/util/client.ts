@@ -65,4 +65,10 @@ export const Client = {
       confirmPassword,
     });
   },
+
+  getStudySetFolders: (query: string, limit: number, page: number, direction: string) => {
+    return http.get(
+      `/studysets/folders?query=${query}&limit=${limit}&page=${page}&direction=${direction}`
+    );
+  },
 };

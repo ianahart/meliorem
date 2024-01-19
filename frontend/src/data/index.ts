@@ -49,6 +49,39 @@ export const userState = {
   slug: '',
 };
 
+export const studySetFormCards = [
+  {
+    number: 1,
+    id: nanoid(),
+    order: 0,
+    color: '',
+    bgColor: '',
+    term: '',
+    definition: '',
+    image: '',
+  },
+  {
+    number: 2,
+    id: nanoid(),
+    order: 1,
+    color: '',
+    bgColor: '',
+    term: '',
+    definition: '',
+    image: '',
+  },
+  {
+    number: 3,
+    id: nanoid(),
+    order: 2,
+    color: '',
+    bgColor: '',
+    term: '',
+    definition: '',
+    image: '',
+  },
+];
+
 export const studySetFormState = {
   title: { name: 'title', error: '', value: '' },
   folder: { name: 'folder', error: '', value: '' },

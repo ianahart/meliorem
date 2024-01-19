@@ -23,7 +23,7 @@ export interface IFormInputProps {
   dataKey: string;
   maxLength: number;
   hasDropDown: boolean;
-  debouncedSearch?: (query: string) => void;
+  debouncedSearch?: (name: string, query: string) => void;
 }
 
 const FormInput = ({
@@ -55,7 +55,7 @@ const FormInput = ({
     const { name, value } = e.target;
     updateField(name, value, 'value');
     if (debouncedSearch !== undefined) {
-      debouncedSearch(value);
+      debouncedSearch(name, value);
     }
   };
 
