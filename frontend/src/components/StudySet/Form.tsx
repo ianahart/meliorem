@@ -24,6 +24,7 @@ import StudySetCards from './StudySetCards';
 import { IoSettingsOutline } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../context/user';
+import { studySetFormCards, studySetFormState } from '../../data';
 
 type TStudySetForm = Omit<IStudySetForm, 'cards'>;
 
@@ -32,11 +33,15 @@ const Form = () => {
     studySetForm,
     setStudySetForm,
     universities,
+    studySetFolders,
+    handleSetStudySetFolders,
     handleSetUniversities,
     handleSetStudySetForm,
   } = useContext(StudySetContext) as IStudySetContext;
+  const folderLimit = 10;
+  const folderPage = -1;
   const navigate = useNavigate();
-  const {user} = useContext(UserContext) as IUserContext;
+  const { user } = useContext(UserContext) as IUserContext;
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const updateField = (name: string, value: string, attribute: string) => {
@@ -47,13 +52,16 @@ const Form = () => {
     setStudySetForm(updatedForm);
   };
 
-  const preformDebounce = debounce((query) => {
-    applySearch(query);
+  const preformDebounce = debounce((name, query) => {
+    applySearch(name, query);
   }, 250);
 
-  const debouncedSearch = useCallback((query: string) => preformDebounce(query), []);
+  const debouncedSearch = useCallback(
+    (name: string, query: string) => preformDebounce(name, query),
+    []
+  );
 
-  const applySearch = (query: string) => {
+  const getUniversities = (query: string) => {
     Client.getUniversities(query)
       .then((res) => {
         handleSetUniversities(res.data.universities);
@@ -61,6 +69,26 @@ const Form = () => {
       .catch((err) => {
         throw new Error(err);
       });
+  };
+
+  const getFolders = (query: string) => {
+    Client.getStudySetFolders(query, folderLimit, folderPage, 'next')
+      .then((res) => {
+        handleSetStudySetFolders(res.data.studySetFolders);
+      })
+      .catch((err) => {
+        throw new Error(err);
+      });
+  };
+
+  const applySearch = (name: string, query: string) => {
+    if (name === 'schoolName' && query.trim().length) {
+      getUniversities(query);
+      return;
+    }
+    if (name === 'folder' && query.trim().length) {
+      getFolders(query);
+    }
   };
 
   const clearEmptyStudySetCards = () => {
@@ -92,8 +120,6 @@ const Form = () => {
   };
 
   const createStudySet = () => {
-
-
     const data = {
       title: studySetForm.title.value,
       folder: studySetForm.folder.value,
@@ -106,6 +132,7 @@ const Form = () => {
 
     Client.createStudySet(data)
       .then(() => {
+        handleSetStudySetForm({ ...studySetFormState, cards: [...studySetFormCards] });
         navigate(`/${user.slug}/latest`);
       })
       .catch((err) => {
@@ -129,10 +156,11 @@ const Form = () => {
         name={studySetForm.folder.name}
         value={studySetForm.folder.value}
         error={studySetForm.folder.error}
+        debouncedSearch={debouncedSearch}
         label="Folder"
         hasDropDown={true}
-        data={[]}
-        dataKey=""
+        data={studySetFolders}
+        dataKey="folder"
         maxLength={200}
       />
       <FormInput

@@ -7,6 +7,10 @@ export interface IUniversity {
   displayName: string;
 }
 
+export interface IStudySetFolder {
+  folder: string;
+}
+
 export interface IStudySetCard {
   [key: string]: string | number;
   number: number;
@@ -89,6 +93,8 @@ export interface IStudySetContext {
   studySetForm: IStudySetForm;
   setStudySetForm: (studySetForm: IStudySetForm) => void;
   universities: IUniversity[];
+  studySetFolders: IStudySetFolder[];
   handleSetUniversities: (unis: IUniversity[]) => void;
+  handleSetStudySetFolders: (folders: IStudySetFolder[]) => void;
   handleSetStudySetForm: (form: IStudySetForm) => void;
 }

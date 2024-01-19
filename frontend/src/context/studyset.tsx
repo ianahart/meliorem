@@ -1,6 +1,11 @@
 import { createContext, useState } from 'react';
 import { studySetFormState } from '../data';
-import { IStudySetContext, IStudySetForm, IUniversity } from '../interfaces';
+import {
+  IStudySetContext,
+  IStudySetFolder,
+  IStudySetForm,
+  IUniversity,
+} from '../interfaces';
 
 interface IChildren {
   children: React.ReactNode;
@@ -11,9 +16,14 @@ export const StudySetContext = createContext<IStudySetContext | null>(null);
 const StudySetContextProvider = ({ children }: IChildren) => {
   const [studySetForm, setStudySetForm] = useState<IStudySetForm>(studySetFormState);
   const [universities, setUniversities] = useState<IUniversity[]>([]);
+  const [studySetFolders, setStudySetFolders] = useState<IStudySetFolder[]>([]);
 
   const handleSetUniversities = (unis: IUniversity[]) => {
     setUniversities(unis);
+  };
+
+  const handleSetStudySetFolders = (folders: IStudySetFolder[]) => {
+    setStudySetFolders(folders);
   };
 
   const handleSetStudySetForm = (form: IStudySetForm) => {
@@ -28,6 +38,8 @@ const StudySetContextProvider = ({ children }: IChildren) => {
         universities,
         handleSetUniversities,
         handleSetStudySetForm,
+        studySetFolders,
+        handleSetStudySetFolders,
       }}
     >
       {children}
