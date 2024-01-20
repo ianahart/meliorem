@@ -71,4 +71,15 @@ export const Client = {
       `/studysets/folders?query=${query}&limit=${limit}&page=${page}&direction=${direction}`
     );
   },
+
+  getProfile: (profileId: number) => {
+    return http.get(`/profiles/${profileId}`);
+  },
+  updateProfileSchoolName: (schoolName: string, profileId: number) => {
+    return http.patch(`/profiles/${profileId}/school-name`, { schoolName });
+  },
+
+  updateProfileCourses: (courses: string, profileId: number) => {
+    return http.patch(`/profiles/${profileId}/courses`, { courses });
+  },
 };

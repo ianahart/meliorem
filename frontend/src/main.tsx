@@ -6,12 +6,15 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { theme } from './theme/theme.ts';
 import UserContextProvider from './context/user.tsx';
 import StudySetContextProvider from './context/studyset.tsx';
+import ProfileContextProvider from './context/profile.tsx';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <ChakraProvider theme={theme}>
     <UserContextProvider>
       <StudySetContextProvider>
-        <App />
+        <ProfileContextProvider>
+          <App />
+        </ProfileContextProvider>
       </StudySetContextProvider>
     </UserContextProvider>
   </ChakraProvider>

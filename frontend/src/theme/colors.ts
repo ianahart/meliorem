@@ -20,7 +20,7 @@ export const colors = {
   },
 
   form: {
-    primary: '#43439f',
+    primary: '#3c3c7b',
   },
 
   border: {

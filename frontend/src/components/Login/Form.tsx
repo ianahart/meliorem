@@ -116,17 +116,19 @@ const Form = () => {
             icon={<AiOutlineLock />}
           />
         </Box>
-      <Flex my="2rem" justify="space-between">
-         <Flex color="primary.dark" fontWeight="bold">
-           <RouterLink to="/forgot-password">Forgot Password?</RouterLink>
+        <Flex my="2rem" justify="space-between">
+          <Flex color="primary.dark" fontWeight="bold">
+            <RouterLink to="/forgot-password">Forgot Password?</RouterLink>
+          </Flex>
+          <Flex fontSize="1rem" justify="flex-end">
+            <Text color="primary.light" mr="0.5rem">
+              Don't have an account?
+            </Text>
+            <Box color="primary.dark" fontWeight="bold">
+              <RouterLink to="/register">Sign Up</RouterLink>
+            </Box>
+          </Flex>
         </Flex>
-        <Flex fontSize="1rem" justify="flex-end">
-          <Text color="primary.light" mr="0.5rem">Don't have an account?</Text>
-          <Box color="primary.dark" fontWeight="bold">
-            <RouterLink to="/login">Sign Up</RouterLink>
-          </Box>
-        </Flex>
-      </Flex>
         {error.length > 0 && (
           <Flex justify="center">
             <Text color="red">{error}</Text>

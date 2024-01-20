@@ -137,3 +137,12 @@ export const colors = [
   { id: 11, name: 'mediumseagreen' },
   { id: 12, name: 'gray' },
 ];
+
+export const profileState = {
+  avatarUrl: '',
+  courses: [],
+  createdAt: new Date(),
+  updatedAt: new Date(),
+  id: 0,
+  schoolName: '',
+};
