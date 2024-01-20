@@ -179,6 +179,8 @@ const StudySetCard = ({ studySetCard, provided, number }: IStudySetCardProps) =>
         <Box bg="#242323" minH="225px">
           <Flex width="300px" p="1rem">
             <Input
+              name="photo"
+              id="photo"
               onChange={(e) => setSearchTerm(e.target.value)}
               value={searchTerm}
               placeholder="Search for a photo"

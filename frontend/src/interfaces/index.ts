@@ -3,6 +3,11 @@ export interface IColor {
   name: string;
 }
 
+export interface ICourse {
+  id: string;
+  name: string;
+}
+
 export interface IUniversity {
   displayName: string;
 }
@@ -76,6 +81,15 @@ export interface IUser {
   slug: string;
 }
 
+export interface IProfile {
+  avatarUrl: string;
+  courses: ICourse[];
+  createdAt: Date;
+  updatedAt: Date;
+  id: number;
+  schoolName: string;
+}
+
 export interface ITokens {
   refreshToken: string;
   token: string;
@@ -97,4 +111,9 @@ export interface IStudySetContext {
   handleSetUniversities: (unis: IUniversity[]) => void;
   handleSetStudySetFolders: (folders: IStudySetFolder[]) => void;
   handleSetStudySetForm: (form: IStudySetForm) => void;
+}
+
+export interface IProfileContext {
+  profile: IProfile;
+  handleSetProfile: (profile: IProfile) => void;
 }
