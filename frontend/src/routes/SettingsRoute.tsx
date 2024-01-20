@@ -8,13 +8,13 @@ import { ProfileContext } from '../context/profile';
 
 const SettingsRoute = () => {
   const { user } = useContext(UserContext) as IUserContext;
-  const { handleSetProfile } = useContext(ProfileContext) as IProfileContext;
+  const { handleSetInitialProfile } = useContext(ProfileContext) as IProfileContext;
   const shouldRun = useRef(true);
 
   const getProfile = (profileId: number) => {
     Client.getProfile(profileId)
       .then((res) => {
-        handleSetProfile(res.data.profile);
+        handleSetInitialProfile(res.data.profile);
       })
       .catch((err) => {
         throw new Error(err);

@@ -116,4 +116,5 @@ export interface IStudySetContext {
 export interface IProfileContext {
   profile: IProfile;
   handleSetProfile: (profile: IProfile) => void;
+  handleSetInitialProfile: (profile: IProfile) => void;
 }

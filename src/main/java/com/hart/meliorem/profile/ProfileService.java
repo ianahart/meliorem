@@ -78,4 +78,27 @@ public class ProfileService {
         return profile.getSchoolName();
     }
 
+    public String updateProfileCourses(String courses, Long profileId) {
+
+        if (profileId == null) {
+            throw new BadRequestException("Profile Id is missing");
+        }
+        Profile profile = getProfileById(profileId);
+        Long currentUserProfileId = this.userService.getCurrentlyLoggedInUser().getProfile().getId();
+
+        if (profile.getId() != currentUserProfileId) {
+            throw new ForbiddenException("Cannot update another user's profile");
+        }
+
+        String cleanedCourses = Jsoup.clean(courses, Safelist.none());
+
+        if (cleanedCourses.trim().length() == 0) {
+            cleanedCourses = null;
+        }
+        profile.setCourses(cleanedCourses);
+
+        this.profileRepository.save(profile);
+
+        return cleanedCourses;
+    }
 }

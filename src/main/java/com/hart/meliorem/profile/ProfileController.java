@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hart.meliorem.profile.request.UpdateProfileCourseRequest;
 import com.hart.meliorem.profile.request.UpdateProfileSchoolNameRequest;
 import com.hart.meliorem.profile.response.GetProfileResponse;
+import com.hart.meliorem.profile.response.UpdateProfileCourseResponse;
 import com.hart.meliorem.profile.response.UpdateProfileSchoolNameResponse;
 
 import jakarta.validation.Valid;
@@ -43,5 +45,13 @@ public class ProfileController {
                 .status(HttpStatus.OK)
                 .body(new UpdateProfileSchoolNameResponse("success",
                         this.profileService.updateProfileSchoolName(request.getSchoolName(), profileId)));
+    }
+
+    @PatchMapping("/{profileId}/courses")
+    public ResponseEntity<UpdateProfileCourseResponse> updateProfileCourses(@PathVariable("profileId") Long profileId,
+            @Valid @RequestBody UpdateProfileCourseRequest request) {
+
+        return ResponseEntity.status(HttpStatus.OK).body(new UpdateProfileCourseResponse("success",
+                this.profileService.updateProfileCourses(request.getCourses(), profileId)));
     }
 }

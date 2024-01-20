@@ -21,7 +21,7 @@ const SchoolNameInput = () => {
     StudySetContext
   ) as IStudySetContext;
   const { user } = useContext(UserContext) as IUserContext;
-  const { profile, handleSetProfile } = useContext(ProfileContext) as IProfileContext;
+  const { profile } = useContext(ProfileContext) as IProfileContext;
 
   const [schoolName, setSchoolName] = useState('');
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
@@ -35,7 +35,6 @@ const SchoolNameInput = () => {
     handler: (e) => {
       if (e.target === inputRef.current) return;
       setIsDropDownOpen(false);
-      updateSchoolName(inputRef.current?.value!);
     },
   });
 
@@ -83,10 +82,7 @@ const SchoolNameInput = () => {
 
   const updateSchoolName = (name: string) => {
     Client.updateProfileSchoolName(name, user.profileId)
-      .then((res) => {
-        const { schoolName: name } = res.data;
-        handleSetProfile({ ...profile, schoolName: name });
-      })
+      .then(() => {})
       .catch((err) => {
         throw new Error(err);
       });
@@ -127,7 +123,7 @@ const SchoolNameInput = () => {
           borderRadius={0}
           borderBottom="2px solid #fff"
         />
-        {!isDropDownOpen && schoolName.trim().length > 0 && (
+        {!isDropDownOpen && schoolName !== null && schoolName.trim().length > 0 && (
           <Box
             onClick={clearInput}
             pos="absolute"

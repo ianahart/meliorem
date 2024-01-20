@@ -78,4 +78,8 @@ export const Client = {
   updateProfileSchoolName: (schoolName: string, profileId: number) => {
     return http.patch(`/profiles/${profileId}/school-name`, { schoolName });
   },
+
+  updateProfileCourses: (courses: string, profileId: number) => {
+    return http.patch(`/profiles/${profileId}/courses`, { courses });
+  },
 };

@@ -1,19 +1,27 @@
 import { useContext } from 'react';
 import { UserContext } from '../../context/user';
-import { IUserContext } from '../../interfaces';
+import { IProfileContext, IStudySetContext, IUserContext } from '../../interfaces';
 import { Client } from '../../util/client';
 import { useNavigate } from 'react-router-dom';
 import { ListItem, Box, Text } from '@chakra-ui/react';
 import { CgLogOut } from 'react-icons/cg';
+import { ProfileContext } from '../../context/profile';
+import { StudySetContext } from '../../context/studyset';
+import { profileState, studySetFormState } from '../../data';
 
 const Logout = () => {
   const navigate = useNavigate();
   const { tokens, logout: logoutUser } = useContext(UserContext) as IUserContext;
+  const { handleSetProfile } = useContext(ProfileContext) as IProfileContext;
+  const { handleSetStudySetForm } = useContext(StudySetContext) as IStudySetContext;
 
   const handleLogout = () => {
     Client.logout(tokens.refreshToken)
       .then(() => {
         logoutUser();
+        handleSetProfile(profileState);
+        handleSetStudySetForm(studySetFormState);
+
         navigate('/login');
       })
       .catch((err: any) => {
