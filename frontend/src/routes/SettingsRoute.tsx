@@ -5,6 +5,7 @@ import { UserContext } from '../context/user';
 import { IProfileContext, IUserContext } from '../interfaces';
 import { Client } from '../util/client';
 import { ProfileContext } from '../context/profile';
+import ProfilePicture from '../components/Settings/ProfilePicture';
 
 const SettingsRoute = () => {
   const { user } = useContext(UserContext) as IUserContext;
@@ -40,6 +41,9 @@ const SettingsRoute = () => {
       >
         <Box m="2rem 0" as="section">
           <SchoolInfo />
+        </Box>
+        <Box m="2rem 0" as="section">
+          <ProfilePicture />
         </Box>
       </Box>
     </Box>
