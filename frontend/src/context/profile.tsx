@@ -10,6 +10,7 @@ export const ProfileContext = createContext<IProfileContext | null>(null);
 
 const ProfileContextProvider = ({ children }: IChildren) => {
   const [profile, setProfile] = useState<IProfile>(profileState);
+  const [file, setFile] = useState<File | null>(null);
 
   const handleSetInitialProfile = (pro: IProfile) => {
     let courses: unknown = pro.courses;
@@ -23,6 +24,10 @@ const ProfileContextProvider = ({ children }: IChildren) => {
 
   const handleSetProfile = (pro: IProfile) => {
     setProfile({ ...pro });
+
+    if (file !== null) {
+      setFile(null);
+    }
   };
 
   return (

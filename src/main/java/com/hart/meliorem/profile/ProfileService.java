@@ -49,15 +49,7 @@ public class ProfileService {
     }
 
     public String updateProfileSchoolName(String schoolName, Long profileId) {
-        if (profileId == null) {
-            throw new BadRequestException("Profile Id is missing");
-        }
-        Profile profile = getProfileById(profileId);
-        Long currentUserProfileId = this.userService.getCurrentlyLoggedInUser().getProfile().getId();
-
-        if (profile.getId() != currentUserProfileId) {
-            throw new ForbiddenException("Cannot update another user's profile");
-        }
+        Profile profile = checkOwnerShip(profileId);
 
         if (schoolName.trim().length() == 0) {
             profile.setSchoolName("");
@@ -78,8 +70,7 @@ public class ProfileService {
         return profile.getSchoolName();
     }
 
-    public String updateProfileCourses(String courses, Long profileId) {
-
+    public Profile checkOwnerShip(Long profileId) {
         if (profileId == null) {
             throw new BadRequestException("Profile Id is missing");
         }
@@ -89,6 +80,13 @@ public class ProfileService {
         if (profile.getId() != currentUserProfileId) {
             throw new ForbiddenException("Cannot update another user's profile");
         }
+
+        return profile;
+    }
+
+    public String updateProfileCourses(String courses, Long profileId) {
+
+        Profile profile = checkOwnerShip(profileId);
 
         String cleanedCourses = Jsoup.clean(courses, Safelist.none());
 
@@ -100,5 +98,20 @@ public class ProfileService {
         this.profileRepository.save(profile);
 
         return cleanedCourses;
+    }
+
+    public String updateProfileAvatar(String avatarUrl, Long profileId) {
+
+        if (avatarUrl.length() == 0 || avatarUrl == null) {
+            throw new BadRequestException("Missing avatar url");
+        }
+
+        Profile profile = checkOwnerShip(profileId);
+
+        profile.setAvatarUrl(avatarUrl);
+
+        this.profileRepository.save(profile);
+
+        return profile.getAvatarUrl();
     }
 }
