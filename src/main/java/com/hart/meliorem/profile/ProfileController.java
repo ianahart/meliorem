@@ -12,10 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hart.meliorem.profile.request.UpdateProfileAvatarRequest;
 import com.hart.meliorem.profile.request.UpdateProfileCourseRequest;
+import com.hart.meliorem.profile.request.UpdateProfilePictureRequest;
 import com.hart.meliorem.profile.request.UpdateProfileSchoolNameRequest;
 import com.hart.meliorem.profile.response.GetProfileResponse;
 import com.hart.meliorem.profile.response.UpdateProfileAvatarResponse;
 import com.hart.meliorem.profile.response.UpdateProfileCourseResponse;
+import com.hart.meliorem.profile.response.UpdateProfilePictureResponse;
 import com.hart.meliorem.profile.response.UpdateProfileSchoolNameResponse;
 
 import jakarta.validation.Valid;
@@ -60,7 +62,17 @@ public class ProfileController {
     @PatchMapping("/{profileId}/avatar")
     public ResponseEntity<UpdateProfileAvatarResponse> updateProfileAvatar(@PathVariable("profileId") Long profileId,
             @RequestBody UpdateProfileAvatarRequest request) {
-        return ResponseEntity.status(HttpStatus.OK).body(new UpdateProfileAvatarResponse("success", this.profileService.updateProfileAvatar(request.getAvatarUrl(), profileId)));
+
+        return ResponseEntity.status(HttpStatus.OK).body(new UpdateProfileAvatarResponse("success",
+                this.profileService.updateProfileAvatar(request.getAvatarUrl(), profileId)));
+    }
+
+    @PatchMapping("/{profileId}/profile-picture")
+    public ResponseEntity<UpdateProfilePictureResponse> updateProfilePicture(UpdateProfilePictureRequest request,
+            @PathVariable("profileId") Long profileId) {
+
+        return ResponseEntity.status(HttpStatus.OK).body(new UpdateProfilePictureResponse("success",
+                this.profileService.updateProfilePicture(request.getProfilePicture(), profileId)));
     }
 
 }

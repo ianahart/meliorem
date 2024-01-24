@@ -3,10 +3,14 @@ package com.hart.meliorem.profile;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.Arrays;
+import java.util.HashMap;
 
 import com.hart.meliorem.advice.ForbiddenException;
 import com.hart.meliorem.advice.NotFoundException;
+import com.hart.meliorem.amazon.AmazonService;
 import com.hart.meliorem.advice.BadRequestException;
 import com.hart.meliorem.profile.dto.ProfileDto;
 import com.hart.meliorem.user.User;
@@ -18,10 +22,14 @@ public class ProfileService {
 
     private final ProfileRepository profileRepository;
     private final UserService userService;
+    private final AmazonService amazonService;
 
-    public ProfileService(ProfileRepository profileRepository, UserService userService) {
+    public ProfileService(ProfileRepository profileRepository,
+            UserService userService,
+            AmazonService amazonService) {
         this.profileRepository = profileRepository;
         this.userService = userService;
+        this.amazonService = amazonService;
     }
 
     public Profile getProfileById(Long profileId) {
@@ -113,5 +121,27 @@ public class ProfileService {
         this.profileRepository.save(profile);
 
         return profile.getAvatarUrl();
+    }
+
+    public String updateProfilePicture(MultipartFile profilePicture, Long profileId) {
+        Profile profile = checkOwnerShip(profileId);
+
+        if (profile.getAvatarFilename() != null) {
+            this.amazonService.deleteBucketObject("arrow-date", profile.getAvatarFilename());
+            profile.setAvatarFilename(null);
+            profile.setAvatarUrl(null);
+        }
+
+        HashMap<String, String> result = this.amazonService.putS3Object("arrow-date",
+                profilePicture.getOriginalFilename(),
+                profilePicture);
+
+        profile.setAvatarFilename(result.get("filename"));
+        profile.setAvatarUrl(result.get("objectUrl"));
+
+        this.profileRepository.save(profile);
+
+        return profile.getAvatarUrl();
+
     }
 }

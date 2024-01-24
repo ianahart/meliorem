@@ -10,6 +10,7 @@ const SettingsTitle = ({ children }: ISettingsTitle) => {
       p="2rem"
       flexDir={['row', 'row', 'column']}
       align="center"
+      flexBasis="200px"
       alignSelf={['center', 'center', 'flex-start']}
     >
       {children}
