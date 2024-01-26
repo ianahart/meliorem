@@ -4,12 +4,15 @@ import java.security.Key;
 import java.util.Optional;
 
 import com.hart.meliorem.advice.NotFoundException;
+import com.hart.meliorem.advice.BadRequestException;
+import com.hart.meliorem.advice.ForbiddenException;
 import com.hart.meliorem.user.dto.UserDto;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import io.jsonwebtoken.Claims;
@@ -24,10 +27,13 @@ public class UserService {
     private String secretKey;
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository,
+            PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public boolean userExistsByEmail(String email) {
@@ -38,6 +44,12 @@ public class UserService {
     public User getUserByEmail(String email) {
         return this.userRepository.findByEmail(email)
                 .orElseThrow(() -> new NotFoundException("User with that email does not exist"));
+    }
+
+    public User getUserById(Long userId) {
+        return this.userRepository.findById(userId)
+                .orElseThrow(
+                        () -> new NotFoundException(String.format("A user with the id %d does not exist", userId)));
     }
 
     public User getCurrentlyLoggedInUser() {
@@ -85,6 +97,28 @@ public class UserService {
                 user.getSetting().getId(),
                 user.getSlug());
 
+    }
+
+    public String updateUserEmail(String email, String password, Long userId) {
+        if (userExistsByEmail(email)) {
+            throw new BadRequestException("That email address is taken");
+        }
+
+        User user = getUserById(userId);
+
+        if (user.getId() != getCurrentlyLoggedInUser().getId()) {
+            throw new ForbiddenException("Cannot update another user's email");
+        }
+
+        if (!this.passwordEncoder.matches(password.trim(), user.getPassword())) {
+            throw new ForbiddenException("Password is invalid");
+        }
+
+        user.setEmail(email);
+
+        this.userRepository.save(user);
+
+        return user.getEmail();
     }
 
 }
