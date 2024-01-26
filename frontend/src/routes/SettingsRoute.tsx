@@ -6,6 +6,7 @@ import { IProfileContext, IUserContext } from '../interfaces';
 import { Client } from '../util/client';
 import { ProfileContext } from '../context/profile';
 import ProfilePicture from '../components/Settings/ProfilePicture';
+import UpdateEmail from '../components/Settings/UpdateEmail';
 
 const SettingsRoute = () => {
   const { user } = useContext(UserContext) as IUserContext;
@@ -44,6 +45,9 @@ const SettingsRoute = () => {
         </Box>
         <Box m="2rem 0" as="section">
           <ProfilePicture />
+        </Box>
+        <Box m="2rem 0" as="section">
+          <UpdateEmail />
         </Box>
       </Box>
     </Box>

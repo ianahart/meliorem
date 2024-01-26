@@ -88,4 +88,8 @@ export const Client = {
   updateProfilePicture: (data: FormData, profileId: number) => {
     return http.patch(`profiles/${profileId}/profile-picture`, data);
   },
+
+  updateUserEmail: (email: string, password: string, userId: number) => {
+    return http.patch(`users/${userId}/email`, { email, password });
+  },
 };

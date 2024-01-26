@@ -12,16 +12,20 @@ body {
 }
 
 body {
-  background: #14144d !important;
+  margin: 0;
   display: flex;
   flex-direction: column;
+  background: blue;
+  background: radial-gradient(125% 125% at 40% 10%, #000 40%, #63e 100%) !important;
 }
 
 .content {
   flex: 1 0 auto;
-  min-height: 95vh;
+  background: radial-gradient(125% 125% at 50% 10%, #000 40%, #63e 100%);
+  min-height: 100vh;
 }
 .footer {
+  padding: 1rem;
   flex-shrink: 0;
 }
 

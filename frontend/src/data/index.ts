@@ -4,6 +4,11 @@ export const forgotPasswordForm = {
   email: { name: 'email', value: '', error: '', type: 'email' },
 };
 
+export const updateEmailFormState = {
+  email: { name: 'email', value: '', error: '', type: 'email' },
+  password: { name: 'password', value: '', error: '', type: 'password' },
+};
+
 export const registerFormState = {
   firstName: { name: 'firstName', value: '', error: '', type: 'text' },
   lastName: { name: 'lastName', value: '', error: '', type: 'text' },

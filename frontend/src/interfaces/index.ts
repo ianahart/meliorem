@@ -28,6 +28,11 @@ export interface IStudySetCard {
   image: string;
 }
 
+export interface IUpdateEmailForm {
+  email: { name: string; value: string; error: string; type: string };
+  password: { name: string; value: string; error: string; type: string };
+}
+
 export interface IStudySetForm {
   title: { name: string; value: string; error: string };
   folder: { name: string; value: string; error: string };

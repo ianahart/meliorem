@@ -111,7 +111,7 @@ const SchoolNameInput = () => {
           id="schoolName"
           name="schoolName"
           ref={inputRef}
-          value={schoolName}
+          value={schoolName ? schoolName : ''}
           fontSize="1.2rem"
           onChange={handleOnChange}
           _placeholder={{ fontSize: '1.2rem' }}
