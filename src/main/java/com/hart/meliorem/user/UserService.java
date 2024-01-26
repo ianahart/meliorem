@@ -4,6 +4,7 @@ import java.security.Key;
 import java.util.Optional;
 
 import com.hart.meliorem.advice.NotFoundException;
+import com.hart.meliorem.token.TokenService;
 import com.hart.meliorem.advice.BadRequestException;
 import com.hart.meliorem.advice.ForbiddenException;
 import com.hart.meliorem.user.dto.UserDto;
@@ -28,12 +29,15 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final TokenService tokenService;
 
     @Autowired
     public UserService(UserRepository userRepository,
-            PasswordEncoder passwordEncoder) {
+            PasswordEncoder passwordEncoder,
+            TokenService tokenService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.tokenService = tokenService;
     }
 
     public boolean userExistsByEmail(String email) {
@@ -119,6 +123,18 @@ public class UserService {
         this.userRepository.save(user);
 
         return user.getEmail();
+    }
+
+    public void deleteUser(Long userId) {
+        User user = getUserById(userId);
+
+        if (user.getId() != getCurrentlyLoggedInUser().getId()) {
+            throw new ForbiddenException("Cannot delete an another user's account");
+        }
+
+        this.tokenService.revokeAllUserTokens(user);
+
+        this.userRepository.delete(user);
     }
 
 }
