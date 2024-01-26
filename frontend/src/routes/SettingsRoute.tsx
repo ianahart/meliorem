@@ -7,6 +7,7 @@ import { Client } from '../util/client';
 import { ProfileContext } from '../context/profile';
 import ProfilePicture from '../components/Settings/ProfilePicture';
 import UpdateEmail from '../components/Settings/UpdateEmail';
+import DeleteAccount from '../components/Settings/DeleteAccount';
 
 const SettingsRoute = () => {
   const { user } = useContext(UserContext) as IUserContext;
@@ -48,6 +49,9 @@ const SettingsRoute = () => {
         </Box>
         <Box m="2rem 0" as="section">
           <UpdateEmail />
+        </Box>
+        <Box m="2rem 0" as="section">
+          <DeleteAccount />
         </Box>
       </Box>
     </Box>

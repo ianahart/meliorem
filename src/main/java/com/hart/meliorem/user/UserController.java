@@ -3,11 +3,13 @@ package com.hart.meliorem.user;
 import com.hart.meliorem.advice.NotFoundException;
 import com.hart.meliorem.user.dto.UserDto;
 import com.hart.meliorem.user.request.UpdateUserEmailRequest;
+import com.hart.meliorem.user.response.DeleteUserResponse;
 import com.hart.meliorem.user.response.UpdateUserEmailResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,5 +48,12 @@ public class UserController {
 
         return ResponseEntity.status(HttpStatus.OK).body(new UpdateUserEmailResponse("success",
                 this.userService.updateUserEmail(request.getEmail(), request.getPassword(), userId)));
+    }
+
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<DeleteUserResponse> deleteUser(@PathVariable("userId") Long userId) {
+
+        this.userService.deleteUser(userId);
+        return ResponseEntity.status(HttpStatus.OK).body(new DeleteUserResponse("success"));
     }
 }

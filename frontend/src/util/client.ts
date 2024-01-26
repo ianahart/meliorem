@@ -92,4 +92,8 @@ export const Client = {
   updateUserEmail: (email: string, password: string, userId: number) => {
     return http.patch(`users/${userId}/email`, { email, password });
   },
+
+  deleteAccount: (userId: number) => {
+    return http.delete(`users/${userId}`);
+  },
 };
