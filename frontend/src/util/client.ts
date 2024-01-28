@@ -107,4 +107,8 @@ export const Client = {
       `/studysets?userId=${userId}&page=${page}&pageSize=${pageSize}&direction=${direction}`
     );
   },
+
+  createStreak: (studySetId: number) => {
+    return http.post('/streaks', { studySetId });
+  },
 };

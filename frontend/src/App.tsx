@@ -23,6 +23,7 @@ import Footer from './components/Shared/Footer';
 import Navigation from './components/Shared/Navigation';
 import ForgotPasswordRoute from './routes/ForgotPasswordRoute';
 import ResetPasswordRoute from './routes/ResetPasswordRoute';
+import SingleStudySetRoute from './routes/SingleStudySetRoute';
 
 function App() {
   const { updateUser, stowTokens } = useContext(UserContext) as IUserContext;
@@ -139,6 +140,14 @@ function App() {
                 element={
                   <RequireAuth>
                     <SettingsRoute />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/studysets/:studySetId"
+                element={
+                  <RequireAuth>
+                    <SingleStudySetRoute />
                   </RequireAuth>
                 }
               />

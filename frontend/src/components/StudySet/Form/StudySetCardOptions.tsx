@@ -1,11 +1,11 @@
 import { Flex, Box, Tooltip, Heading } from '@chakra-ui/react';
 import { RxColorWheel } from 'react-icons/rx';
 import { AiOutlineFontColors } from 'react-icons/ai';
-import ClickAwayMenu from '../Shared/ClickAwayMenu';
+import ClickAwayMenu from '../../Shared/ClickAwayMenu';
 import { useContext, useRef, useState } from 'react';
-import { StudySetContext } from '../../context/studyset';
-import { IStudySetContext } from '../../interfaces';
-import { colors } from '../../data';
+import { StudySetContext } from '../../../context/studyset';
+import { IStudySetContext } from '../../../interfaces';
+import { colors } from '../../../data';
 
 interface IStudySetCardOptionsProps {
   studySetCardId: string;
@@ -32,7 +32,7 @@ const StudySetCardOptions = ({ studySetCardId }: IStudySetCardOptionsProps) => {
       if (card.id === studySetCardId) {
         card[keyName] = color;
         if (keyName === 'bgColor') {
-            card['image'] = '';
+          card['image'] = '';
         }
       }
       return card;
