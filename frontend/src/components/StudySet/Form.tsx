@@ -25,6 +25,7 @@ import { IoSettingsOutline } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../context/user';
 import { studySetFormCards, studySetFormState } from '../../data';
+import { nanoid } from 'nanoid';
 
 type TStudySetForm = Omit<IStudySetForm, 'cards'>;
 
@@ -132,7 +133,41 @@ const Form = () => {
 
     Client.createStudySet(data)
       .then(() => {
-        handleSetStudySetForm({ ...studySetFormState, cards: [...studySetFormCards] });
+        handleSetStudySetForm({
+          ...studySetFormState,
+          cards: [
+            {
+              number: 1,
+              id: nanoid(),
+              order: 0,
+              color: '',
+              bgColor: '',
+              term: '',
+              definition: '',
+              image: '',
+            },
+            {
+              number: 2,
+              id: nanoid(),
+              order: 1,
+              color: '',
+              bgColor: '',
+              term: '',
+              definition: '',
+              image: '',
+            },
+            {
+              number: 3,
+              id: nanoid(),
+              order: 2,
+              color: '',
+              bgColor: '',
+              term: '',
+              definition: '',
+              image: '',
+            },
+          ],
+        });
         navigate(`/${user.slug}/latest`);
       })
       .catch((err) => {

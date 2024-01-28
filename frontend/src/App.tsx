@@ -54,7 +54,14 @@ function App() {
         <Box className="content" as="main">
           <WithAxios>
             <Routes>
-              <Route index element={<HomeRoute />} />
+              <Route
+                index
+                element={
+                  <RequireGuest>
+                    <HomeRoute />
+                  </RequireGuest>
+                }
+              />
               <Route
                 path="/login"
                 element={
