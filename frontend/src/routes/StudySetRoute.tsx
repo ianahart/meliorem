@@ -1,5 +1,5 @@
 import { Box, Heading } from '@chakra-ui/react';
-import Form from '../components/StudySet/Form';
+import Form from '../components/StudySet/Form/Form';
 
 const StudySetRoute = () => {
   return (

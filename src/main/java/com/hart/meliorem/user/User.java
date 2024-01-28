@@ -10,6 +10,7 @@ import com.hart.meliorem.passwordreset.PasswordReset;
 import com.hart.meliorem.profile.Profile;
 import com.hart.meliorem.refreshtoken.RefreshToken;
 import com.hart.meliorem.setting.Setting;
+import com.hart.meliorem.streak.Streak;
 import com.hart.meliorem.studyset.StudySet;
 import com.hart.meliorem.studysetcard.StudySetCard;
 import com.hart.meliorem.token.Token;
@@ -104,6 +105,9 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<StudySetCard> studySetCards;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Streak> streaks;
 
     public User() {
 
@@ -225,6 +229,10 @@ public class User implements UserDetails {
         return updatedAt;
     }
 
+    public List<Streak> getStreaks() {
+        return streaks;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -303,6 +311,10 @@ public class User implements UserDetails {
 
     public String getUsername() {
         return email;
+    }
+
+    public void setStreaks(List<Streak> streaks) {
+        this.streaks = streaks;
     }
 
     @Override

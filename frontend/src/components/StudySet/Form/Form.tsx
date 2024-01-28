@@ -1,6 +1,6 @@
 import { useContext, useCallback } from 'react';
 import { IStudySetContext, IStudySetForm, IUserContext } from '../../interfaces';
-import { StudySetContext } from '../../context/studyset';
+import { StudySetContext } from '../../../context/studyset';
 import FormInput from './FormInput';
 import {
   Box,
@@ -19,12 +19,12 @@ import {
 } from '@chakra-ui/react';
 import FormTextarea from './FormTextarea';
 import { debounce } from 'lodash';
-import { Client } from '../../util/client';
+import { Client } from '../../../util/client';
 import StudySetCards from './StudySetCards';
 import { IoSettingsOutline } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
-import { UserContext } from '../../context/user';
-import { studySetFormCards, studySetFormState } from '../../data';
+import { UserContext } from '../../../context/user';
+import { studySetFormState } from '../../../data';
 import { nanoid } from 'nanoid';
 
 type TStudySetForm = Omit<IStudySetForm, 'cards'>;

@@ -10,16 +10,16 @@ import {
 } from '@chakra-ui/react';
 import { RiDraggable } from 'react-icons/ri';
 import { FaTrash } from 'react-icons/fa';
-import { IStudySetCard, IStudySetContext } from '../../interfaces';
+import { IStudySetCard, IStudySetContext } from '../../../interfaces';
 import { DraggableProvided } from 'react-beautiful-dnd';
 import { useContext, useState } from 'react';
-import { StudySetContext } from '../../context/studyset';
+import { StudySetContext } from '../../../context/studyset';
 import { FaRegImage } from 'react-icons/fa';
 
 import StudySetCardInput from './StudySetCardInput';
 import StudySetCardOptions from './StudySetCardOptions';
-import { Client } from '../../util/client';
-import BasicSpinner from '../Shared/BasicSpinner';
+import { Client } from '../../../util/client';
+import BasicSpinner from '../../Shared/BasicSpinner';
 import { nanoid } from 'nanoid';
 export interface IStudySetCardProps {
   studySetCard: IStudySetCard;

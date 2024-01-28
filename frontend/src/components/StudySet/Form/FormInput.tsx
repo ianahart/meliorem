@@ -9,8 +9,8 @@ import {
 } from '@chakra-ui/react';
 import { useRef, useState, useContext } from 'react';
 import { AiOutlineCloseCircle } from 'react-icons/ai';
-import { StudySetContext } from '../../context/studyset';
-import { IStudySetContext } from '../../interfaces';
+import { StudySetContext } from '../../../context/studyset';
+import { IStudySetContext } from '../../../interfaces';
 import { nanoid } from 'nanoid';
 
 export interface IFormInputProps {

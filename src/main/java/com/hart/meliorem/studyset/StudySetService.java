@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import com.hart.meliorem.advice.NotFoundException;
 
 import com.hart.meliorem.pagination.PaginationService;
 import com.hart.meliorem.pagination.dto.PaginationDto;
@@ -35,6 +36,11 @@ public class StudySetService {
         this.userService = userService;
         this.studySetCardService = studySetCardService;
         this.paginationService = paginationService;
+    }
+
+    public StudySet findStudySetById(Long studySetId) {
+        return this.studySetRepository.findById(studySetId).orElseThrow(
+                () -> new NotFoundException(String.format("A study set with the id %d was not found", studySetId)));
     }
 
     public void createStudySet(CreateStudySetRequest request) {

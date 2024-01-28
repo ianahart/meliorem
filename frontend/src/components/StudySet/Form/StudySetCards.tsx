@@ -2,8 +2,8 @@ import { Box, Flex, Heading, Text } from '@chakra-ui/react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import StudySetCard from './StudySetCard';
 import { useContext } from 'react';
-import { StudySetContext } from '../../context/studyset';
-import { IStudySetContext } from '../../interfaces';
+import { StudySetContext } from '../../../context/studyset';
+import { IStudySetContext } from '../../../interfaces';
 import { nanoid } from 'nanoid';
 
 const StudySetCards = () => {
