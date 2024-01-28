@@ -1,3 +1,18 @@
+export interface IStudySet {
+  avatarUrl: string;
+  course: string;
+  createdAt: Date;
+  description: string;
+  folder: string;
+  id: number;
+  schoolName: string;
+  title: string;
+  totalStudySetCards: number;
+  userId: number;
+  visibility: string;
+  fullName: string;
+}
+
 export interface IColor {
   id: number;
   name: string;

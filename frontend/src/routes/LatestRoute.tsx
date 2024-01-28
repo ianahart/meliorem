@@ -1,7 +1,8 @@
 import { Box } from '@chakra-ui/react';
+import Latest from '../components/Latest';
 
 const LatestRoute = () => {
-  return <Box>Latest Route</Box>;
+  return <Latest />;
 };
 
 export default LatestRoute;

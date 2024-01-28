@@ -96,4 +96,15 @@ export const Client = {
   deleteAccount: (userId: number) => {
     return http.delete(`users/${userId}`);
   },
+
+  getStudySets: (
+    userId: number = 0,
+    page: number,
+    pageSize: number,
+    direction: string
+  ) => {
+    return http.get(
+      `/studysets?userId=${userId}&page=${page}&pageSize=${pageSize}&direction=${direction}`
+    );
+  },
 };

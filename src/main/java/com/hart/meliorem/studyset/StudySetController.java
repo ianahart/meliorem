@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hart.meliorem.studyset.request.CreateStudySetRequest;
 import com.hart.meliorem.studyset.response.CreateStudySetResponse;
+import com.hart.meliorem.studyset.response.GetAllStudySetResponse;
 import com.hart.meliorem.studyset.response.GetStudySetFolderResponse;
 
 import jakarta.validation.Valid;
@@ -40,5 +41,18 @@ public class StudySetController {
 
         return ResponseEntity.status(HttpStatus.OK).body(new GetStudySetFolderResponse("success",
                 this.studySetService.getStudySetFolders(query, limit, page, direction)));
+    }
+
+    @GetMapping("")
+    ResponseEntity<GetAllStudySetResponse> getStudySets(
+            @RequestParam("userId") Long userId,
+            @RequestParam("page") int page,
+            @RequestParam("pageSize") int pageSize,
+            @RequestParam("direction") String direction) {
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(new GetAllStudySetResponse("success",
+                        this.studySetService.getStudySets(userId, page, pageSize, direction)));
     }
 }

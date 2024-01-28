@@ -13,34 +13,39 @@ import com.hart.meliorem.user.User;
 @Service
 public class StudySetCardService {
 
-  private final StudySetCardRepository studySetCardRepository;
+    private final StudySetCardRepository studySetCardRepository;
 
-  public StudySetCardService(StudySetCardRepository studySetCardRepository) {
-    this.studySetCardRepository = studySetCardRepository;
-  }
+    public StudySetCardService(StudySetCardRepository studySetCardRepository) {
+        this.studySetCardRepository = studySetCardRepository;
+    }
 
-  private StudySetCard constructStudySetCard(StudySetCardDto card, User user, StudySet studySet) {
-    return new StudySetCard(
-        Jsoup.clean(card.getBgColor(), Safelist.none()),
-        Jsoup.clean(card.getColor(), Safelist.none()),
-        Jsoup.clean(card.getDefinition(), Safelist.none()),
-        Jsoup.clean(card.getImage(), Safelist.none()),
-        card.getNumber(),
-        card.getOrder(),
-        Jsoup.clean(card.getTerm(), Safelist.none()),
-        studySet,
-        user);
-  }
+    private StudySetCard constructStudySetCard(StudySetCardDto card, User user, StudySet studySet) {
+        return new StudySetCard(
+                Jsoup.clean(card.getBgColor(), Safelist.none()),
+                Jsoup.clean(card.getColor(), Safelist.none()),
+                Jsoup.clean(card.getDefinition(), Safelist.none()),
+                Jsoup.clean(card.getImage(), Safelist.none()),
+                card.getNumber(),
+                card.getOrder(),
+                Jsoup.clean(card.getTerm(), Safelist.none()),
+                studySet,
+                user);
+    }
 
-  public void createStudySetCards(List<StudySetCardDto> data, User user, StudySet studySet) {
-    List<StudySetCard> studySetCards = new ArrayList<>();
+    public void createStudySetCards(List<StudySetCardDto> data, User user, StudySet studySet) {
+        List<StudySetCard> studySetCards = new ArrayList<>();
 
-    data.forEach(card -> {
-      StudySetCard studySetCard = constructStudySetCard(card, user, studySet);
+        data.forEach(card -> {
+            StudySetCard studySetCard = constructStudySetCard(card, user, studySet);
 
-      studySetCards.add(studySetCard);
-    });
+            studySetCards.add(studySetCard);
+        });
 
-    this.studySetCardRepository.saveAll(studySetCards);
-  }
+        this.studySetCardRepository.saveAll(studySetCards);
+    }
+
+    public long countStudySetCards(Long studySetId) {
+        return this.studySetCardRepository.countStudySetCardsByStudySetId(studySetId);
+    }
+
 }
