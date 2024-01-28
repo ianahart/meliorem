@@ -1,7 +1,6 @@
 import { Box, Flex, Heading, chakra, shouldForwardProp } from '@chakra-ui/react';
-import { useContext, useEffect, useRef, useState } from 'react';
-import { UserContext } from '../../../context/user';
-import { IStudySet, IUserContext } from '../../../interfaces';
+import { useEffect, useRef, useState } from 'react';
+import { IStudySet } from '../../../interfaces';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
 import { Client } from '../../../util/client';
@@ -12,8 +11,7 @@ const MotionBox = chakra(motion.div, {
   shouldForwardProp: (prop) => isValidMotionProp(prop) || shouldForwardProp(prop),
 });
 
-const YourStudySets = () => {
-  const { user } = useContext(UserContext) as IUserContext;
+const AllStudySets = () => {
   const [studySets, setStudySets] = useState<IStudySet[]>([]);
   const shouldRun = useRef(true);
   const [isMouseOver, setIsMouseOver] = useState(false);
@@ -26,10 +24,10 @@ const YourStudySets = () => {
     totalElements: 0,
   });
 
-  const getYourStudySets = (paginate: boolean, dir: string) => {
+  const getAllStudySets = (paginate: boolean, dir: string) => {
     const pageNum = paginate ? pagination.page : -1;
-
-    Client.getStudySets(user.id, pageNum, pagination.pageSize, dir)
+    const noUserId = 0;
+    Client.getStudySets(noUserId, pageNum, pagination.pageSize, dir)
       .then((res) => {
         const { direction, totalElements, totalPages, page, pageSize, items } =
           res.data.data;
@@ -52,11 +50,11 @@ const YourStudySets = () => {
   };
 
   useEffect(() => {
-    if (shouldRun.current && user.id !== 0) {
+    if (shouldRun.current) {
       shouldRun.current = false;
-      getYourStudySets(false, 'next');
+      getAllStudySets(false, 'next');
     }
-  }, [shouldRun.current, user.id]);
+  }, [shouldRun.current]);
 
   const handleOnMouseEnter = () => {
     setIsMouseOver(true);
@@ -70,7 +68,7 @@ const YourStudySets = () => {
     <Box as="section">
       <Box display="flex" flexDir="column" alignItems="flex-start">
         <Heading as="h2" fontSize="2rem" color="#fff">
-          Your study sets
+          All Study sets
         </Heading>
         <Box
           onMouseEnter={handleOnMouseEnter}
@@ -83,7 +81,7 @@ const YourStudySets = () => {
         >
           {pagination.page > 0 && isMouseOver && (
             <Flex
-              onClick={() => getYourStudySets(true, 'prev')}
+              onClick={() => getAllStudySets(true, 'prev')}
               cursor="pointer"
               flexDir="column"
               align="center"
@@ -112,7 +110,7 @@ const YourStudySets = () => {
 
           {pagination.page < pagination.totalPages - 1 && isMouseOver && (
             <Flex
-              onClick={() => getYourStudySets(true, 'next')}
+              onClick={() => getAllStudySets(true, 'next')}
               cursor="pointer"
               flexDir="column"
               align="center"
@@ -134,4 +132,4 @@ const YourStudySets = () => {
   );
 };
 
-export default YourStudySets;
+export default AllStudySets;
