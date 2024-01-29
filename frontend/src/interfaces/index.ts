@@ -1,3 +1,13 @@
+export interface IStreak {
+  createdAt: Date;
+  day: number;
+  dayOfWeek: string;
+  id: number;
+  month: string;
+  timestamp: number;
+  year: number;
+}
+
 export interface IStudySet {
   avatarUrl: string;
   course: string;

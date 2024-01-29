@@ -17,6 +17,7 @@
     "@fontsource/manrope": "^5.0.18",
     "@fontsource/open-sans": "^5.0.20",
     "axios": "^1.6.5",
+    "dayjs": "^1.11.10",
     "framer-motion": "^10.17.9",
     "lodash": "^4.17.21",
     "nanoid": "^5.0.4",
