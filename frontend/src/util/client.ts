@@ -111,4 +111,8 @@ export const Client = {
   createStreak: (studySetId: number) => {
     return http.post('/streaks', { studySetId });
   },
+
+  getStreak: (userId: number) => {
+    return http.get(`/streaks?userId=${userId}`);
+  },
 };

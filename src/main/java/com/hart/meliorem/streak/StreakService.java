@@ -3,11 +3,15 @@ package com.hart.meliorem.streak;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
 
 import com.hart.meliorem.advice.BadRequestException;
 import com.hart.meliorem.datetime.DateTimeService;
 import com.hart.meliorem.datetime.dto.DateTimeDto;
+import com.hart.meliorem.streak.dto.StreakDto;
 import com.hart.meliorem.studyset.StudySet;
 import com.hart.meliorem.studyset.StudySetService;
 import com.hart.meliorem.user.User;
@@ -38,7 +42,6 @@ public class StreakService {
         DateTimeDto dateTime = this.dateTimeService.getDateTimeDisplays();
 
         List<Streak> streaks = this.streakRepository.findStreaksLessThanOneDayOld(
-                studySetId,
                 user.getId(),
                 dateTime.getDay(),
                 dateTime.getMonth(),
@@ -61,4 +64,12 @@ public class StreakService {
         this.streakRepository.save(newStreak);
     }
 
+    public List<StreakDto> getStreaks(Long userId) {
+
+        Timestamp oneWeekAgo = this.dateTimeService.getDateTimeWeekAgo();
+        Timestamp now = Timestamp.from(Instant.now());
+
+        return this.streakRepository.findAllStreaksByUserId(userId, oneWeekAgo, now);
+
+    }
 }

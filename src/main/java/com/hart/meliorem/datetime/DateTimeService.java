@@ -1,5 +1,6 @@
 package com.hart.meliorem.datetime;
 
+import java.sql.Timestamp;
 import java.time.*;
 import java.time.format.TextStyle;
 import java.util.Date;
@@ -50,5 +51,14 @@ public class DateTimeService {
                 getDateTimeDayOfMonth(localDate),
                 getDateTimeDayOfWeek(localDate),
                 getDateTimeTimestamp());
+    }
+
+    public Timestamp getDateTimeWeekAgo() {
+        LocalDate now = LocalDate.now();
+        LocalDate weekStart = now.minusDays(7);
+
+        Timestamp timestamp = Timestamp.valueOf(weekStart.atStartOfDay());
+
+        return timestamp;
     }
 }
