@@ -24,7 +24,7 @@ const StudySet = ({ data }: IStudySetProps) => {
       mx="1rem"
       p="1rem"
       bg="form.primary"
-      width="200px"
+      width={['100%', '100%', '200px']}
       boxShadow="md"
       borderRadius={8}
       minH="120px"

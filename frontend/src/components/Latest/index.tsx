@@ -13,7 +13,7 @@ const Latest = () => {
       <Box my="2rem" as="section">
         <AllStudySets />
       </Box>
-      <Box my="2rem" as="section">
+      <Box ml="1rem" my="2rem" as="section">
         <StreakCounter />
       </Box>
     </LatestContainer>
