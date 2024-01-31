@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.hart.meliorem.advice.NotFoundException;
+import com.hart.meliorem.advice.BadRequestException;
 
 import com.hart.meliorem.pagination.PaginationService;
 import com.hart.meliorem.pagination.dto.PaginationDto;
@@ -97,6 +98,21 @@ public class StudySetService {
                 result.getTotalPages(),
                 direction,
                 result.getTotalElements());
+
+    }
+
+    public StudySetDto getStudySet(Long studySetId) {
+
+        if (studySetId == null) {
+            throw new BadRequestException("Missing resouce id");
+        }
+
+        StudySetDto studySet = this.studySetRepository.findStudySetById(studySetId);
+
+        if (studySet == null) {
+            throw new NotFoundException("A study set with the id " + studySetId + " was not found");
+        }
+        return studySet;
 
     }
 }

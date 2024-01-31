@@ -52,12 +52,7 @@ export const Client = {
     return http.post('/auth/forgot-password', { email });
   },
 
-  resetPassword: (
-    id: number,
-    token: string,
-    newPassword: string,
-    confirmPassword: string
-  ) => {
+  resetPassword: (id: number, token: string, newPassword: string, confirmPassword: string) => {
     return http.post('/auth/reset-password', {
       id,
       token,
@@ -67,9 +62,7 @@ export const Client = {
   },
 
   getStudySetFolders: (query: string, limit: number, page: number, direction: string) => {
-    return http.get(
-      `/studysets/folders?query=${query}&limit=${limit}&page=${page}&direction=${direction}`
-    );
+    return http.get(`/studysets/folders?query=${query}&limit=${limit}&page=${page}&direction=${direction}`);
   },
 
   getProfile: (profileId: number) => {
@@ -97,15 +90,8 @@ export const Client = {
     return http.delete(`users/${userId}`);
   },
 
-  getStudySets: (
-    userId: number = 0,
-    page: number,
-    pageSize: number,
-    direction: string
-  ) => {
-    return http.get(
-      `/studysets?userId=${userId}&page=${page}&pageSize=${pageSize}&direction=${direction}`
-    );
+  getStudySets: (userId: number = 0, page: number, pageSize: number, direction: string) => {
+    return http.get(`/studysets?userId=${userId}&page=${page}&pageSize=${pageSize}&direction=${direction}`);
   },
 
   createStreak: (studySetId: number) => {
@@ -114,5 +100,9 @@ export const Client = {
 
   getStreak: (userId: number) => {
     return http.get(`/streaks?userId=${userId}`);
+  },
+
+  getStudySet: (studySetId: number) => {
+    return http.get(`studysets/${studySetId}`);
   },
 };
