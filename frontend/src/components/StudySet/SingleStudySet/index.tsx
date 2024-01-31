@@ -28,7 +28,7 @@ const SingleStudySet = ({ studySetId }: ISingleStudySetProps) => {
   }, [shouldRun.current]);
 
   return (
-    <Box border="1px solid pink" mx="auto" as="section" w="100%" maxW={['95%', '95%', '768px']}>
+    <Box mx="auto" as="section" w="100%" maxW={['95%', '95%', '768px']}>
       <Box my="2rem">
         <Main studySetId={studySetId} />
       </Box>

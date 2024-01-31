@@ -151,3 +151,18 @@ export const profileState = {
   id: 0,
   schoolName: '',
 };
+
+export const studySetState = {
+  avatarUrl: '',
+  course: '',
+  createdAt: new Date(),
+  description: '',
+  folder: '',
+  fullName: '',
+  id: 0,
+  schoolName: '',
+  title: '',
+  totalStudySetCards: 0,
+  userId: 0,
+  visibility: '',
+};
