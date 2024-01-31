@@ -3,6 +3,7 @@ package com.hart.meliorem.studyset;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +14,7 @@ import com.hart.meliorem.studyset.request.CreateStudySetRequest;
 import com.hart.meliorem.studyset.response.CreateStudySetResponse;
 import com.hart.meliorem.studyset.response.GetAllStudySetResponse;
 import com.hart.meliorem.studyset.response.GetStudySetFolderResponse;
+import com.hart.meliorem.studyset.response.GetStudySetResponse;
 
 import jakarta.validation.Valid;
 
@@ -54,5 +56,13 @@ public class StudySetController {
                 .status(HttpStatus.OK)
                 .body(new GetAllStudySetResponse("success",
                         this.studySetService.getStudySets(userId, page, pageSize, direction)));
+    }
+
+    @GetMapping("/{studySetId}")
+    ResponseEntity<GetStudySetResponse> getStudySet(@PathVariable("studySetId") Long studySetId) {
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(new GetStudySetResponse("success", this.studySetService.getStudySet(studySetId)));
     }
 }

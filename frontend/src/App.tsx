@@ -24,6 +24,7 @@ import Navigation from './components/Shared/Navigation';
 import ForgotPasswordRoute from './routes/ForgotPasswordRoute';
 import ResetPasswordRoute from './routes/ResetPasswordRoute';
 import SingleStudySetRoute from './routes/SingleStudySetRoute';
+import NotFoundRoute from './routes/NotFoundRoute';
 
 function App() {
   const { updateUser, stowTokens } = useContext(UserContext) as IUserContext;
@@ -151,6 +152,7 @@ function App() {
                   </RequireAuth>
                 }
               />
+              <Route path="*" element={<NotFoundRoute />} />
             </Routes>
           </WithAxios>
         </Box>
