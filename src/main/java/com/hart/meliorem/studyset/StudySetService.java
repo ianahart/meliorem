@@ -16,8 +16,10 @@ import com.hart.meliorem.pagination.PaginationService;
 import com.hart.meliorem.pagination.dto.PaginationDto;
 import com.hart.meliorem.studyset.dto.StudySetDto;
 import com.hart.meliorem.studyset.dto.StudySetFolderDto;
+import com.hart.meliorem.studyset.dto.StudySetPopulateDto;
 import com.hart.meliorem.studyset.request.CreateStudySetRequest;
 import com.hart.meliorem.studysetcard.StudySetCardService;
+import com.hart.meliorem.studysetcard.dto.StudySetCardDto;
 import com.hart.meliorem.user.User;
 import com.hart.meliorem.user.UserService;
 
@@ -112,6 +114,19 @@ public class StudySetService {
         if (studySet == null) {
             throw new NotFoundException("A study set with the id " + studySetId + " was not found");
         }
+        return studySet;
+
+    }
+
+    public StudySetPopulateDto populateStudySet(Long studySetId) {
+        if (studySetId == null) {
+            throw new BadRequestException("Missing resouce id");
+        }
+
+        StudySetPopulateDto studySet = studySetRepository.populateStudySetById(studySetId);
+        List<StudySetCardDto> studySetCards = studySetCardService.getStudySetCards(studySetId);
+        studySet.setCards(studySetCards);
+
         return studySet;
 
     }

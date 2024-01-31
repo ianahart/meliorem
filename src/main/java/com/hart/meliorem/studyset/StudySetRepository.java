@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.hart.meliorem.studyset.dto.StudySetDto;
+import com.hart.meliorem.studyset.dto.StudySetPopulateDto;
 
 public interface StudySetRepository extends JpaRepository<StudySet, Long> {
     @Query(value = """
@@ -55,4 +56,13 @@ public interface StudySetRepository extends JpaRepository<StudySet, Long> {
             WHERE ss.id = :studySetId
             """)
     StudySetDto findStudySetById(@Param("studySetId") Long studySetId);
+
+    @Query(value = """
+             SELECT new com.hart.meliorem.studyset.dto.StudySetPopulateDto(
+               ss.folder AS folder, ss.title AS title, ss.description AS description,
+               ss.schoolName AS schoolName, ss.course AS course
+             ) FROM StudySet ss
+             WHERE ss.id = :studySetId
+            """)
+    StudySetPopulateDto populateStudySetById(@Param("studySetId") Long studySetId);
 }

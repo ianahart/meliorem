@@ -1,5 +1,5 @@
-import { useContext, useCallback } from 'react';
-import { IStudySetContext, IStudySetForm, IUserContext } from '../../interfaces';
+import { useContext, useCallback, useRef, useEffect } from 'react';
+import { IStudySetCard, IStudySetContext, IStudySetForm, IUserContext } from '../../../interfaces';
 import { StudySetContext } from '../../../context/studyset';
 import FormInput from './FormInput';
 import {
@@ -29,7 +29,14 @@ import { nanoid } from 'nanoid';
 
 type TStudySetForm = Omit<IStudySetForm, 'cards'>;
 
-const Form = () => {
+export interface IFormProps {
+  action: string;
+  studySetId: string | null;
+}
+
+const Form = ({ action, studySetId }: IFormProps) => {
+  const shouldRun = useRef(true);
+
   const {
     studySetForm,
     setStudySetForm,
@@ -45,6 +52,39 @@ const Form = () => {
   const { user } = useContext(UserContext) as IUserContext;
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const populateCards = (data: IStudySetCard[]) => {
+    return data.map((card: any) => {
+      return { ...card, id: nanoid() };
+    });
+  };
+
+  const populateForm = () => {
+    const id = Number.parseInt(studySetId as string);
+    Client.populateStudySet(id)
+      .then((res) => {
+        const { data } = res.data;
+        handleSetStudySetForm({
+          ...studySetForm,
+          title: { ...studySetForm['title'], value: data.title },
+          folder: { ...studySetForm['folder'], value: data.folder },
+          schoolName: { ...studySetForm['schoolName'], value: data.schoolName },
+          description: { ...studySetForm['description'], value: data.description },
+          course: { ...studySetForm['course'], value: data.course },
+          cards: populateCards(data.cards),
+        });
+      })
+
+      .catch((err) => {
+        throw Error(err);
+      });
+  };
+
+  useEffect(() => {
+    if (shouldRun.current && studySetId !== null) {
+      populateForm();
+    }
+  }, [shouldRun.current, studySetId]);
+
   const updateField = (name: string, value: string, attribute: string) => {
     const updatedForm = {
       ...studySetForm,
@@ -57,10 +97,7 @@ const Form = () => {
     applySearch(name, query);
   }, 250);
 
-  const debouncedSearch = useCallback(
-    (name: string, query: string) => preformDebounce(name, query),
-    []
-  );
+  const debouncedSearch = useCallback((name: string, query: string) => preformDebounce(name, query), []);
 
   const getUniversities = (query: string) => {
     Client.getUniversities(query)
@@ -94,10 +131,7 @@ const Form = () => {
 
   const clearEmptyStudySetCards = () => {
     const cards = [...studySetForm.cards]
-      .filter(
-        ({ term, definition }) =>
-          term.trim().length !== 0 && definition.trim().length !== 0
-      )
+      .filter(({ term, definition }) => term.trim().length !== 0 && definition.trim().length !== 0)
       .map((card, index) => {
         return { ...card, order: index };
       });
@@ -175,13 +209,23 @@ const Form = () => {
       });
   };
 
+  const editStudySet = (studySetId: number) => {
+    console.log(studySetId);
+    navigate('/');
+  };
+
   const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     clearEmptyStudySetCards();
     if (checkForErrors()) {
       return;
     }
-    createStudySet();
+
+    if (action === 'create') {
+      createStudySet();
+    } else {
+      editStudySet(Number.parseInt(studySetId as string));
+    }
   };
 
   return (
@@ -273,21 +317,13 @@ const Form = () => {
               Options
             </ModalHeader>
             <ModalCloseButton color="#fff" />
-            <ModalBody
-              bg="#28282a"
-              display="flex"
-              alignItems="center"
-              justifyContent="center"
-              flexDir="column"
-            >
+            <ModalBody bg="#28282a" display="flex" alignItems="center" justifyContent="center" flexDir="column">
               <Text color="#fff" mb="0.5rem" textTransform="uppercase">
                 Visible To
               </Text>
               <Select
                 defaultValue={studySetForm.visibility.value}
-                onChange={(e) =>
-                  updateField(studySetForm.visibility.name, e.target.value, 'value')
-                }
+                onChange={(e) => updateField(studySetForm.visibility.name, e.target.value, 'value')}
                 borderColor="border.primary"
                 color="primary.dark"
                 fontSize="1.2rem"
@@ -317,15 +353,8 @@ const Form = () => {
         <StudySetCards />
       </Box>
       <Flex justify="flex-end">
-        <Button
-          type="submit"
-          height="35px"
-          colorScheme="purple"
-          fontSize="1.4rem"
-          width="100px"
-          size="lg"
-        >
-          Create
+        <Button type="submit" height="35px" colorScheme="purple" fontSize="1.4rem" width="100px" size="lg">
+          {action === 'create' ? 'Create' : 'Save'}
         </Button>
       </Flex>
     </form>

@@ -38,7 +38,7 @@ const Main = ({ studySetId }: IMainProps) => {
   }, [shouldRun.current]);
 
   return (
-    <Box fontSize="1.2rem" p="1rem" color="#fff" border="1px solid yellow">
+    <Box fontSize="1.2rem" p="1rem" color="#fff">
       <Flex justify="space-between">
         <Flex align="center">
           <UserAvatar
