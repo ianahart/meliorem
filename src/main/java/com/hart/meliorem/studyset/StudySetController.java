@@ -14,6 +14,7 @@ import com.hart.meliorem.studyset.request.CreateStudySetRequest;
 import com.hart.meliorem.studyset.response.CreateStudySetResponse;
 import com.hart.meliorem.studyset.response.GetAllStudySetResponse;
 import com.hart.meliorem.studyset.response.GetStudySetFolderResponse;
+import com.hart.meliorem.studyset.response.GetStudySetPopulateResponse;
 import com.hart.meliorem.studyset.response.GetStudySetResponse;
 
 import jakarta.validation.Valid;
@@ -64,5 +65,13 @@ public class StudySetController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(new GetStudySetResponse("success", this.studySetService.getStudySet(studySetId)));
+    }
+
+    @GetMapping("/{studySetId}/populate")
+    ResponseEntity<GetStudySetPopulateResponse> populateStudySet(@PathVariable("studySetId") Long studySetId) {
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(new GetStudySetPopulateResponse("success", this.studySetService.populateStudySet(studySetId)));
     }
 }

@@ -105,4 +105,8 @@ export const Client = {
   getStudySet: (studySetId: number) => {
     return http.get(`studysets/${studySetId}`);
   },
+
+  populateStudySet: (studySetId: number) => {
+    return http.get(`studysets/${studySetId}/populate`);
+  },
 };

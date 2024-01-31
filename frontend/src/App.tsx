@@ -25,6 +25,7 @@ import ForgotPasswordRoute from './routes/ForgotPasswordRoute';
 import ResetPasswordRoute from './routes/ResetPasswordRoute';
 import SingleStudySetRoute from './routes/SingleStudySetRoute';
 import NotFoundRoute from './routes/NotFoundRoute';
+import EditStudySetRoute from './routes/EditStudySetRoute';
 
 function App() {
   const { updateUser, stowTokens } = useContext(UserContext) as IUserContext;
@@ -149,6 +150,14 @@ function App() {
                 element={
                   <RequireAuth>
                     <SingleStudySetRoute />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/studysets/:studySetId/edit"
+                element={
+                  <RequireAuth>
+                    <EditStudySetRoute />
                   </RequireAuth>
                 }
               />

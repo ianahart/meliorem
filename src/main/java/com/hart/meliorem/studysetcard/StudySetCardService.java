@@ -48,4 +48,9 @@ public class StudySetCardService {
         return this.studySetCardRepository.countStudySetCardsByStudySetId(studySetId);
     }
 
+    public List<StudySetCardDto> getStudySetCards(Long studySetId) {
+
+        return this.studySetCardRepository.getStudySetCardsByStudySetId(studySetId);
+    }
+
 }
