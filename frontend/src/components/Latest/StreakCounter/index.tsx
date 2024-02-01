@@ -18,12 +18,9 @@ const StreakCounter = () => {
 
   const days = useMemo(() => {
     if (streaks.length) {
-      const endOfWeek = new Date();
+      let startOfWeekNum = dayjs(streaks[0].createdAt);
 
-      endOfWeek.setDate(streaks[0].day + 6);
-
-      let startOfWeekNum = dayjs(endOfWeek).subtract(6, 'day');
-      const endOfWeekNum = dayjs(endOfWeek);
+      const endOfWeekNum = dayjs(startOfWeekNum).add(6, 'day');
 
       const days: { name: string; day: number; isStreaked: boolean }[] = [];
       let loopCounter = 0;
@@ -50,9 +47,7 @@ const StreakCounter = () => {
 
   const streakCount = useMemo(() => {
     if (days) {
-      return days.filter(
-        (day, index) => day.isStreaked && days[index === 0 ? 0 : index - 1].isStreaked
-      );
+      return days.filter((day, index) => day.isStreaked && days[index === 0 ? 0 : index - 1].isStreaked);
     }
   }, [days]);
 
@@ -87,14 +82,7 @@ const StreakCounter = () => {
         <Box>
           <Box position="relative">
             <Image src={fireImg} alt="a fire emoji flame" />
-            <Text
-              top="60%"
-              left="45%"
-              fontWeight="bold"
-              position="absolute"
-              fontSize="1.4rem"
-              color="black"
-            >
+            <Text top="60%" left="45%" fontWeight="bold" position="absolute" fontSize="1.4rem" color="black">
               {streakCount?.length}
             </Text>
           </Box>
@@ -123,24 +111,13 @@ const StreakCounter = () => {
                 );
               })}
             </Flex>
-            <Flex
-              w="130px"
-              mt="0.5rem"
-              justify="space-between"
-              borderRadius={20}
-              bg="#2a2a3f"
-              p="0.5rem  0.25rem"
-            >
+            <Flex w="130px" mt="0.5rem" justify="space-between" borderRadius={20} bg="#2a2a3f" p="0.5rem  0.25rem">
               {days.map((day, index) => {
                 return (
                   <Box key={nanoid()}>
                     <Text
                       fontWeight="bold"
-                      color={
-                        day.isStreaked && days[index === 0 ? 0 : index - 1].isStreaked
-                          ? '#fff'
-                          : 'black'
-                      }
+                      color={day.isStreaked && days[index === 0 ? 0 : index - 1].isStreaked ? '#fff' : 'black'}
                     >
                       {day.day}
                     </Text>
