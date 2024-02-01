@@ -1,13 +1,4 @@
-import {
-  Box,
-  Button,
-  Collapse,
-  Flex,
-  Image,
-  Input,
-  Text,
-  Tooltip,
-} from '@chakra-ui/react';
+import { Box, Button, Collapse, Flex, Image, Input, Text, Tooltip } from '@chakra-ui/react';
 import { RiDraggable } from 'react-icons/ri';
 import { FaTrash } from 'react-icons/fa';
 import { IStudySetCard, IStudySetContext } from '../../../interfaces';
@@ -28,9 +19,7 @@ export interface IStudySetCardProps {
 }
 
 const StudySetCard = ({ studySetCard, provided, number }: IStudySetCardProps) => {
-  const { studySetForm, handleSetStudySetForm } = useContext(
-    StudySetContext
-  ) as IStudySetContext;
+  const { studySetForm, handleSetStudySetForm } = useContext(StudySetContext) as IStudySetContext;
 
   const [imagesOpen, setImagesOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
@@ -99,21 +88,12 @@ const StudySetCard = ({ studySetCard, provided, number }: IStudySetCardProps) =>
       borderRadius={8}
       my="1.5rem"
       bg={studySetCard.bgColor.length > 0 ? studySetCard.bgColor : 'form.primary'}
-      backgroundImage={
-        studySetCard.image.length > 0 ? `url(${studySetCard.image})` : 'unset'
-      }
+      backgroundImage={studySetCard.image.length > 0 ? `url(${studySetCard.image})` : 'unset'}
       backgroundSize={studySetCard.image.length > 0 ? 'cover' : 'unset'}
       backgroundPosition="center"
     >
-      <StudySetCardOptions studySetCardId={studySetCard.id} />
-      <Flex
-        p="1rem"
-        pt="0"
-        color="primarylight"
-        justify="space-between"
-        align="center"
-        cursor="pointer"
-      >
+      <StudySetCardOptions studySetCardId={studySetCard.id.toString()} />
+      <Flex p="1rem" pt="0" color="primarylight" justify="space-between" align="center" cursor="pointer">
         <Box>
           <Text fontSize="1.4rem" fontWeight="bold">
             {number + 1}
@@ -191,13 +171,7 @@ const StudySetCard = ({ studySetCard, provided, number }: IStudySetCardProps) =>
               borderRadius={0}
               borderBottom="3px solid #fff"
             />
-            <Button
-              onClick={fetchImages}
-              colorScheme="purple"
-              fontSize="1.2rem"
-              size="lg"
-              ml="2rem"
-            >
+            <Button onClick={fetchImages} colorScheme="purple" fontSize="1.2rem" size="lg" ml="2rem">
               Search
             </Button>
           </Flex>

@@ -44,7 +44,7 @@ export interface IStudySetFolder {
 export interface IStudySetCard {
   [key: string]: string | number;
   number: number;
-  id: string;
+  id: string | number;
   order: number;
   color: string;
   bgColor: string;

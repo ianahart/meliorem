@@ -18,8 +18,10 @@ import com.hart.meliorem.studyset.dto.StudySetDto;
 import com.hart.meliorem.studyset.dto.StudySetFolderDto;
 import com.hart.meliorem.studyset.dto.StudySetPopulateDto;
 import com.hart.meliorem.studyset.request.CreateStudySetRequest;
+import com.hart.meliorem.studyset.request.EditStudySetRequest;
 import com.hart.meliorem.studysetcard.StudySetCardService;
 import com.hart.meliorem.studysetcard.dto.StudySetCardDto;
+import com.hart.meliorem.studysetcard.dto.StudySetCardFullDto;
 import com.hart.meliorem.user.User;
 import com.hart.meliorem.user.UserService;
 
@@ -124,10 +126,29 @@ public class StudySetService {
         }
 
         StudySetPopulateDto studySet = studySetRepository.populateStudySetById(studySetId);
-        List<StudySetCardDto> studySetCards = studySetCardService.getStudySetCards(studySetId);
+        List<StudySetCardFullDto> studySetCards = studySetCardService.getStudySetCardsFull(studySetId);
         studySet.setCards(studySetCards);
 
         return studySet;
+
+    }
+
+    public void editStudySet(Long studySetId, EditStudySetRequest request) {
+        StudySet studySet = findStudySetById(studySetId);
+
+        Visibility visibility = request.getVisibility().equals("me") ? Visibility.ME
+                : Visibility.EVERYONE;
+
+        studySet.setVisibility(visibility);
+        studySet.setCourse(Jsoup.clean(request.getCourse(), Safelist.none()));
+        studySet.setDescription(Jsoup.clean(request.getDescription(), Safelist.none()));
+        studySet.setFolder(Jsoup.clean(request.getFolder(), Safelist.none()));
+        studySet.setSchoolName(Jsoup.clean(request.getSchoolName(), Safelist.none()));
+        studySet.setTitle(Jsoup.clean(request.getTitle(), Safelist.none()));
+
+        this.studySetCardService.editStudySetCards(request.getCards(), studySet, studySet.getUser());
+
+            this.studySetRepository.save(studySet);
 
     }
 }

@@ -109,4 +109,8 @@ export const Client = {
   populateStudySet: (studySetId: number) => {
     return http.get(`studysets/${studySetId}/populate`);
   },
+
+  editStudySet: <T>(data: T, studySetId: number) => {
+    return http.patch(`/studysets/${studySetId}`, data);
+  },
 };
