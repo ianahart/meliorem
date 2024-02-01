@@ -1,5 +1,5 @@
 import { useContext, useCallback, useRef, useEffect } from 'react';
-import { IStudySetCard, IStudySetContext, IStudySetForm, IUserContext } from '../../../interfaces';
+import { IStudySetContext, IStudySetForm, IUserContext } from '../../../interfaces';
 import { StudySetContext } from '../../../context/studyset';
 import FormInput from './FormInput';
 import {
@@ -34,6 +34,39 @@ export interface IFormProps {
   studySetId: string | null;
 }
 
+const cards = [
+  {
+    number: 1,
+    id: nanoid(),
+    order: 0,
+    color: '',
+    bgColor: '',
+    term: '',
+    definition: '',
+    image: '',
+  },
+  {
+    number: 2,
+    id: nanoid(),
+    order: 1,
+    color: '',
+    bgColor: '',
+    term: '',
+    definition: '',
+    image: '',
+  },
+  {
+    number: 3,
+    id: nanoid(),
+    order: 2,
+    color: '',
+    bgColor: '',
+    term: '',
+    definition: '',
+    image: '',
+  },
+];
+
 const Form = ({ action, studySetId }: IFormProps) => {
   const shouldRun = useRef(true);
 
@@ -52,12 +85,6 @@ const Form = ({ action, studySetId }: IFormProps) => {
   const { user } = useContext(UserContext) as IUserContext;
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const populateCards = (data: IStudySetCard[]) => {
-    return data.map((card: any) => {
-      return { ...card, id: nanoid() };
-    });
-  };
-
   const populateForm = () => {
     const id = Number.parseInt(studySetId as string);
     Client.populateStudySet(id)
@@ -70,7 +97,7 @@ const Form = ({ action, studySetId }: IFormProps) => {
           schoolName: { ...studySetForm['schoolName'], value: data.schoolName },
           description: { ...studySetForm['description'], value: data.description },
           course: { ...studySetForm['course'], value: data.course },
-          cards: populateCards(data.cards),
+          cards: data.cards,
         });
       })
 
@@ -80,6 +107,9 @@ const Form = ({ action, studySetId }: IFormProps) => {
   };
 
   useEffect(() => {
+    if (studySetId === null) {
+      handleSetStudySetForm(studySetFormState);
+    }
     if (shouldRun.current && studySetId !== null) {
       populateForm();
     }
@@ -154,8 +184,8 @@ const Form = ({ action, studySetId }: IFormProps) => {
     return errors;
   };
 
-  const createStudySet = () => {
-    const data = {
+  const packageFormData = () => {
+    return {
       title: studySetForm.title.value,
       folder: studySetForm.folder.value,
       schoolName: studySetForm.schoolName.value,
@@ -164,54 +194,43 @@ const Form = ({ action, studySetId }: IFormProps) => {
       visibility: studySetForm.visibility.value,
       cards: studySetForm.cards,
     };
+  };
 
+  const createStudySet = () => {
+    const data = packageFormData();
     Client.createStudySet(data)
       .then(() => {
         handleSetStudySetForm({
           ...studySetFormState,
-          cards: [
-            {
-              number: 1,
-              id: nanoid(),
-              order: 0,
-              color: '',
-              bgColor: '',
-              term: '',
-              definition: '',
-              image: '',
-            },
-            {
-              number: 2,
-              id: nanoid(),
-              order: 1,
-              color: '',
-              bgColor: '',
-              term: '',
-              definition: '',
-              image: '',
-            },
-            {
-              number: 3,
-              id: nanoid(),
-              order: 2,
-              color: '',
-              bgColor: '',
-              term: '',
-              definition: '',
-              image: '',
-            },
-          ],
+          cards,
         });
         navigate(`/${user.slug}/latest`);
       })
       .catch((err) => {
-        throw new Error(err);
+        handleServerErrors(err.response.data);
       });
   };
 
+  const handleServerErrors = <T extends object>(data: T) => {
+    for (let prop in data) {
+      const value = data[prop] as string;
+      updateField(prop, value, 'error');
+    }
+  };
+
   const editStudySet = (studySetId: number) => {
-    console.log(studySetId);
-    navigate('/');
+    const data = packageFormData();
+    Client.editStudySet(data, studySetId)
+      .then(() => {
+        handleSetStudySetForm({
+          ...studySetFormState,
+          cards,
+        });
+        navigate(`/${user.slug}/latest`);
+      })
+      .catch((err) => {
+        handleServerErrors(err.response.data);
+      });
   };
 
   const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {

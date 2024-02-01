@@ -7,16 +7,11 @@ import { IStudySetContext } from '../../../interfaces';
 import { nanoid } from 'nanoid';
 
 const StudySetCards = () => {
-  const { studySetForm, handleSetStudySetForm } = useContext(
-    StudySetContext
-  ) as IStudySetContext;
+  const { studySetForm, handleSetStudySetForm } = useContext(StudySetContext) as IStudySetContext;
 
   const handleDragAndDrop = (result: any) => {
     const { source, destination, type, draggableId } = result;
-    if (
-      source.droppableId === destination.droppableId &&
-      source.index === destination.index
-    ) {
+    if (source.droppableId === destination.droppableId && source.index === destination.index) {
       return;
     }
 
@@ -64,14 +59,10 @@ const StudySetCards = () => {
           {(provided) => (
             <Flex flexDir="column" {...provided.droppableProps} ref={provided.innerRef}>
               {studySetForm.cards.map((card, index) => (
-                <Draggable draggableId={card.id} key={card.id} index={index}>
+                <Draggable draggableId={card.id.toString()} key={card.id} index={index}>
                   {(provided) => (
                     <Box {...provided.draggableProps} ref={provided.innerRef}>
-                      <StudySetCard
-                        number={index}
-                        provided={provided}
-                        studySetCard={card}
-                      />
+                      <StudySetCard number={index} provided={provided} studySetCard={card} />
                     </Box>
                   )}
                 </Draggable>

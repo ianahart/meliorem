@@ -2,7 +2,7 @@ package com.hart.meliorem.studyset.dto;
 
 import java.util.List;
 
-import com.hart.meliorem.studysetcard.dto.StudySetCardDto;
+import com.hart.meliorem.studysetcard.dto.StudySetCardFullDto;
 
 public class StudySetPopulateDto {
 
@@ -16,7 +16,7 @@ public class StudySetPopulateDto {
 
     private String course;
 
-    private List<StudySetCardDto> cards;
+    private List<StudySetCardFullDto> cards;
 
     public StudySetPopulateDto() {
 
@@ -55,7 +55,7 @@ public class StudySetPopulateDto {
         return description;
     }
 
-    public List<StudySetCardDto> getCards() {
+    public List<StudySetCardFullDto> getCards() {
         return cards;
     }
 
@@ -79,7 +79,7 @@ public class StudySetPopulateDto {
         this.description = description;
     }
 
-    public void setCards(List<StudySetCardDto> cards) {
+    public void setCards(List<StudySetCardFullDto> cards) {
         this.cards = cards;
     }
 }

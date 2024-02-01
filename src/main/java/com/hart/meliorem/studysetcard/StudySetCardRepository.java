@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.hart.meliorem.studysetcard.dto.StudySetCardDto;
+import com.hart.meliorem.studysetcard.dto.StudySetCardFullDto;
 
 public interface StudySetCardRepository extends JpaRepository<StudySetCard, Long> {
 
@@ -28,5 +29,17 @@ public interface StudySetCardRepository extends JpaRepository<StudySetCard, Long
 
             """)
     List<StudySetCardDto> getStudySetCardsByStudySetId(@Param("studySetId") Long studySetId);
+
+    @Query(value = """
+                SELECT new com.hart.meliorem.studysetcard.dto.StudySetCardFullDto(
+                ssc.id AS id, ssc.number AS number, ssc.order AS order, ssc.term AS term,
+                ssc.image AS image, ssc.definition AS definition, ssc.color AS color,
+                ssc.bgColor AS bgColor
+                ) FROM StudySetCard ssc
+                INNER JOIN ssc.studySet ss
+                WHERE ss.id = :studySetId
+
+            """)
+    List<StudySetCardFullDto> getStudySetCardsFullByStudySetId(@Param("studySetId") Long studySetId);
 
 }
