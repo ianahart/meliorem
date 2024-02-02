@@ -113,4 +113,8 @@ export const Client = {
   editStudySet: <T>(data: T, studySetId: number) => {
     return http.patch(`/studysets/${studySetId}`, data);
   },
+
+  deleteStudySet: (studySetId: number) => {
+    return http.delete(`/studysets/${studySetId}`);
+  },
 };

@@ -13,11 +13,12 @@ export interface IStudySetOptionsProps {
 const StudySetOptions = ({ studySet }: IStudySetOptionsProps) => {
   const { user } = useContext(UserContext) as IUserContext;
 
+  console.log(studySet);
   return (
     <Flex justify="space-around">
       <StudySetShareOption />
       {user.id === studySet.userId && <StudySetEditOption studySetId={studySet.id} />}
-      <StudySetMiscOption ownerId={studySet.userId} studySetId={studySet.id} />
+      <StudySetMiscOption studySet={studySet} />
     </Flex>
   );
 };
