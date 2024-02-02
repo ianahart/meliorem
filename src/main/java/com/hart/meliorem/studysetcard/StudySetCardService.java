@@ -3,10 +3,13 @@ package com.hart.meliorem.studysetcard;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.ArrayList;
 
 import com.hart.meliorem.advice.NotFoundException;
+import com.hart.meliorem.advice.BadRequestException;
 
 import com.hart.meliorem.studyset.StudySet;
 import com.hart.meliorem.studysetcard.dto.StudySetCardDto;
@@ -15,6 +18,8 @@ import com.hart.meliorem.user.User;
 
 @Service
 public class StudySetCardService {
+
+    private Integer MAX_STUDYSET_CARDS = 10;
 
     private final StudySetCardRepository studySetCardRepository;
 
@@ -53,7 +58,9 @@ public class StudySetCardService {
                 user);
     }
 
+    @Transactional
     public void createStudySetCards(List<StudySetCardDto> data, User user, StudySet studySet) {
+
         List<StudySetCard> studySetCards = new ArrayList<>();
 
         data.forEach(card -> {
@@ -80,6 +87,11 @@ public class StudySetCardService {
 
     public void editStudySetCards(List<StudySetCardFullDto> cards, StudySet studySet, User user) {
 
+        System.out.println(cards.size());
+        if (cards.size() > MAX_STUDYSET_CARDS) {
+            throw new BadRequestException("You can only have 10 cards");
+        }
+
         for (StudySetCardFullDto card : cards) {
             if (card.getId() instanceof String) {
 
@@ -101,6 +113,20 @@ public class StudySetCardService {
                 this.studySetCardRepository.save(cardEntity);
 
             }
+        }
+    }
+
+    public void deleteStudySetCard(String studySetCardId) {
+        try {
+            StudySetCard studySetCard = findStudySetCardById(Long.valueOf(studySetCardId));
+
+            if (studySetCard != null) {
+
+                this.studySetCardRepository.delete(studySetCard);
+            }
+
+        } catch (NumberFormatException e) {
+            System.out.println("deleteStudySetCard() studySetCardId is a string from nanoid");
         }
     }
 

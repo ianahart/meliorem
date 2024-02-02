@@ -16,9 +16,10 @@ export interface IStudySetCardProps {
   studySetCard: IStudySetCard;
   provided: DraggableProvided;
   number: number;
+  action: string;
 }
 
-const StudySetCard = ({ studySetCard, provided, number }: IStudySetCardProps) => {
+const StudySetCard = ({ studySetCard, provided, number, action }: IStudySetCardProps) => {
   const { studySetForm, handleSetStudySetForm } = useContext(StudySetContext) as IStudySetContext;
 
   const [imagesOpen, setImagesOpen] = useState(false);
@@ -35,6 +36,14 @@ const StudySetCard = ({ studySetCard, provided, number }: IStudySetCardProps) =>
   };
 
   const deleteStudySetCard = () => {
+    if (action !== 'create') {
+      Client.deleteStudySetCard(studySetCard.id)
+        .then((res) => {})
+        .catch((err) => {
+          throw new Error(err);
+        });
+    }
+
     const cards = [...studySetForm.cards]
       .filter((card) => card.id !== studySetCard.id)
       .map((card, index) => {

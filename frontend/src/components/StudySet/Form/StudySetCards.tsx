@@ -6,7 +6,11 @@ import { StudySetContext } from '../../../context/studyset';
 import { IStudySetContext } from '../../../interfaces';
 import { nanoid } from 'nanoid';
 
-const StudySetCards = () => {
+interface IStudySetCardsProps {
+  action: string;
+}
+
+const StudySetCards = ({ action }: IStudySetCardsProps) => {
   const { studySetForm, handleSetStudySetForm } = useContext(StudySetContext) as IStudySetContext;
 
   const handleDragAndDrop = (result: any) => {
@@ -62,7 +66,7 @@ const StudySetCards = () => {
                 <Draggable draggableId={card.id.toString()} key={card.id} index={index}>
                   {(provided) => (
                     <Box {...provided.draggableProps} ref={provided.innerRef}>
-                      <StudySetCard number={index} provided={provided} studySetCard={card} />
+                      <StudySetCard number={index} provided={provided} studySetCard={card} action={action} />
                     </Box>
                   )}
                 </Draggable>

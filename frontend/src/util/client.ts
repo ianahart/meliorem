@@ -117,4 +117,10 @@ export const Client = {
   deleteStudySet: (studySetId: number) => {
     return http.delete(`/studysets/${studySetId}`);
   },
+
+  deleteStudySetCard: (studySetCardId: number | string) => {
+    const id = studySetCardId.toString();
+
+    return http.delete(`/studyset-cards/${id}`);
+  },
 };
