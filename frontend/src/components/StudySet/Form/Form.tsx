@@ -1,4 +1,4 @@
-import { useContext, useCallback, useRef, useEffect } from 'react';
+import { useContext, useCallback, useRef, useEffect, useState } from 'react';
 import { IStudySetContext, IStudySetForm, IUserContext } from '../../../interfaces';
 import { StudySetContext } from '../../../context/studyset';
 import FormInput from './FormInput';
@@ -84,6 +84,7 @@ const Form = ({ action, studySetId }: IFormProps) => {
   const navigate = useNavigate();
   const { user } = useContext(UserContext) as IUserContext;
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [error, setError] = useState('');
 
   const populateForm = () => {
     const id = Number.parseInt(studySetId as string);
@@ -171,7 +172,7 @@ const Form = ({ action, studySetId }: IFormProps) => {
 
   const checkForErrors = () => {
     let errors = false;
-    const exclude = ['cards'];
+    const exclude = ['cards', 'message'];
     for (const prop of Object.keys(studySetForm)) {
       if (!exclude.includes(prop)) {
         const { value, error } = studySetForm[prop as keyof TStudySetForm];
@@ -214,7 +215,11 @@ const Form = ({ action, studySetId }: IFormProps) => {
   const handleServerErrors = <T extends object>(data: T) => {
     for (let prop in data) {
       const value = data[prop] as string;
-      updateField(prop, value, 'error');
+      if (prop === 'message') {
+        setError(value);
+      } else {
+        updateField(prop, value, 'error');
+      }
     }
   };
 
@@ -235,6 +240,7 @@ const Form = ({ action, studySetId }: IFormProps) => {
 
   const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setError('');
     clearEmptyStudySetCards();
     if (checkForErrors()) {
       return;
@@ -369,7 +375,12 @@ const Form = ({ action, studySetId }: IFormProps) => {
         </Modal>
       </Flex>
       <Box my="5rem">
-        <StudySetCards />
+        {error.length > 0 && (
+          <Text textAlign="center" color="red" fontSize="1.2rem">
+            {error}
+          </Text>
+        )}
+        <StudySetCards action={action} />
       </Box>
       <Flex justify="flex-end">
         <Button type="submit" height="35px" colorScheme="purple" fontSize="1.4rem" width="100px" size="lg">

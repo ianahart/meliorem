@@ -49,6 +49,12 @@ public class StudySetService {
 
     public void createStudySet(CreateStudySetRequest request) {
 
+        Integer MAX_STUDYSET_CARDS = 10;
+
+        if (request.getCards().size() > MAX_STUDYSET_CARDS) {
+            throw new BadRequestException("You can only have a mixum of 10 cards");
+        }
+
         User user = this.userService.getCurrentlyLoggedInUser();
         Visibility visibility = request.getVisibility().equals("me") ? Visibility.ME
                 : Visibility.EVERYONE;
