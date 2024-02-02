@@ -11,7 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.hart.meliorem.advice.NotFoundException;
 import com.hart.meliorem.advice.BadRequestException;
-
+import com.hart.meliorem.advice.ForbiddenException;
 import com.hart.meliorem.pagination.PaginationService;
 import com.hart.meliorem.pagination.dto.PaginationDto;
 import com.hart.meliorem.studyset.dto.StudySetDto;
@@ -20,7 +20,6 @@ import com.hart.meliorem.studyset.dto.StudySetPopulateDto;
 import com.hart.meliorem.studyset.request.CreateStudySetRequest;
 import com.hart.meliorem.studyset.request.EditStudySetRequest;
 import com.hart.meliorem.studysetcard.StudySetCardService;
-import com.hart.meliorem.studysetcard.dto.StudySetCardDto;
 import com.hart.meliorem.studysetcard.dto.StudySetCardFullDto;
 import com.hart.meliorem.user.User;
 import com.hart.meliorem.user.UserService;
@@ -148,7 +147,18 @@ public class StudySetService {
 
         this.studySetCardService.editStudySetCards(request.getCards(), studySet, studySet.getUser());
 
-            this.studySetRepository.save(studySet);
+        this.studySetRepository.save(studySet);
 
+    }
+
+    public void deleteStudySet(Long studySetId) {
+        User currentUser = this.userService.getCurrentlyLoggedInUser();
+        StudySet studySet = findStudySetById(studySetId);
+
+        if (currentUser.getId() != studySet.getUser().getId()) {
+            throw new ForbiddenException("You do not have the proper authorization to delete this studySet");
+        }
+
+        this.studySetRepository.delete(studySet);
     }
 }

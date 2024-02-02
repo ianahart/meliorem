@@ -2,6 +2,7 @@ package com.hart.meliorem.studyset;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hart.meliorem.studyset.request.CreateStudySetRequest;
 import com.hart.meliorem.studyset.request.EditStudySetRequest;
 import com.hart.meliorem.studyset.response.CreateStudySetResponse;
+import com.hart.meliorem.studyset.response.DeleteStudySetResponse;
 import com.hart.meliorem.studyset.response.EditStudySetResponse;
 import com.hart.meliorem.studyset.response.GetAllStudySetResponse;
 import com.hart.meliorem.studyset.response.GetStudySetFolderResponse;
@@ -86,5 +88,14 @@ public class StudySetController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(new EditStudySetResponse("success"));
+    }
+
+    @DeleteMapping("/{studySetId}")
+    ResponseEntity<DeleteStudySetResponse> deleteStudySet(@PathVariable("studySetId") Long studySetId) {
+        this.studySetService.deleteStudySet(studySetId);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(new DeleteStudySetResponse("success"));
     }
 }
