@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { studySetState } from '../../../data';
 import { IStudySet } from '../../../interfaces';
 import UserAvatar from '../../Shared/UserAvatar';
-import StudySetOptions from './StudySetOptions';
+import StudySetOptions from './Options/StudySetOptions';
 
 interface IMainProps {
   studySetId: number;
