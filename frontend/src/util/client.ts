@@ -123,4 +123,8 @@ export const Client = {
 
     return http.delete(`/studyset-cards/${id}`);
   },
+
+  getStudySetCards: (studySetCardId: number) => {
+    return http.get(`/studyset-cards?studySetId=${studySetCardId}`);
+  },
 };

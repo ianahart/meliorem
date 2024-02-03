@@ -19,11 +19,10 @@ const StreakCounter = () => {
   const days = useMemo(() => {
     if (streaks.length) {
       let startOfWeekNum = dayjs(streaks[0].createdAt);
-
       const endOfWeekNum = dayjs(startOfWeekNum).add(6, 'day');
-
-      const days: { name: string; day: number; isStreaked: boolean }[] = [];
+      let days: { name: string; day: number; isStreaked: boolean }[] = [];
       let loopCounter = 0;
+
       while (!startOfWeekNum.isSame(endOfWeekNum)) {
         if (loopCounter !== 0) {
           startOfWeekNum = startOfWeekNum.add(1, 'day');
@@ -36,20 +35,23 @@ const StreakCounter = () => {
         loopCounter++;
       }
 
-      return days.map((day, i) => {
-        if (streaks[i] && streaks[i].day === day.day) {
-          day.isStreaked = true;
-        }
-        return day;
-      });
+      days = days
+        .map((day) => {
+          if (streaks.map(({ day }) => day).includes(day.day)) {
+            day.isStreaked = true;
+          }
+          return day;
+        })
+        .map((day, index, arr) => {
+          if (!arr[index - 1]?.isStreaked && arr[index].isStreaked && !arr[index + 1].isStreaked) {
+            day.isStreaked = false;
+          }
+          return day;
+        });
+
+      return days;
     }
   }, [streaks]);
-
-  const streakCount = useMemo(() => {
-    if (days) {
-      return days.filter((day, index) => day.isStreaked && days[index === 0 ? 0 : index - 1].isStreaked);
-    }
-  }, [days]);
 
   const getStreakCounter = () => {
     Client.getStreak(user.id)
@@ -83,13 +85,13 @@ const StreakCounter = () => {
           <Box position="relative">
             <Image src={fireImg} alt="a fire emoji flame" />
             <Text top="60%" left="45%" fontWeight="bold" position="absolute" fontSize="1.4rem" color="black">
-              {streakCount?.length}
+              {days && days.filter(({ isStreaked }) => isStreaked)?.length}
             </Text>
           </Box>
         </Box>
         <Box>
           <Text fontSize="1.2rem" color="#fff" fontWeight="bold">
-            {streakCount?.length}-day streak
+            {days && days.filter(({ isStreaked }) => isStreaked)?.length}-day streak
           </Text>
 
           <Text color="#fff" mt="0.5rem">
@@ -115,10 +117,7 @@ const StreakCounter = () => {
               {days.map((day, index) => {
                 return (
                   <Box key={nanoid()}>
-                    <Text
-                      fontWeight="bold"
-                      color={day.isStreaked && days[index === 0 ? 0 : index - 1].isStreaked ? '#fff' : 'black'}
-                    >
+                    <Text fontWeight="bold" color={day.isStreaked ? '#fff' : 'black'}>
                       {day.day}
                     </Text>
                   </Box>
