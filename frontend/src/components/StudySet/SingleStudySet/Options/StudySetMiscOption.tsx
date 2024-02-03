@@ -1,17 +1,20 @@
-import { Flex, Box, Text } from '@chakra-ui/react';
+import { Flex, Box, Text, useDisclosure } from '@chakra-ui/react';
 import { BsThreeDots, BsTrash } from 'react-icons/bs';
+import { CiExport } from 'react-icons/ci';
 import ClickAwayMenu from '../../../Shared/ClickAwayMenu';
 import { useContext, useRef, useState } from 'react';
 import { Client } from '../../../../util/client';
 import { useNavigate } from 'react-router-dom';
 import { IStudySet, IUserContext } from '../../../../interfaces';
 import { UserContext } from '../../../../context/user';
+import StudySetExportOption from './StudySetExportOption';
 
 interface IStudySetMiscOptionProps {
   studySet: IStudySet;
 }
 
 const StudySetMiscOption = ({ studySet }: IStudySetMiscOptionProps) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const { user } = useContext(UserContext) as IUserContext;
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -65,13 +68,26 @@ const StudySetMiscOption = ({ studySet }: IStudySetMiscOptionProps) => {
         >
           <Box p="0.5rem">
             {user.id === studySet.userId && (
-              <Flex onClick={deleteStudySet} p="0.25rem" _hover={{ backgroundColor: 'gray.700' }} align="center">
+              <Flex
+                m="1rem 0"
+                onClick={deleteStudySet}
+                p="0.25rem"
+                _hover={{ backgroundColor: 'gray.700' }}
+                align="center"
+              >
                 <Box mr="0.5rem">
                   <BsTrash />
                 </Box>
                 <Text>Delete</Text>
               </Flex>
             )}
+            <Flex onClick={onOpen} m="1rem 0" p="0.25rem" _hover={{ backgroundColor: 'gray.700' }} align="center">
+              <Box mr="0.5rem">
+                <CiExport />
+              </Box>
+              <Text>Export</Text>
+              <StudySetExportOption studySetId={studySet.id} isOpen={isOpen} onClose={onClose} />
+            </Flex>
           </Box>
         </ClickAwayMenu>
       )}
