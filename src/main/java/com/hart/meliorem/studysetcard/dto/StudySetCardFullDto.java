@@ -18,6 +18,8 @@ public class StudySetCardFullDto {
 
     private String bgColor;
 
+    private Boolean starred;
+
     public StudySetCardFullDto() {
 
     }
@@ -30,7 +32,8 @@ public class StudySetCardFullDto {
             String image,
             String definition,
             String color,
-            String bgColor) {
+            String bgColor,
+            Boolean starred) {
         this.id = id;
         this.number = number;
         this.order = order;
@@ -39,6 +42,7 @@ public class StudySetCardFullDto {
         this.definition = definition;
         this.color = color;
         this.bgColor = bgColor;
+        this.starred = starred;
     }
 
     public Object getId() {
@@ -55,6 +59,10 @@ public class StudySetCardFullDto {
 
     public Integer getOrder() {
         return order;
+    }
+
+    public Boolean getStarred() {
+        return starred;
     }
 
     public void setOrder(Integer order) {
@@ -103,5 +111,9 @@ public class StudySetCardFullDto {
 
     public void setId(Object id) {
         this.id = id;
+    }
+
+    public void setStarred(Boolean starred) {
+        this.starred = starred;
     }
 }

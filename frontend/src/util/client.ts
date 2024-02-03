@@ -127,4 +127,8 @@ export const Client = {
   getStudySetCards: (studySetCardId: number) => {
     return http.get(`/studyset-cards?studySetId=${studySetCardId}`);
   },
+
+  editStudySetCard: (term: string, definition: string, studySetCardId: number | string) => {
+    return http.patch(`/studyset-cards/${studySetCardId}`, { term, definition });
+  },
 };

@@ -53,6 +53,18 @@ export interface IStudySetCard {
   image: string;
 }
 
+export interface IStudySetCardFull {
+  number: number;
+  id: string | number;
+  order: number;
+  color: string;
+  bgColor: string;
+  term: string;
+  definition: string;
+  image: string;
+  starred: boolean;
+}
+
 export interface IUpdateEmailForm {
   email: { name: string; value: string; error: string; type: string };
   password: { name: string; value: string; error: string; type: string };
