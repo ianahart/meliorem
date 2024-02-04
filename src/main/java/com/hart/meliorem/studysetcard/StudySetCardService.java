@@ -2,6 +2,7 @@ package com.hart.meliorem.studysetcard;
 
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,11 +11,14 @@ import java.util.ArrayList;
 
 import com.hart.meliorem.advice.NotFoundException;
 import com.hart.meliorem.advice.BadRequestException;
+import com.hart.meliorem.advice.ForbiddenException;
 
 import com.hart.meliorem.studyset.StudySet;
 import com.hart.meliorem.studysetcard.dto.StudySetCardDto;
 import com.hart.meliorem.studysetcard.dto.StudySetCardFullDto;
+import com.hart.meliorem.studysetcard.request.EditStudySetCardRequest;
 import com.hart.meliorem.user.User;
+import com.hart.meliorem.user.UserService;
 
 @Service
 public class StudySetCardService {
@@ -23,8 +27,13 @@ public class StudySetCardService {
 
     private final StudySetCardRepository studySetCardRepository;
 
-    public StudySetCardService(StudySetCardRepository studySetCardRepository) {
+    private final UserService userService;
+
+    @Autowired
+    public StudySetCardService(StudySetCardRepository studySetCardRepository,
+            UserService userService) {
         this.studySetCardRepository = studySetCardRepository;
+        this.userService = userService;
     }
 
     public StudySetCard findStudySetCardById(Long studySetCardId) {
@@ -33,6 +42,7 @@ public class StudySetCardService {
     }
 
     private StudySetCard constructStudySetCard(StudySetCardDto card, User user, StudySet studySet) {
+        Boolean starred = false;
         return new StudySetCard(
                 Jsoup.clean(card.getBgColor(), Safelist.none()),
                 Jsoup.clean(card.getColor(), Safelist.none()),
@@ -41,11 +51,13 @@ public class StudySetCardService {
                 card.getNumber(),
                 card.getOrder(),
                 Jsoup.clean(card.getTerm(), Safelist.none()),
+                starred,
                 studySet,
                 user);
     }
 
     private StudySetCard constructStudySetCardForEdit(StudySetCardFullDto card, User user, StudySet studySet) {
+        Boolean starred = false;
         return new StudySetCard(
                 Jsoup.clean(card.getBgColor(), Safelist.none()),
                 Jsoup.clean(card.getColor(), Safelist.none()),
@@ -54,6 +66,7 @@ public class StudySetCardService {
                 card.getNumber(),
                 card.getOrder(),
                 Jsoup.clean(card.getTerm(), Safelist.none()),
+                starred,
                 studySet,
                 user);
     }
@@ -87,7 +100,6 @@ public class StudySetCardService {
 
     public void editStudySetCards(List<StudySetCardFullDto> cards, StudySet studySet, User user) {
 
-        System.out.println(cards.size());
         if (cards.size() > MAX_STUDYSET_CARDS) {
             throw new BadRequestException("You can only have 10 cards");
         }
@@ -128,6 +140,34 @@ public class StudySetCardService {
         } catch (NumberFormatException e) {
             System.out.println("deleteStudySetCard() studySetCardId is a string from nanoid");
         }
+    }
+
+    public void editStudySetCard(Long studySetCardId, EditStudySetCardRequest request) {
+
+        User currentUser = this.userService.getCurrentlyLoggedInUser();
+        StudySetCard studySetCard = findStudySetCardById(studySetCardId);
+
+        if (currentUser.getId() != studySetCard.getUser().getId()) {
+            throw new ForbiddenException("You are not authorized to edit this study set card");
+        }
+
+        studySetCard.setTerm(Jsoup.clean(request.getTerm(), Safelist.none()));
+        studySetCard.setDefinition(Jsoup.clean(request.getDefinition(), Safelist.none()));
+
+        this.studySetCardRepository.save(studySetCard);
+
+    }
+
+    public void starStudySetCard(Long studySetCardId, Boolean starred) {
+        User currentUser = this.userService.getCurrentlyLoggedInUser();
+        StudySetCard studySetCard = findStudySetCardById(studySetCardId);
+
+        if (currentUser.getId() != studySetCard.getUser().getId()) {
+            throw new ForbiddenException("You are not authorized to edit this study set card");
+        }
+
+        studySetCard.setStarred(starred);
+        this.studySetCardRepository.save(studySetCard);
     }
 
 }

@@ -34,7 +34,7 @@ public interface StudySetCardRepository extends JpaRepository<StudySetCard, Long
                 SELECT new com.hart.meliorem.studysetcard.dto.StudySetCardFullDto(
                 ssc.id AS id, ssc.number AS number, ssc.order AS order, ssc.term AS term,
                 ssc.image AS image, ssc.definition AS definition, ssc.color AS color,
-                ssc.bgColor AS bgColor
+                ssc.bgColor AS bgColor, ssc.starred AS starred
                 ) FROM StudySetCard ssc
                 INNER JOIN ssc.studySet ss
                 WHERE ss.id = :studySetId

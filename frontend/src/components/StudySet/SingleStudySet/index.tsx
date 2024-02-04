@@ -2,6 +2,7 @@ import { Box } from '@chakra-ui/react';
 import { useEffect, useRef } from 'react';
 import { Client } from '../../../util/client';
 import Main from './Main';
+import StillLearning from './StillLearning';
 
 interface ISingleStudySetProps {
   studySetId: number;
@@ -31,6 +32,9 @@ const SingleStudySet = ({ studySetId }: ISingleStudySetProps) => {
     <Box mx="auto" as="section" w="100%" maxW={['95%', '95%', '768px']}>
       <Box my="2rem">
         <Main studySetId={studySetId} />
+      </Box>
+      <Box my="2rem">
+        <StillLearning studySetId={studySetId} />
       </Box>
     </Box>
   );
