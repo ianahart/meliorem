@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.hart.meliorem.studysetcard.request.EditStudySetCardRequest;
+import com.hart.meliorem.studysetcard.request.StarStudySetCardRequest;
 import com.hart.meliorem.studysetcard.response.DeleteStudySetCardResponse;
 import com.hart.meliorem.studysetcard.response.EditStudySetCardResponse;
 import com.hart.meliorem.studysetcard.response.GetStudySetCardResponse;
+import com.hart.meliorem.studysetcard.response.StarStudySetCardResponse;
 
 import jakarta.validation.Valid;
 
@@ -55,5 +57,16 @@ public class StudySetCardController {
         this.studySetCardService.editStudySetCard(studySetCardId, request);
 
         return ResponseEntity.status(HttpStatus.OK).body(new EditStudySetCardResponse("success"));
+    }
+
+    @PatchMapping("/{studySetCardId}/starred")
+    ResponseEntity<StarStudySetCardResponse> starStudySetCard(@PathVariable("studySetCardId") Long studySetCardId,
+            @RequestBody StarStudySetCardRequest request) {
+
+        this.studySetCardService.starStudySetCard(studySetCardId, request.getStarred());
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(new StarStudySetCardResponse("success"));
     }
 }

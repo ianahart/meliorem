@@ -1,23 +1,21 @@
-import { Box, Flex, Textarea } from '@chakra-ui/react';
+import { Box, Flex, Textarea, Tooltip } from '@chakra-ui/react';
 import { IStudySetCardFull } from '../../../../interfaces';
 import { useState } from 'react';
-import { AiFillStar } from 'react-icons/ai';
+import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
 import { FaPen } from 'react-icons/fa';
 import { Client } from '../../../../util/client';
+import TextToSpeech from '../TextToSpeech';
 
 export interface IStillLearningCardProps {
   studySetCard: IStudySetCardFull;
-  updateField: (value: string, prop: string, id: number | string) => void;
+  updateField: <T>(value: T, prop: string, id: number | string) => void;
 }
 
 const StillLearningCard = ({ studySetCard, updateField }: IStillLearningCardProps) => {
   const [isReadOnly, setIsReadOnly] = useState(true);
-
   const editStudySetCard = () => {
     Client.editStudySetCard(studySetCard.term, studySetCard.definition, studySetCard.id)
-      .then((res) => {
-        console.log(res);
-      })
+      .then(() => {})
       .catch((err) => {
         throw new Error(err);
       });
@@ -32,6 +30,16 @@ const StillLearningCard = ({ studySetCard, updateField }: IStillLearningCardProp
 
   const handleOnChange = (e: React.ChangeEvent<HTMLTextAreaElement>, prop: string) => {
     updateField(e.target.value, prop, studySetCard.id);
+  };
+
+  const handleOnStarredClick = () => {
+    Client.studySetCardStarred(!studySetCard.starred, studySetCard.id)
+      .then(() => {
+        updateField(!studySetCard.starred, 'starred', studySetCard.id);
+      })
+      .catch((err) => {
+        throw new Error(err);
+      });
   };
 
   return (
@@ -61,12 +69,23 @@ const StillLearningCard = ({ studySetCard, updateField }: IStillLearningCardProp
         value={studySetCard.definition}
       />
       <Flex align="center">
-        <Box fontSize="1.7rem" cursor="pointer" mx="1rem">
-          <AiFillStar />
-        </Box>
-        <Box onClick={toggleEdit} fontSize="1.7rem" cursor="pointer" mx="1rem">
-          <FaPen />
-        </Box>
+        <Tooltip label={studySetCard.starred ? 'Unstar' : 'Star'}>
+          <Box
+            color={studySetCard.starred ? 'gold' : '#fff'}
+            onClick={handleOnStarredClick}
+            fontSize="1.7rem"
+            cursor="pointer"
+            mx="1rem"
+          >
+            {studySetCard.starred ? <AiFillStar /> : <AiOutlineStar />}
+          </Box>
+        </Tooltip>
+        <TextToSpeech text={`${studySetCard.term} ${studySetCard.definition}`} />
+        <Tooltip label="Edit">
+          <Box onClick={toggleEdit} fontSize="1.7rem" cursor="pointer" mx="1rem">
+            <FaPen />
+          </Box>
+        </Tooltip>
       </Flex>
     </Flex>
   );

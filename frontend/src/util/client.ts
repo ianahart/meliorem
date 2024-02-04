@@ -131,4 +131,7 @@ export const Client = {
   editStudySetCard: (term: string, definition: string, studySetCardId: number | string) => {
     return http.patch(`/studyset-cards/${studySetCardId}`, { term, definition });
   },
+  studySetCardStarred: (starred: boolean, studySetCardId: number | string) => {
+    return http.patch(`/studyset-cards/${studySetCardId}/starred`, { starred });
+  },
 };

@@ -31,7 +31,7 @@ public class StudySetCardService {
 
     @Autowired
     public StudySetCardService(StudySetCardRepository studySetCardRepository,
-                    UserService userService) {
+            UserService userService) {
         this.studySetCardRepository = studySetCardRepository;
         this.userService = userService;
     }
@@ -156,6 +156,18 @@ public class StudySetCardService {
 
         this.studySetCardRepository.save(studySetCard);
 
+    }
+
+    public void starStudySetCard(Long studySetCardId, Boolean starred) {
+        User currentUser = this.userService.getCurrentlyLoggedInUser();
+        StudySetCard studySetCard = findStudySetCardById(studySetCardId);
+
+        if (currentUser.getId() != studySetCard.getUser().getId()) {
+            throw new ForbiddenException("You are not authorized to edit this study set card");
+        }
+
+        studySetCard.setStarred(starred);
+        this.studySetCardRepository.save(studySetCard);
     }
 
 }
