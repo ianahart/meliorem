@@ -1,11 +1,14 @@
 package com.hart.meliorem.streak;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.time.LocalDate;
 import java.util.List;
 
 import com.hart.meliorem.advice.BadRequestException;
@@ -68,8 +71,14 @@ public class StreakService {
 
         Timestamp oneWeekAgo = this.dateTimeService.getDateTimeWeekAgo();
         Timestamp now = Timestamp.from(Instant.now());
+        // int page = 0;
+        // int pageSize = 7;
 
-        return this.streakRepository.findAllStreaksByUserId(userId, oneWeekAgo, now);
+        // Pageable pageable = PageRequest.of(page, pageSize,
+        // Sort.by("createdAt").ascending());
+        List<StreakDto> streaks = this.streakRepository.findAllStreaksByUserId(userId, oneWeekAgo, now);
+
+        return streaks;
 
     }
 }

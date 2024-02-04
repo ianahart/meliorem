@@ -15,11 +15,12 @@ const StreakCounter = () => {
   const shouldRun = useRef(true);
   const { user } = useContext(UserContext) as IUserContext;
   const [streaks, setStreaks] = useState<IStreak[]>([]);
+  const ONE_WEEK = 7;
 
   const days = useMemo(() => {
     if (streaks.length) {
       let startOfWeekNum = dayjs(streaks[0].createdAt);
-      const endOfWeekNum = dayjs(startOfWeekNum).add(6, 'day');
+      const endOfWeekNum = dayjs(startOfWeekNum).add(ONE_WEEK - 1, 'day');
       let days: { name: string; day: number; isStreaked: boolean }[] = [];
       let loopCounter = 0;
 
@@ -57,6 +58,13 @@ const StreakCounter = () => {
     Client.getStreak(user.id)
       .then((res) => {
         const { data } = res.data;
+
+        if (data.length > ONE_WEEK) {
+          const toSortData = [...data];
+          const [first] = toSortData.sort((a, b) => a.id - b.id);
+          data.splice(data.indexOf(first), 1);
+        }
+
         setStreaks(data);
       })
       .catch((err) => {
@@ -114,7 +122,7 @@ const StreakCounter = () => {
               })}
             </Flex>
             <Flex w="130px" mt="0.5rem" justify="space-between" borderRadius={20} bg="#2a2a3f" p="0.5rem  0.25rem">
-              {days.map((day, index) => {
+              {days.map((day) => {
                 return (
                   <Box key={nanoid()}>
                     <Text fontWeight="bold" color={day.isStreaked ? '#fff' : 'black'}>

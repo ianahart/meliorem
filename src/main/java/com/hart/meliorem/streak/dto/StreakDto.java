@@ -1,6 +1,7 @@
 package com.hart.meliorem.streak.dto;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 public class StreakDto {
 
@@ -17,6 +18,8 @@ public class StreakDto {
     private Integer year;
 
     private Long timestamp;
+
+    private LocalDateTime localDateTime;
 
     public StreakDto() {
 
@@ -64,6 +67,10 @@ public class StreakDto {
         return dayOfWeek;
     }
 
+    public LocalDateTime getLocalDateTime() {
+        return localDateTime;
+    }
+
     public Timestamp getCreatedAt() {
         return createdAt;
     }
@@ -94,5 +101,9 @@ public class StreakDto {
 
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public void setLocalDateTime(LocalDateTime localDateTime) {
+        this.localDateTime = localDateTime;
     }
 }
