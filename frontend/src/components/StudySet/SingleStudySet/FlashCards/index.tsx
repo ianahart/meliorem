@@ -14,7 +14,7 @@ export interface IFlashCardsProps {
 
 const FlashCards = ({ studySetCards }: IFlashCardsProps) => {
   const intervalID = useRef<any>(null);
-  const timeoutID = useRef<any>(null);
+  const innerIntervalID = useRef<any>(null);
   const [actionClicked, setActionClicked] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isRotated, setIsRotated] = useState(false);
@@ -70,23 +70,23 @@ const FlashCards = ({ studySetCards }: IFlashCardsProps) => {
   }, [isRotated, setUtterance]);
 
   useEffect(() => {
-    const definitionSeconds = 3000;
-    const termSeconds = 7500;
+    const definitionSeconds = 4000;
+    const termSeconds = 12000;
 
     if (isPlaying) {
       intervalID.current = setInterval(() => {
         onNextCard();
-        timeoutID.current = setTimeout(() => {
+        innerIntervalID.current = setInterval(() => {
           setIsRotated(true);
-          if (timeoutID.current !== null) {
-            clearTimeout(timeoutID.current);
+          if (innerIntervalID.current !== null) {
+            clearInterval(innerIntervalID.current);
           }
         }, definitionSeconds);
       }, termSeconds);
     } else {
       clearInterval(intervalID.current);
-      if (timeoutID.current !== null) {
-        clearTimeout(timeoutID.current);
+      if (innerIntervalID.current !== null) {
+        clearInterval(innerIntervalID.current);
       }
     }
 
