@@ -5,7 +5,6 @@ import { IStudySetCardFull } from '../../../../interfaces';
 import StillLearningCard from './StillLearningCard';
 import BasicSpinner from '../../../Shared/BasicSpinner';
 import { IoChevronDownCircleOutline } from 'react-icons/io5';
-import { IsEqualCustomizer } from 'lodash';
 
 export interface IStillLearningProps {
   studySetId: number;
@@ -56,7 +55,6 @@ const StillLearning = ({ studySetId }: IStillLearningProps) => {
     switch (clickedMenuItem) {
       case 'Alphabetical':
         const alphabeticalStudySetCards = [...studySetCards];
-                console.log(alphabeticalStudySetCards)
         updatedStudySetCards = alphabeticalStudySetCards.sort((a, b) => a.term.localeCompare(b.term));
         break;
       case 'Original':

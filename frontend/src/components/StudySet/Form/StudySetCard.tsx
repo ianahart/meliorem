@@ -38,7 +38,7 @@ const StudySetCard = ({ studySetCard, provided, number, action }: IStudySetCardP
   const deleteStudySetCard = () => {
     if (action !== 'create') {
       Client.deleteStudySetCard(studySetCard.id)
-        .then((res) => {})
+        .then(() => {})
         .catch((err) => {
           throw new Error(err);
         });

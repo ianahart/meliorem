@@ -12,9 +12,7 @@ interface IStudySetCardOptionsProps {
 }
 
 const StudySetCardOptions = ({ studySetCardId }: IStudySetCardOptionsProps) => {
-  const { studySetForm, handleSetStudySetForm } = useContext(
-    StudySetContext
-  ) as IStudySetContext;
+  const { studySetForm, handleSetStudySetForm } = useContext(StudySetContext) as IStudySetContext;
 
   const [fontMenuOpen, setFontMenuOpen] = useState(false);
   const [backgroundMenuOpen, setBackgroundMenuOpen] = useState(false);
@@ -29,7 +27,8 @@ const StudySetCardOptions = ({ studySetCardId }: IStudySetCardOptionsProps) => {
 
   const changeColor = (keyName: string, color: string) => {
     const cards = studySetForm.cards.map((card) => {
-      if (card.id === studySetCardId) {
+      console.log(card.id, studySetCardId);
+      if (card.id.toString() === studySetCardId) {
         card[keyName] = color;
         if (keyName === 'bgColor') {
           card['image'] = '';

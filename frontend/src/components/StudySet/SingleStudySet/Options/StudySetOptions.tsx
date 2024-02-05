@@ -14,7 +14,7 @@ const StudySetOptions = ({ studySet }: IStudySetOptionsProps) => {
   const { user } = useContext(UserContext) as IUserContext;
 
   return (
-    <Flex justify="space-around">
+    <Flex align="center" justify="space-around">
       <StudySetShareOption />
       {user.id === studySet.userId && <StudySetEditOption studySetId={studySet.id} />}
       <StudySetMiscOption studySet={studySet} />

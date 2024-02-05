@@ -41,6 +41,7 @@ const StudySetMiscOption = ({ studySet }: IStudySetMiscOptionProps) => {
       position="relative"
       minW="30px"
       flexDir="column"
+      height="25px"
       justify="center"
       mx="0.5rem"
       cursor="pointer"

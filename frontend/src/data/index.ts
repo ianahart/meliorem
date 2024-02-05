@@ -166,3 +166,15 @@ export const studySetState = {
   userId: 0,
   visibility: '',
 };
+
+export const studySetCardFullState = {
+  number: 0,
+  id: 0,
+  order: 0,
+  color: '',
+  bgColor: '',
+  term: '',
+  definition: '',
+  image: '',
+  starred: false,
+};

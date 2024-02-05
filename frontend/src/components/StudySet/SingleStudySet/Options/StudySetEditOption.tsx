@@ -17,6 +17,7 @@ const StudySetEditOption = ({ studySetId }: IStudySetEditOptionProps) => {
       <Flex
         onClick={goToEditStudySet}
         minW="30px"
+        height="25px"
         flexDir="column"
         justify="center"
         mx="0.5rem"
