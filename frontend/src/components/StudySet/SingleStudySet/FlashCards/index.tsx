@@ -1,24 +1,20 @@
 import { Box, Flex, Text, Tooltip } from '@chakra-ui/react';
 import { useEffect, useRef, useState } from 'react';
-import { Client } from '../../../../util/client';
 import { IStudySetCardFull } from '../../../../interfaces';
 import { FaRegArrowAltCircleLeft, FaRegArrowAltCircleRight } from 'react-icons/fa';
 import { MdFullscreenExit, MdFullscreen } from 'react-icons/md';
 import { IoPlayCircleOutline, IoPauseCircleOutline } from 'react-icons/io5';
 
-import BasicSpinner from '../../../Shared/BasicSpinner';
 import TextToSpeech from '../TextToSpeech';
+import Card from './Card';
 
 export interface IFlashCardsProps {
-  studySetId: number;
+  studySetCards: IStudySetCardFull[];
 }
 
-const FlashCards = ({ studySetId }: IFlashCardsProps) => {
-  const shouldRun = useRef(true);
+const FlashCards = ({ studySetCards }: IFlashCardsProps) => {
   const intervalID = useRef<any>(null);
-  const [isLoading, setIsLoading] = useState(false);
   const [actionClicked, setActionClicked] = useState(false);
-  const [studySetCards, setStudySetCards] = useState<IStudySetCardFull[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isRotated, setIsRotated] = useState(false);
   const [utterance, setUtterance] = useState('');
@@ -26,27 +22,6 @@ const FlashCards = ({ studySetId }: IFlashCardsProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
 
   const fullScreenWidth = isFullScreen ? ['95%', '95%', '100%'] : ['95%', '95%', '550px'];
-
-  const getStudySetCards = () => {
-    setIsLoading(true);
-    Client.getStudySetCards(studySetId)
-      .then((res) => {
-        const { data } = res.data;
-        setStudySetCards(data);
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        setIsLoading(false);
-        throw new Error(err);
-      });
-  };
-
-  useEffect(() => {
-    if (shouldRun.current) {
-      shouldRun.current = false;
-      getStudySetCards();
-    }
-  }, [shouldRun.current]);
 
   const onRotate = () => setIsRotated((prevState) => !prevState);
 
@@ -107,41 +82,15 @@ const FlashCards = ({ studySetId }: IFlashCardsProps) => {
     <Box>
       {/*StudySetCard Hero*/}
       <Box as="section" display="flex" justifyContent={['center', 'center', 'unset']}>
-        {isLoading && <BasicSpinner color="#fff" message="Loading flash cards..." />}
         <Box className="cardContainer" maxW={fullScreenWidth} w="100%">
-          <Box
-            onClick={onRotate}
-            minH={isFullScreen ? '600px' : '300px'}
-            className="flip-card"
-            width="100%"
-            borderRadius={8}
-            boxShadow="md"
-          >
-            <Box
-              bg={studySetCards[currentIndex]?.bgColor || 'form.primary'}
-              minH={isFullScreen ? '600px' : '300px'}
-              backgroundImage={studySetCards[currentIndex]?.image}
-              backgroundSize="cover"
-              borderRadius={2}
-              color={studySetCards[currentIndex]?.color || '#fff'}
-              transform={isRotated ? 'rotateY(180deg)' : 'rotateY(0deg)'}
-              className={`flip-card-inner ${actionClicked ? 'slide-in' : ''}`}
-              onAnimationEnd={() => setActionClicked(false)}
-            >
-              {/*Front Of Card*/}
-              <Flex align="center" justify="center" borderRadius={8} className="flip-card-front">
-                <Text fontSize="1.5rem" fontWeight="bold">
-                  {studySetCards[currentIndex]?.term}
-                </Text>
-              </Flex>
-              {/*Back of Card*/}
-              <Flex align="center" justify="center" borderRadius={8} className="flip-card-back">
-                <Text fontSize="1.5rem" fontWeight="bold">
-                  {studySetCards[currentIndex]?.definition}
-                </Text>
-              </Flex>
-            </Box>
-          </Box>
+          <Card
+            onRotate={onRotate}
+            setActionClicked={setActionClicked}
+            actionClicked={actionClicked}
+            isRotated={isRotated}
+            studySetCard={studySetCards[currentIndex]}
+            isFullScreen={isFullScreen}
+          />
           {isPlaying && (
             <Box borderRadius={8} my="1.5rem" color="#fff" bg="bg.primary" p="0.5rem">
               <Text textAlign="center" fontSize="1.2rem" fontWeight="bold">

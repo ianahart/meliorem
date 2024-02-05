@@ -1,9 +1,10 @@
 import { Box } from '@chakra-ui/react';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Client } from '../../../util/client';
 import Main from './Main';
 import StillLearning from './StillLearning';
 import FlashCards from './FlashCards';
+import { IStudySetCardFull } from '../../../interfaces';
 
 interface ISingleStudySetProps {
   studySetId: number;
@@ -12,11 +13,29 @@ interface ISingleStudySetProps {
 const SingleStudySet = ({ studySetId }: ISingleStudySetProps) => {
   const shouldRun = useRef(true);
 
+  const [studySetCards, setStudySetCards] = useState<IStudySetCardFull[]>([]);
+  const [filteredStudySetCards, setFilteredStudySetCards] = useState<IStudySetCardFull[]>([]);
+  const [selectedMenuItem, setSelectedMenuItem] = useState('Original');
+
+  useEffect(() => {
+    setFilteredStudySetCards(studySetCards);
+  }, [studySetCards.length]);
+
+  const getStudySetCards = () => {
+    Client.getStudySetCards(studySetId)
+      .then((res) => {
+        const { data } = res.data;
+        setStudySetCards(data);
+        setFilteredStudySetCards(data);
+      })
+      .catch((err) => {
+        throw new Error(err);
+      });
+  };
+
   const createStreak = () => {
     Client.createStreak(studySetId)
-      .then((res) => {
-        console.log(res);
-      })
+      .then(() => {})
       .catch((err) => {
         throw new Error(err);
       });
@@ -26,19 +45,56 @@ const SingleStudySet = ({ studySetId }: ISingleStudySetProps) => {
     if (shouldRun.current) {
       shouldRun.current = false;
       createStreak();
+      getStudySetCards();
     }
   }, [shouldRun.current]);
+
+  const updateField = <T,>(value: T, prop: string, id: number | string) => {
+    const cards = filteredStudySetCards.map((studySetCard) => {
+      if (studySetCard.id === id) {
+        return { ...studySetCard, [prop]: value };
+      }
+      return { ...studySetCard };
+    });
+    setFilteredStudySetCards(cards);
+  };
+
+  const handleMenuItemClick = (clickedMenuItem: string) => {
+    setSelectedMenuItem(clickedMenuItem);
+    let updatedStudySetCards: IStudySetCardFull[] = [];
+    switch (clickedMenuItem) {
+      case 'Alphabetical':
+        const alphabeticalStudySetCards = [...studySetCards];
+        updatedStudySetCards = alphabeticalStudySetCards.sort((a, b) => a.term.localeCompare(b.term));
+        break;
+      case 'Original':
+        const originalStudySetCards = [...studySetCards];
+        updatedStudySetCards = originalStudySetCards.sort((a, b) => (a.id as number) - (b.id as number));
+        break;
+      case 'Starred':
+        updatedStudySetCards = [...filteredStudySetCards].filter((studySetCard) => studySetCard.starred);
+        break;
+    }
+    setFilteredStudySetCards(updatedStudySetCards);
+  };
 
   return (
     <Box mx="auto" as="section" w="100%" maxW={['95%', '95%', '768px']}>
       <Box my="2rem">
-        <FlashCards studySetId={studySetId} />
+        <FlashCards studySetCards={filteredStudySetCards} />
       </Box>
       <Box my="2rem">
         <Main studySetId={studySetId} />
       </Box>
       <Box my="2rem">
-        <StillLearning studySetId={studySetId} />
+        <StillLearning
+          filteredStudySetCards={filteredStudySetCards}
+          updateField={updateField}
+          studySetCards={studySetCards}
+          studySetId={studySetId}
+          handleMenuItemClick={handleMenuItemClick}
+          selectedMenuItem={selectedMenuItem}
+        />
       </Box>
     </Box>
   );

@@ -1,73 +1,24 @@
 import { Box, Button, Flex, Heading, Menu, MenuButton, MenuItem, MenuList, Text } from '@chakra-ui/react';
-import { useEffect, useRef, useState } from 'react';
-import { Client } from '../../../../util/client';
 import { IStudySetCardFull } from '../../../../interfaces';
 import StillLearningCard from './StillLearningCard';
-import BasicSpinner from '../../../Shared/BasicSpinner';
 import { IoChevronDownCircleOutline } from 'react-icons/io5';
 
 export interface IStillLearningProps {
   studySetId: number;
+  updateField: <T>(value: T, prop: string, id: number | string) => void;
+  studySetCards: IStudySetCardFull[];
+  filteredStudySetCards: IStudySetCardFull[];
+  selectedMenuItem: string;
+  handleMenuItemClick: (selectedMenuItem: string) => void;
 }
 
-const StillLearning = ({ studySetId }: IStillLearningProps) => {
-  const shouldRun = useRef(true);
-  const [isLoading, setIsLoading] = useState(false);
-  const [selectedMenuItem, setSelectedMenuItem] = useState('Original');
-  const [studySetCards, setStudySetCards] = useState<IStudySetCardFull[]>([]);
-  const [filteredStudySetCards, setFilteredStudySetCards] = useState<IStudySetCardFull[]>([]);
-
-  const updateField = <T,>(value: T, prop: string, id: number | string) => {
-    const cards = studySetCards.map((studySetCard) => {
-      if (studySetCard.id === id) {
-        return { ...studySetCard, [prop]: value };
-      }
-      return { ...studySetCard };
-    });
-    setStudySetCards(cards);
-  };
-
-  const getStudySetCards = () => {
-    setIsLoading(true);
-    Client.getStudySetCards(studySetId)
-      .then((res) => {
-        const { data } = res.data;
-        setStudySetCards(data);
-        setFilteredStudySetCards(data);
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        setIsLoading(false);
-        throw new Error(err);
-      });
-  };
-
-  useEffect(() => {
-    if (shouldRun.current) {
-      shouldRun.current = false;
-      getStudySetCards();
-    }
-  }, [shouldRun.current]);
-
-  const handleMenuItemClick = (clickedMenuItem: string) => {
-    setSelectedMenuItem(clickedMenuItem);
-    let updatedStudySetCards: IStudySetCardFull[] = [];
-    switch (clickedMenuItem) {
-      case 'Alphabetical':
-        const alphabeticalStudySetCards = [...studySetCards];
-        updatedStudySetCards = alphabeticalStudySetCards.sort((a, b) => a.term.localeCompare(b.term));
-        break;
-      case 'Original':
-        const originalStudySetCards = [...studySetCards];
-        updatedStudySetCards = originalStudySetCards.sort((a, b) => (a.id as number) - (b.id as number));
-        break;
-      case 'Starred':
-        updatedStudySetCards = [...filteredStudySetCards].filter((studySetCard) => studySetCard.starred);
-        break;
-    }
-    setFilteredStudySetCards(updatedStudySetCards);
-  };
-
+const StillLearning = ({
+  updateField,
+  studySetCards,
+  handleMenuItemClick,
+  selectedMenuItem,
+  filteredStudySetCards,
+}: IStillLearningProps) => {
   return (
     <Box color="#fff" p="1rem">
       <Flex justify="space-between">
@@ -103,15 +54,11 @@ const StillLearning = ({ studySetId }: IStillLearningProps) => {
           </Menu>
         </Box>
       </Flex>
-      {isLoading ? (
-        <BasicSpinner message="Loading cards..." color="#fff" />
-      ) : (
-        <Box>
-          {filteredStudySetCards.map((studySetCard) => {
-            return <StillLearningCard updateField={updateField} key={studySetCard.id} studySetCard={studySetCard} />;
-          })}
-        </Box>
-      )}
+      <Box>
+        {filteredStudySetCards.map((studySetCard) => {
+          return <StillLearningCard updateField={updateField} key={studySetCard.id} studySetCard={studySetCard} />;
+        })}
+      </Box>
     </Box>
   );
 };
