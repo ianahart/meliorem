@@ -46,6 +46,7 @@ const StillLearningCard = ({ studySetCard, updateField }: IStillLearningCardProp
     <Flex bg="form.primary" minH="40px" my="1rem" borderRadius={2} p="0.5rem">
       <Textarea
         readOnly={isReadOnly ? true : false}
+        className="overflow-scroll"
         onChange={(e) => handleOnChange(e, 'term')}
         border="none"
         width="50%"
@@ -60,6 +61,7 @@ const StillLearningCard = ({ studySetCard, updateField }: IStillLearningCardProp
       </Flex>
       <Textarea
         readOnly={isReadOnly ? true : false}
+        className="overflow-scroll"
         onChange={(e) => handleOnChange(e, 'definition')}
         border="none"
         borderRadius={0}
