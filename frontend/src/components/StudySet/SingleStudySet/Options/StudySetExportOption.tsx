@@ -61,6 +61,7 @@ const StudySetExportOption = ({ isOpen, onClose, studySetId }: IStudySetExportOp
     Client.getStudySetCards(studySetId)
       .then((res) => {
         const { data } = res.data;
+        console.log(data);
         parseStudySetCards();
 
         setStudySetCards(data);
