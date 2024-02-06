@@ -5,6 +5,8 @@ import Main from './Main';
 import StillLearning from './StillLearning';
 import FlashCards from './FlashCards';
 import { IStudySetCardFull } from '../../../interfaces';
+import { useLocation } from 'react-router-dom';
+import Reviews from './Reviews';
 
 interface ISingleStudySetProps {
   studySetId: number;
@@ -12,6 +14,7 @@ interface ISingleStudySetProps {
 
 const SingleStudySet = ({ studySetId }: ISingleStudySetProps) => {
   const shouldRun = useRef(true);
+  const location = useLocation();
 
   const [studySetCards, setStudySetCards] = useState<IStudySetCardFull[]>([]);
   const [filteredStudySetCards, setFilteredStudySetCards] = useState<IStudySetCardFull[]>([]);
@@ -79,22 +82,27 @@ const SingleStudySet = ({ studySetId }: ISingleStudySetProps) => {
   };
 
   return (
-    <Box mx="auto" as="section" w="100%" maxW={['95%', '95%', '768px']}>
-      <Box my="2rem">
-        <FlashCards studySetCards={filteredStudySetCards} />
-      </Box>
-      <Box my="2rem">
-        <Main studySetId={studySetId} />
-      </Box>
-      <Box my="2rem">
-        <StillLearning
-          filteredStudySetCards={filteredStudySetCards}
-          updateField={updateField}
-          studySetCards={studySetCards}
-          studySetId={studySetId}
-          handleMenuItemClick={handleMenuItemClick}
-          selectedMenuItem={selectedMenuItem}
-        />
+    <Box>
+      <Box mx="auto" as="section" w="100%" maxW={['95%', '95%', '768px']}>
+        <Box my="2rem">
+          <Reviews studySetId={studySetId} studySetTitle={location.state.title} />
+        </Box>
+        <Box my="2rem">
+          <FlashCards studySetCards={filteredStudySetCards} />
+        </Box>
+        <Box my="2rem">
+          <Main studySetId={studySetId} />
+        </Box>
+        <Box my="2rem">
+          <StillLearning
+            filteredStudySetCards={filteredStudySetCards}
+            updateField={updateField}
+            studySetCards={studySetCards}
+            studySetId={studySetId}
+            handleMenuItemClick={handleMenuItemClick}
+            selectedMenuItem={selectedMenuItem}
+          />
+        </Box>
       </Box>
     </Box>
   );

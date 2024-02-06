@@ -134,4 +134,8 @@ export const Client = {
   studySetCardStarred: (starred: boolean, studySetCardId: number | string) => {
     return http.patch(`/studyset-cards/${studySetCardId}/starred`, { starred });
   },
+
+  createReview: <T>(data: T) => {
+    return http.post(`/reviews`, data);
+  },
 };

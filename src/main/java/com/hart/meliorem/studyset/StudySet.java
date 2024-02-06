@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.hart.meliorem.review.Review;
 import com.hart.meliorem.streak.Streak;
 import com.hart.meliorem.studysetcard.StudySetCard;
 import com.hart.meliorem.user.User;
@@ -72,6 +73,9 @@ public class StudySet {
     @OneToMany(mappedBy = "studySet", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Streak> streaks;
 
+    @OneToMany(mappedBy = "studySet", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Review> reviews;
+
     public StudySet() {
 
     }
@@ -124,6 +128,10 @@ public class StudySet {
 
     public User getUser() {
         return user;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
     }
 
     public String getTitle() {
@@ -208,5 +216,9 @@ public class StudySet {
 
     public void setStreaks(List<Streak> streaks) {
         this.streaks = streaks;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
     }
 }

@@ -4,13 +4,12 @@ import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.hart.meliorem.passwordreset.PasswordReset;
 import com.hart.meliorem.profile.Profile;
 import com.hart.meliorem.refreshtoken.RefreshToken;
+import com.hart.meliorem.review.Review;
 import com.hart.meliorem.setting.Setting;
 import com.hart.meliorem.streak.Streak;
 import com.hart.meliorem.studyset.StudySet;
@@ -111,6 +110,9 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Streak> streaks;
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Review> reviews;
+
     public User() {
 
     }
@@ -164,6 +166,10 @@ public class User implements UserDetails {
 
     public String getSlug() {
         return (firstName + lastName).toLowerCase();
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
     }
 
     public List<StudySetCard> getStudySetCards() {
@@ -317,6 +323,10 @@ public class User implements UserDetails {
 
     public void setStreaks(List<Streak> streaks) {
         this.streaks = streaks;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
     }
 
     @Override
