@@ -6,6 +6,7 @@ import com.hart.meliorem.advice.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.hart.meliorem.review.dto.ReviewStatsDto;
 import com.hart.meliorem.review.request.CreateReviewRequest;
 import com.hart.meliorem.studyset.StudySet;
 import com.hart.meliorem.studyset.StudySetService;
@@ -31,7 +32,7 @@ public class ReviewService {
         this.studySetService = studySetService;
     }
 
-    public boolean CheckAlreadyReviewed(User user, Long studySetId) {
+    private boolean CheckAlreadyReviewed(User user, Long studySetId) {
         boolean alreadyReviewed = false;
 
         Optional<Review> existingReview = user.getReviews().stream()
@@ -55,5 +56,24 @@ public class ReviewService {
         Review review = new Review(request.getRating(), request.getFeedback(), user, studySet);
 
         this.reviewRepository.save(review);
+    }
+
+    private Float calculateAvgRating(Long studySetId) {
+        return this.reviewRepository.getAvgRatingByStudySetId(studySetId);
+    }
+
+    private Long calculateTotalReviews(Long studySetId) {
+        return this.reviewRepository.getTotalReviewsCount(studySetId);
+    }
+
+    public ReviewStatsDto getReviewStats(Long studySetId) {
+        User curUser = this.userService.getCurrentlyLoggedInUser();
+
+        Float avgRating = calculateAvgRating(studySetId);
+        Long totalReviews = calculateTotalReviews(studySetId);
+        Boolean curUserReviewed = CheckAlreadyReviewed(curUser, studySetId);
+
+        return new ReviewStatsDto(avgRating, totalReviews, curUserReviewed);
+
     }
 }

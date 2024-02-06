@@ -138,4 +138,8 @@ export const Client = {
   createReview: <T>(data: T) => {
     return http.post(`/reviews`, data);
   },
+
+  getReviewStats: (studySetId: number) => {
+    return http.get(`/reviews/stats?studySetId=${studySetId}`);
+  },
 };

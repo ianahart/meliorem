@@ -1,3 +1,9 @@
+export interface IReviewStats {
+  avgRating: number;
+  totalReviews: number;
+  curUserReviewed: boolean;
+}
+
 export interface IStreak {
   createdAt: Date;
   day: number;

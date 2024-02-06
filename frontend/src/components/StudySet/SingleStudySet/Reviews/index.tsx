@@ -15,12 +15,13 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { nanoid } from 'nanoid';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
 import { FeedbackChoices } from '../../../../enums';
 import { UserContext } from '../../../../context/user';
-import { IUserContext } from '../../../../interfaces';
+import { IReviewStats, IUserContext } from '../../../../interfaces';
 import { Client } from '../../../../util/client';
+import { reviewStatsState } from '../../../../data';
 
 export interface IReviewsProps {
   studySetTitle: string;
@@ -28,12 +29,32 @@ export interface IReviewsProps {
 }
 
 const Reviews = ({ studySetTitle, studySetId }: IReviewsProps) => {
+  const NUM_OF_STARS = 5;
+  const shouldRun = useRef(true);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { user } = useContext(UserContext) as IUserContext;
   const [rating, setRating] = useState(1);
   const [selectedFeedback, setSelectedFeedback] = useState<FeedbackChoices | null>(null);
+  const [reviewStats, setReviewStats] = useState<IReviewStats>(reviewStatsState);
   const [error, setError] = useState('');
-  const NUM_OF_STARS = 5;
+
+  const getReviewStats = () => {
+    Client.getReviewStats(studySetId)
+      .then((res) => {
+        const { data } = res.data;
+        setReviewStats(data);
+      })
+      .catch((err) => {
+        throw new Error(err);
+      });
+  };
+
+  useEffect(() => {
+    if (shouldRun.current) {
+      shouldRun.current = false;
+      getReviewStats();
+    }
+  }, [shouldRun.current]);
 
   const handleAddReview = () => {
     const data = { feedback: selectedFeedback, userId: user.id, studySetId, rating };
@@ -62,12 +83,12 @@ const Reviews = ({ studySetTitle, studySetId }: IReviewsProps) => {
           </Heading>
         </Box>
         <Flex align="center" fontSize="1.2rem" fontWeight="bold">
-          <Box mx="0.25rem" color="gray" fontSize="1.4rem">
+          <Box mx="0.25rem" color={reviewStats.curUserReviewed ? 'gold' : 'gray'} fontSize="1.4rem">
             <AiFillStar />
           </Box>
-          <Box mx="0.25rem">2.7</Box>
+          <Box mx="0.25rem">{reviewStats.avgRating}</Box>
           <Box onClick={onOpen} _hover={{ opacity: 0.7 }} cursor="pointer" mx="0.25rem">
-            (503 reviews)
+            ({reviewStats.totalReviews} reviews)
           </Box>
         </Flex>
       </Flex>
