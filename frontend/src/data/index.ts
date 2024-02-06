@@ -22,6 +22,12 @@ export const registerFormState = {
   },
 };
 
+export const reviewStatsState = {
+  avgRating: 0,
+  totalReviews: 0,
+  curUserReviewed: false,
+};
+
 export const resetPasswordFormState = {
   password: { name: 'password', value: '', error: '', type: 'password' },
   confirmPassword: {

@@ -11,7 +11,7 @@ const StudySet = ({ data }: IStudySetProps) => {
   const navigate = useNavigate();
 
   const navigateToStudySet = () => {
-    navigate(`/studysets/${data.id}`);
+    navigate(`/studysets/${data.id}`, { state: { title: data.title } });
   };
 
   return (
@@ -51,13 +51,7 @@ const StudySet = ({ data }: IStudySetProps) => {
         </Flex>
       </Box>
       <Flex align="center">
-        <UserAvatar
-          avatarUrl={data.avatarUrl}
-          fullName={data.fullName}
-          width="22px"
-          height="22px"
-          fontSize="1rem"
-        />
+        <UserAvatar avatarUrl={data.avatarUrl} fullName={data.fullName} width="22px" height="22px" fontSize="1rem" />
         <Box ml="0.5rem">
           <Text>{data.fullName}</Text>
         </Box>
