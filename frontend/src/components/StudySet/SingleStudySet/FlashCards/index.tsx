@@ -23,6 +23,7 @@ const FlashCards = ({ studySetCards, handleMenuItemClick }: IFlashCardsProps) =>
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [isHintShowing, setIsHintShowing] = useState(false);
 
   const fullScreenWidth = isFullScreen ? ['95%', '95%', '100%'] : ['95%', '95%', '550px'];
 
@@ -36,9 +37,14 @@ const FlashCards = ({ studySetCards, handleMenuItemClick }: IFlashCardsProps) =>
     setProgress(progressWidth);
   }, [progressWidth]);
 
+  const handleSetHintShowing = () => {
+    setIsHintShowing((prevState) => !prevState);
+  };
+
   const onNextCard = () => {
     setIsRotated(false);
     setActionClicked(true);
+    setIsHintShowing(false);
 
     if (currentIndex < studySetCards.length - 1) {
       setProgress((prevState) => prevState + progressWidth);
@@ -52,6 +58,7 @@ const FlashCards = ({ studySetCards, handleMenuItemClick }: IFlashCardsProps) =>
   const onPrevCard = () => {
     setIsRotated(false);
     setActionClicked(true);
+    setIsHintShowing(false);
 
     if (currentIndex === 0) {
       setCurrentIndex(studySetCards.length - 1);
@@ -107,6 +114,8 @@ const FlashCards = ({ studySetCards, handleMenuItemClick }: IFlashCardsProps) =>
             isRotated={isRotated}
             studySetCard={studySetCards[currentIndex]}
             isFullScreen={isFullScreen}
+            handleSetHintShowing={handleSetHintShowing}
+            isHintShowing={isHintShowing}
           />
           {isPlaying && (
             <Box borderRadius={8} my="1.5rem" color="#fff" bg="bg.primary" p="0.5rem">
