@@ -18,10 +18,11 @@ const StreakCounter = () => {
   const ONE_WEEK = 7;
 
   const days = useMemo(() => {
+    const ONE_DAY_MILLIS = 86400000;
     if (streaks.length) {
       let startOfWeekNum = dayjs(streaks[0].createdAt);
       const endOfWeekNum = dayjs(startOfWeekNum).add(ONE_WEEK - 1, 'day');
-      let days: { name: string; day: number; isStreaked: boolean }[] = [];
+      let days: { name: string; day: number; isStreaked: boolean; createdAt: Date }[] = [];
       let loopCounter = 0;
 
       while (!startOfWeekNum.isSame(endOfWeekNum)) {
@@ -32,24 +33,18 @@ const StreakCounter = () => {
           name: startOfWeekNum.format('ddd'),
           day: startOfWeekNum.date(),
           isStreaked: false,
+          createdAt: startOfWeekNum.toDate(),
         });
         loopCounter++;
       }
-
-      days = days
-        .map((day) => {
-          if (streaks.map(({ day }) => day).includes(day.day)) {
-            day.isStreaked = true;
+      days = days.map((d, i) => {
+        if (streaks.map(({ day }) => day).includes(d.day)) {
+          if (dayjs(d.createdAt).diff(dayjs(days[i - 1]?.createdAt, 'day')) >= ONE_DAY_MILLIS || i === 0) {
+            d.isStreaked = true;
           }
-          return day;
-        })
-        .map((day, index, arr) => {
-          if (!arr[index - 1]?.isStreaked && arr[index].isStreaked && !arr[index + 1].isStreaked) {
-            day.isStreaked = false;
-          }
-          return day;
-        });
-
+        }
+        return d;
+      });
       return days;
     }
   }, [streaks]);
