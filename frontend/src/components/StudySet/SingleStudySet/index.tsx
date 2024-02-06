@@ -66,6 +66,10 @@ const SingleStudySet = ({ studySetId }: ISingleStudySetProps) => {
     setSelectedMenuItem(clickedMenuItem);
     let updatedStudySetCards: IStudySetCardFull[] = [];
     switch (clickedMenuItem) {
+      case 'Sort':
+        const sortedCards = [...studySetCards];
+        updatedStudySetCards = sortedCards.sort(() => Math.random() - 0.5);
+        break;
       case 'Alphabetical':
         const alphabeticalStudySetCards = [...studySetCards];
         updatedStudySetCards = alphabeticalStudySetCards.sort((a, b) => a.term.localeCompare(b.term));
@@ -88,7 +92,7 @@ const SingleStudySet = ({ studySetId }: ISingleStudySetProps) => {
           <Reviews studySetId={studySetId} studySetTitle={location.state.title} />
         </Box>
         <Box my="2rem">
-          <FlashCards studySetCards={filteredStudySetCards} />
+          <FlashCards handleMenuItemClick={handleMenuItemClick} studySetCards={filteredStudySetCards} />
         </Box>
         <Box my="2rem">
           <Main studySetId={studySetId} />

@@ -3,16 +3,17 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { IStudySetCardFull } from '../../../../interfaces';
 import { FaRegArrowAltCircleLeft, FaRegArrowAltCircleRight } from 'react-icons/fa';
 import { MdFullscreenExit, MdFullscreen } from 'react-icons/md';
-import { IoPlayCircleOutline, IoPauseCircleOutline } from 'react-icons/io5';
+import { IoPlayCircleOutline, IoPauseCircleOutline, IoShuffleSharp } from 'react-icons/io5';
 
 import TextToSpeech from '../TextToSpeech';
 import Card from './Card';
 
 export interface IFlashCardsProps {
   studySetCards: IStudySetCardFull[];
+  handleMenuItemClick: (clickedMenuItem: string) => void;
 }
 
-const FlashCards = ({ studySetCards }: IFlashCardsProps) => {
+const FlashCards = ({ studySetCards, handleMenuItemClick }: IFlashCardsProps) => {
   const intervalID = useRef<any>(null);
   const innerIntervalID = useRef<any>(null);
   const [actionClicked, setActionClicked] = useState(false);
@@ -119,7 +120,7 @@ const FlashCards = ({ studySetCards }: IFlashCardsProps) => {
           </Box>
           {/*Controls*/}
           <Flex color="#fff" justify="space-between" my="1.5rem" align="center">
-            <Box>
+            <Flex align="center">
               <Tooltip label={isPlaying ? 'Pause' : 'Play'}>
                 {isPlaying ? (
                   <Box
@@ -145,7 +146,12 @@ const FlashCards = ({ studySetCards }: IFlashCardsProps) => {
                   </Box>
                 )}
               </Tooltip>
-            </Box>
+              <Tooltip label="Shuffle cards">
+                <Box onClick={() => handleMenuItemClick('Sort')} color="#fff" ml="1rem" cursor="pointer">
+                  <IoShuffleSharp fontSize="1.8rem" />
+                </Box>
+              </Tooltip>
+            </Flex>
 
             <Flex justify="center" align="center">
               <Box mx="1.5rem" fontSize="3rem" cursor="pointer" onClick={onPrevCard}>
