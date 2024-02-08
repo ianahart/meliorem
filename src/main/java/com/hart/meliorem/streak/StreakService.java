@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.Calendar;
 import java.util.List;
 
 import com.hart.meliorem.advice.BadRequestException;
@@ -71,11 +72,6 @@ public class StreakService {
 
         Timestamp oneWeekAgo = this.dateTimeService.getDateTimeWeekAgo();
         Timestamp now = Timestamp.from(Instant.now());
-        // int page = 0;
-        // int pageSize = 7;
-
-        // Pageable pageable = PageRequest.of(page, pageSize,
-        // Sort.by("createdAt").ascending());
         List<StreakDto> streaks = this.streakRepository.findAllStreaksByUserId(userId, oneWeekAgo, now);
 
         return streaks;

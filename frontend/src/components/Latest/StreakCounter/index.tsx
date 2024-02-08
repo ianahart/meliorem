@@ -20,6 +20,7 @@ const StreakCounter = () => {
   const days = useMemo(() => {
     const ONE_DAY_MILLIS = 86400000;
     if (streaks.length) {
+            console.log(streaks)
       let startOfWeekNum = dayjs(streaks[0].createdAt);
       const endOfWeekNum = dayjs(startOfWeekNum).add(ONE_WEEK - 1, 'day');
       let days: { name: string; day: number; isStreaked: boolean; createdAt: Date }[] = [];
@@ -39,6 +40,7 @@ const StreakCounter = () => {
       }
       days = days.map((d, i) => {
         if (streaks.map(({ day }) => day).includes(d.day)) {
+          //console.log(dayjs(d.createdAt).diff(dayjs(days[i - 1]?.createdAt, 'day')), d);
           if (dayjs(d.createdAt).diff(dayjs(days[i - 1]?.createdAt, 'day')) >= ONE_DAY_MILLIS || i === 0) {
             d.isStreaked = true;
           }

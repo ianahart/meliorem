@@ -55,7 +55,7 @@ public class DateTimeService {
 
     public Timestamp getDateTimeWeekAgo() {
         LocalDate now = LocalDate.now();
-        LocalDate weekStart = now.minusDays(7);
+        LocalDate weekStart = now.minusDays(6);
 
         Timestamp timestamp = Timestamp.valueOf(weekStart.atStartOfDay());
 
