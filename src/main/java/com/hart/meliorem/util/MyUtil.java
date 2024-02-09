@@ -1,10 +1,6 @@
 package com.hart.meliorem.util;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
-import java.sql.Timestamp;
-import java.time.Instant;
-import java.util.ArrayList;
 
 public final class MyUtil {
 
@@ -41,4 +37,13 @@ public final class MyUtil {
         return cases.stream().allMatch(c -> c);
     }
 
+    public static String deslugify(String str) {
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < str.length(); i++) {
+            sb.append(str.charAt(i) == '-' ? ' ' : str.charAt(i));
+        }
+
+        return sb.toString();
+    }
 }

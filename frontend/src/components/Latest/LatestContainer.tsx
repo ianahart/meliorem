@@ -6,7 +6,7 @@ interface ILatestContainerProps {
 
 const LatestContainer = ({ children }: ILatestContainerProps) => {
   return (
-    <Box as="section" w="100%" maxW="960px" mx="auto" minH="100vh">
+    <Box p="0.5rem" as="section" w="100%" maxW="960px" mx="auto" minH="100vh">
       {children}
     </Box>
   );

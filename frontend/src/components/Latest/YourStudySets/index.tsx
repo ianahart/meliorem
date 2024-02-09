@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, chakra, shouldForwardProp } from '@chakra-ui/react';
+import { useMediaQuery, Box, Flex, Heading, chakra, shouldForwardProp } from '@chakra-ui/react';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { UserContext } from '../../../context/user';
 import { IStudySet, IUserContext } from '../../../interfaces';
@@ -15,6 +15,7 @@ const MotionBox = chakra(motion.div, {
 const YourStudySets = () => {
   const { user } = useContext(UserContext) as IUserContext;
   const [studySets, setStudySets] = useState<IStudySet[]>([]);
+  const [isMobile] = useMediaQuery('(max-width: 600px)');
   const shouldRun = useRef(true);
   const [isMouseOver, setIsMouseOver] = useState(false);
   const [seconds, setSeconds] = useState(0);
@@ -26,13 +27,20 @@ const YourStudySets = () => {
     totalElements: 0,
   });
 
+  useEffect(() => {
+    if (isMobile) {
+      setIsMouseOver(true);
+    } else {
+      setIsMouseOver(false);
+    }
+  }, [isMobile]);
+
   const getYourStudySets = (paginate: boolean, dir: string) => {
     const pageNum = paginate ? pagination.page : -1;
 
     Client.getStudySets(user.id, pageNum, pagination.pageSize, dir)
       .then((res) => {
-        const { direction, totalElements, totalPages, page, pageSize, items } =
-          res.data.data;
+        const { direction, totalElements, totalPages, page, pageSize, items } = res.data.data;
         setPagination({
           ...pagination,
           direction,
@@ -67,7 +75,13 @@ const YourStudySets = () => {
   };
 
   return (
-    <Box as="section">
+    <Box
+      display="flex"
+      flexDir="column"
+      justifyContent="center"
+      alignItems={['center', 'center', 'flex-start']}
+      as="section"
+    >
       <Box display="flex" flexDir="column" alignItems="flex-start">
         <Heading as="h2" fontSize="2rem" color="#fff">
           Your study sets
