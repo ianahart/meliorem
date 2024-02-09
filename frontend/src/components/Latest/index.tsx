@@ -3,6 +3,7 @@ import LatestContainer from './LatestContainer';
 import YourStudySets from './YourStudySets';
 import AllStudySets from './AllStudySets';
 import StreakCounter from './StreakCounter';
+import Folders from './Folders';
 
 const Latest = () => {
   return (
@@ -15,6 +16,9 @@ const Latest = () => {
       </Box>
       <Box ml="1rem" my="2rem" as="section">
         <StreakCounter />
+      </Box>
+      <Box my="2rem" as="section">
+        <Folders />
       </Box>
     </LatestContainer>
   );

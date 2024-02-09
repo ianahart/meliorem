@@ -26,3 +26,12 @@ export const elipsisize = (word: string, charLength: number) => {
   }
   return elipsisized;
 };
+
+export const deslugify = (str: string) => {
+  let deSlugifiedStr = '';
+
+  for (const char of str) {
+    deSlugifiedStr += char === '-' ? ' ' : char;
+  }
+  return deSlugifiedStr;
+};

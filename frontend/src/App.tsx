@@ -26,6 +26,7 @@ import ResetPasswordRoute from './routes/ResetPasswordRoute';
 import SingleStudySetRoute from './routes/SingleStudySetRoute';
 import NotFoundRoute from './routes/NotFoundRoute';
 import EditStudySetRoute from './routes/EditStudySetRoute';
+import FolderRoute from './routes/FolderRoute';
 
 function App() {
   const { updateUser, stowTokens } = useContext(UserContext) as IUserContext;
@@ -158,6 +159,14 @@ function App() {
                 element={
                   <RequireAuth>
                     <EditStudySetRoute />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/folders/:folder"
+                element={
+                  <RequireAuth>
+                    <FolderRoute />
                   </RequireAuth>
                 }
               />

@@ -75,15 +75,8 @@ const StreakCounter = () => {
   }, [shouldRun.current, user.id]);
 
   return (
-    <Box
-      minH="120px"
-      bg="form.primary"
-      width={['95%', '95%', '60%']}
-      mx={['auto', 'auto', 'unset']}
-      ml="1rem"
-      borderRadius={8}
-    >
-      <Flex justify="space-around" align="center" minH="120px">
+    <Box p="0.5rem" minH="120px" bg="form.primary" width={['95%', '95%', '60%']} borderRadius={8}>
+      <Flex justify="space-between" align="center" minH="120px">
         <Box>
           <Box position="relative">
             <Image src={fireImg} alt="a fire emoji flame" />

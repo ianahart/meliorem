@@ -7,6 +7,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.hart.meliorem.advice.NotFoundException;
@@ -23,6 +24,7 @@ import com.hart.meliorem.studysetcard.StudySetCardService;
 import com.hart.meliorem.studysetcard.dto.StudySetCardFullDto;
 import com.hart.meliorem.user.User;
 import com.hart.meliorem.user.UserService;
+import com.hart.meliorem.util.MyUtil;
 
 @Service
 public class StudySetService {
@@ -77,7 +79,7 @@ public class StudySetService {
 
         Pageable pageable = this.paginationService.getPageable(page, limit, direction);
 
-        Page<String> result = this.studySetRepository.findAllDistinctFoldersByUserId(userId,
+        Page<String> result = this.studySetRepository.findAllDistinctFoldersByUserIdAndQuery(userId,
                 Jsoup.clean(query.toLowerCase(), Safelist.none()),
                 pageable);
 
@@ -90,11 +92,32 @@ public class StudySetService {
         return studySetFolders;
     }
 
-    public PaginationDto<StudySetDto> getStudySets(Long userId, int page, int pageSize, String direction) {
-        Pageable pageable = this.paginationService.getPageable(page, pageSize, direction);
+    private Page<StudySetDto> delegateGetStudySets(Page<StudySetDto> result, Long userId, String folder,
+            Pageable pageable) {
+        if (userId == 0) {
 
-        Page<StudySetDto> result = userId == 0 ? this.studySetRepository.findAllStudySets(pageable)
-                : this.studySetRepository.findAllStudySetsByUserId(userId, pageable);
+            result = this.studySetRepository.findAllStudySets(pageable);
+        } else if (userId != 0 && folder == null) {
+
+            result = this.studySetRepository.findAllStudySetsByUserId(userId, pageable);
+        } else if (userId != 0 && folder != null) {
+
+            String deslugifiedFolderName = MyUtil.deslugify(folder);
+            result = this.studySetRepository.findAllStudySetsByUserIdAndFolder(userId, pageable,
+                    deslugifiedFolderName.toLowerCase());
+        }
+        return result;
+
+    }
+
+    public PaginationDto<StudySetDto> getStudySets(Long userId, int page, int pageSize, String direction,
+            String folder) {
+        Pageable pageable = this.paginationService.getPageable(page, pageSize, direction);
+        List<StudySetDto> list = new ArrayList<>();
+
+        Page<StudySetDto> result = new PageImpl<StudySetDto>(list, pageable, list.size());
+
+        result = delegateGetStudySets(result, userId, folder, pageable);
 
         for (StudySetDto studySet : result.getContent()) {
             studySet.setTotalStudySetCards(this.studySetCardService.countStudySetCards(studySet.getId()));
@@ -166,5 +189,29 @@ public class StudySetService {
         }
 
         this.studySetRepository.delete(studySet);
+    }
+
+    public PaginationDto<StudySetFolderDto> getDistinctFolders(int page, int pageSize, String direction) {
+        Long userId = this.userService.getCurrentlyLoggedInUser().getId();
+
+        Pageable pageable = this.paginationService.getPageable(page, pageSize, direction);
+
+        Page<String> result = this.studySetRepository.findAllDistinctFoldersByUserId(userId,
+                pageable);
+
+        List<StudySetFolderDto> studySetFolders = new ArrayList<>();
+
+        for (String studySetFolder : result.getContent()) {
+            studySetFolders.add(new StudySetFolderDto(studySetFolder));
+        }
+
+        return new PaginationDto<StudySetFolderDto>(
+                studySetFolders,
+                result.getNumber(),
+                pageSize,
+                result.getTotalPages(),
+                direction,
+                result.getTotalElements());
+
     }
 }

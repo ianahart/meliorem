@@ -18,6 +18,7 @@ import com.hart.meliorem.studyset.response.CreateStudySetResponse;
 import com.hart.meliorem.studyset.response.DeleteStudySetResponse;
 import com.hart.meliorem.studyset.response.EditStudySetResponse;
 import com.hart.meliorem.studyset.response.GetAllStudySetResponse;
+import com.hart.meliorem.studyset.response.GetStudySetDistinctFolderResponse;
 import com.hart.meliorem.studyset.response.GetStudySetFolderResponse;
 import com.hart.meliorem.studyset.response.GetStudySetPopulateResponse;
 import com.hart.meliorem.studyset.response.GetStudySetResponse;
@@ -42,7 +43,7 @@ public class StudySetController {
         return ResponseEntity.status(HttpStatus.CREATED).body(new CreateStudySetResponse("success"));
     }
 
-    @GetMapping("/folders")
+    @GetMapping("/folder-names")
     ResponseEntity<GetStudySetFolderResponse> getStudySetFolders(@RequestParam("query") String query,
             @RequestParam("limit") int limit, @RequestParam("page") int page,
             @RequestParam("direction") String direction) {
@@ -56,12 +57,16 @@ public class StudySetController {
             @RequestParam("userId") Long userId,
             @RequestParam("page") int page,
             @RequestParam("pageSize") int pageSize,
-            @RequestParam("direction") String direction) {
+            @RequestParam("direction") String direction,
+            @RequestParam(value = "folder", required = false) String folder) {
 
+        if (folder.trim().length() == 0) {
+            folder = null;
+        }
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(new GetAllStudySetResponse("success",
-                        this.studySetService.getStudySets(userId, page, pageSize, direction)));
+                        this.studySetService.getStudySets(userId, page, pageSize, direction, folder)));
     }
 
     @GetMapping("/{studySetId}")
@@ -97,5 +102,13 @@ public class StudySetController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(new DeleteStudySetResponse("success"));
+    }
+
+    @GetMapping("/folders")
+    ResponseEntity<GetStudySetDistinctFolderResponse> getDistinctFolders(@RequestParam("page") int page,
+            @RequestParam("pageSize") int pageSize, @RequestParam("direction") String direction) {
+
+        return ResponseEntity.status(HttpStatus.OK).body(new GetStudySetDistinctFolderResponse("success",
+                this.studySetService.getDistinctFolders(page, pageSize, direction)));
     }
 }

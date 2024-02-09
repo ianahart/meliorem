@@ -62,7 +62,7 @@ export const Client = {
   },
 
   getStudySetFolders: (query: string, limit: number, page: number, direction: string) => {
-    return http.get(`/studysets/folders?query=${query}&limit=${limit}&page=${page}&direction=${direction}`);
+    return http.get(`/studysets/folder-names?query=${query}&limit=${limit}&page=${page}&direction=${direction}`);
   },
 
   getProfile: (profileId: number) => {
@@ -90,8 +90,10 @@ export const Client = {
     return http.delete(`users/${userId}`);
   },
 
-  getStudySets: (userId: number = 0, page: number, pageSize: number, direction: string) => {
-    return http.get(`/studysets?userId=${userId}&page=${page}&pageSize=${pageSize}&direction=${direction}`);
+  getStudySets: (userId: number = 0, page: number, pageSize: number, direction: string, folder: string = '') => {
+    return http.get(
+      `/studysets?userId=${userId}&page=${page}&pageSize=${pageSize}&direction=${direction}&folder=${folder}`
+    );
   },
 
   createStreak: (studySetId: number) => {
@@ -141,5 +143,9 @@ export const Client = {
 
   getReviewStats: (studySetId: number) => {
     return http.get(`/reviews/stats?studySetId=${studySetId}`);
+  },
+
+  getUserFolders: (page: number, pageSize: number, direction: string) => {
+    return http.get(`studysets/folders?page=${page}&pageSize=${pageSize}&direction=${direction}`);
   },
 };
