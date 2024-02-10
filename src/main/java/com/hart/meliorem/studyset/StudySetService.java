@@ -1,6 +1,7 @@
 package com.hart.meliorem.studyset;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.ArrayList;
 
 import org.jsoup.Jsoup;
@@ -11,6 +12,8 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.hart.meliorem.advice.NotFoundException;
+import com.hart.meliorem.bookmark.BookMark;
+import com.hart.meliorem.bookmark.dto.BookMarkDto;
 import com.hart.meliorem.advice.BadRequestException;
 import com.hart.meliorem.advice.ForbiddenException;
 import com.hart.meliorem.pagination.PaginationService;
@@ -133,13 +136,26 @@ public class StudySetService {
 
     }
 
+    private void attachBookMark(StudySetDto studySet, User user) {
+        Optional<BookMark> bookMark = user.getBookMarks().stream()
+                .filter(bm -> bm.getStudySet().getId() == studySet.getId())
+                .findFirst();
+        if (bookMark.isPresent()) {
+            studySet.setBookMark(new BookMarkDto(bookMark.get().getId(), true));
+        }
+    }
+
     public StudySetDto getStudySet(Long studySetId) {
+
+        User user = this.userService.getCurrentlyLoggedInUser();
 
         if (studySetId == null) {
             throw new BadRequestException("Missing resouce id");
         }
 
         StudySetDto studySet = this.studySetRepository.findStudySetById(studySetId);
+
+        attachBookMark(studySet, user);
 
         if (studySet == null) {
             throw new NotFoundException("A study set with the id " + studySetId + " was not found");

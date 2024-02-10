@@ -171,6 +171,10 @@ export const studySetState = {
   totalStudySetCards: 0,
   userId: 0,
   visibility: '',
+  bookMark: {
+    id: 0,
+    isBookMarked: false,
+  },
 };
 
 export const studySetCardFullState = {

@@ -148,4 +148,12 @@ export const Client = {
   getUserFolders: (page: number, pageSize: number, direction: string) => {
     return http.get(`studysets/folders?page=${page}&pageSize=${pageSize}&direction=${direction}`);
   },
+
+  createBookMark: (studySetId: number) => {
+    return http.post('/bookmarks', { studySetId });
+  },
+
+  deleteBookMark: (bookMarkId: number) => {
+    return http.delete(`bookmarks/${bookMarkId}`);
+  },
 };

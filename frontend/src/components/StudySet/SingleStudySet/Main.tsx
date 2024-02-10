@@ -16,6 +16,13 @@ const Main = ({ studySetId }: IMainProps) => {
   const shouldRun = useRef(true);
   const navigate = useNavigate();
 
+  const handleOnBookMark = (isBookMarked: boolean, id: number) => {
+    setStudySet((prevState) => ({
+      ...prevState,
+      bookMark: { ...prevState['bookMark'], isBookMarked, id },
+    }));
+  };
+
   const getStudySet = () => {
     Client.getStudySet(studySetId)
       .then((res) => {
@@ -55,7 +62,7 @@ const Main = ({ studySetId }: IMainProps) => {
             </Text>
           </Box>
         </Flex>
-        <StudySetOptions studySet={studySet} />
+        <StudySetOptions studySet={studySet} handleOnBookMark={handleOnBookMark} />
       </Flex>
       <Box my="1.5rem">
         <Text fontWeight="bold" my="0.5rem">

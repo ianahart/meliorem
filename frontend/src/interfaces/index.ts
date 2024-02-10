@@ -27,6 +27,7 @@ export interface IStudySet {
   userId: number;
   visibility: string;
   fullName: string;
+  bookMark: { id: number; isBookMarked: boolean };
 }
 
 export interface IColor {
