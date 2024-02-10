@@ -156,4 +156,8 @@ export const Client = {
   deleteBookMark: (bookMarkId: number) => {
     return http.delete(`bookmarks/${bookMarkId}`);
   },
+
+  getBookMarks: (userId: number, page: number, pageSize: number, direction: string) => {
+    return http.get(`/bookmarks?userId=${userId}&page=${page}&pageSize=${pageSize}&direction=${direction}`);
+  },
 };

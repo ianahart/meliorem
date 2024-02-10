@@ -7,6 +7,7 @@ import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import { Client } from '../../../util/client';
 import StudySets from '../StudySets';
 import { AnimatePresence, isValidMotionProp, motion } from 'framer-motion';
+import BasicSpinner from '../../Shared/BasicSpinner';
 
 const MotionBox = chakra(motion.div, {
   shouldForwardProp: (prop) => isValidMotionProp(prop) || shouldForwardProp(prop),
@@ -18,6 +19,7 @@ const YourStudySets = () => {
   const [isMobile] = useMediaQuery('(max-width: 600px)');
   const shouldRun = useRef(true);
   const [isMouseOver, setIsMouseOver] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [seconds, setSeconds] = useState(0);
   const [pagination, setPagination] = useState({
     page: 0,
@@ -37,7 +39,7 @@ const YourStudySets = () => {
 
   const getYourStudySets = (paginate: boolean, dir: string) => {
     const pageNum = paginate ? pagination.page : -1;
-
+    setIsLoading(true);
     Client.getStudySets(user.id, pageNum, pagination.pageSize, dir)
       .then((res) => {
         const { direction, totalElements, totalPages, page, pageSize, items } = res.data.data;
@@ -53,8 +55,10 @@ const YourStudySets = () => {
         if (paginate) {
           setSeconds(Math.random());
         }
+        setIsLoading(false);
       })
       .catch((err) => {
+        setIsLoading(false);
         throw new Error(err);
       });
   };
@@ -120,7 +124,11 @@ const YourStudySets = () => {
               animate={{ opacity: 1, x: 0, transition: { duration: 0.5 } }}
               exit={{ x: 100, opacity: 0 }}
             >
-              <StudySets data={studySets} />
+              {!isLoading ? (
+                <StudySets isBookMarked={true} data={studySets} />
+              ) : (
+                <BasicSpinner color="#fff" message="Loading your study sets..." />
+              )}
             </MotionBox>
           </AnimatePresence>
 

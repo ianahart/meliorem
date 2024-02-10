@@ -2,12 +2,14 @@ import { IStudySet } from '../../interfaces';
 import { Flex, Text, Box, Heading } from '@chakra-ui/react';
 import UserAvatar from '../Shared/UserAvatar';
 import { useNavigate } from 'react-router-dom';
+import { BsFillBookmarkFill } from 'react-icons/bs';
 
 interface IStudySetProps {
   data: IStudySet;
+  isBookMarked: boolean;
 }
 
-const StudySet = ({ data }: IStudySetProps) => {
+const StudySet = ({ data, isBookMarked }: IStudySetProps) => {
   const navigate = useNavigate();
 
   const navigateToStudySet = () => {
@@ -34,9 +36,16 @@ const StudySet = ({ data }: IStudySetProps) => {
       _hover={{ borderBottomColor: 'primary.dark' }}
     >
       <Box>
-        <Heading as="h4" fontSize="1.2rem" overflowWrap="break-word">
-          {data.title}
-        </Heading>
+        <Flex align="center" justify="space-between">
+          <Heading as="h4" fontSize="1.2rem" overflowWrap="break-word">
+            {data.title}
+          </Heading>
+          {isBookMarked && (
+            <Box color="gold">
+              <BsFillBookmarkFill />
+            </Box>
+          )}
+        </Flex>
         <Flex
           mt="0.5rem"
           flexDir="column"

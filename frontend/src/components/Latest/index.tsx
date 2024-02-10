@@ -4,6 +4,7 @@ import YourStudySets from './YourStudySets';
 import AllStudySets from './AllStudySets';
 import StreakCounter from './StreakCounter';
 import Folders from './Folders';
+import BookMarks from './BookMarks';
 
 const Latest = () => {
   return (
@@ -13,6 +14,9 @@ const Latest = () => {
       </Box>
       <Box my="2rem" as="section">
         <AllStudySets />
+      </Box>
+      <Box my="2rem" as="section">
+        <BookMarks />
       </Box>
       <Box ml="1rem" my="2rem" as="section">
         <StreakCounter />
