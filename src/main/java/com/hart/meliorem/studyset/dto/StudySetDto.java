@@ -2,6 +2,7 @@ package com.hart.meliorem.studyset.dto;
 
 import java.sql.Timestamp;
 
+import com.hart.meliorem.bookmark.dto.BookMarkDto;
 import com.hart.meliorem.studyset.Visibility;
 
 public class StudySetDto {
@@ -29,6 +30,8 @@ public class StudySetDto {
     private String fullName;
 
     private long totalStudySetCards;
+
+    private BookMarkDto bookMark;
 
     public StudySetDto() {
 
@@ -89,6 +92,10 @@ public class StudySetDto {
 
     public String getSchoolName() {
         return schoolName;
+    }
+
+    public BookMarkDto getBookMark() {
+        return bookMark;
     }
 
     public String getAvatarUrl() {
@@ -153,6 +160,10 @@ public class StudySetDto {
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
+    }
+
+    public void setBookMark(BookMarkDto bookMark) {
+        this.bookMark = bookMark;
     }
 
 }

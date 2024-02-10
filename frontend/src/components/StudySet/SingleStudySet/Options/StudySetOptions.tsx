@@ -5,16 +5,19 @@ import { UserContext } from '../../../../context/user';
 import StudySetShareOption from './StudySetShareOption';
 import StudySetEditOption from './StudySetEditOption';
 import StudySetMiscOption from './StudySetMiscOption';
+import StudySetBookmarkOption from './StudySetBookmarkOption';
 
 export interface IStudySetOptionsProps {
   studySet: IStudySet;
+  handleOnBookMark: (isBookMarked: boolean, id: number) => void;
 }
 
-const StudySetOptions = ({ studySet }: IStudySetOptionsProps) => {
+const StudySetOptions = ({ studySet, handleOnBookMark }: IStudySetOptionsProps) => {
   const { user } = useContext(UserContext) as IUserContext;
 
   return (
     <Flex align="center" justify="space-around">
+      <StudySetBookmarkOption studySet={studySet} handleOnBookMark={handleOnBookMark} />
       <StudySetShareOption />
       {user.id === studySet.userId && <StudySetEditOption studySetId={studySet.id} />}
       <StudySetMiscOption studySet={studySet} />
