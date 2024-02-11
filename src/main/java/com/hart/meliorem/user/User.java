@@ -7,6 +7,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.hart.meliorem.bookmark.BookMark;
+import com.hart.meliorem.note.Note;
 import com.hart.meliorem.passwordreset.PasswordReset;
 import com.hart.meliorem.profile.Profile;
 import com.hart.meliorem.refreshtoken.RefreshToken;
@@ -117,6 +118,9 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BookMark> bookMarks;
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Note> notes;
+
     public User() {
 
     }
@@ -170,6 +174,10 @@ public class User implements UserDetails {
 
     public String getSlug() {
         return (firstName + lastName).toLowerCase();
+    }
+
+    public List<Note> getNotes() {
+        return notes;
     }
 
     public List<BookMark> getBookMarks() {
@@ -303,6 +311,10 @@ public class User implements UserDetails {
 
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public void setNotes(List<Note> notes) {
+        this.notes = notes;
     }
 
     public void setFirstName(String firstName) {

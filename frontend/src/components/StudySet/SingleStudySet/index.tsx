@@ -7,6 +7,7 @@ import FlashCards from './FlashCards';
 import { IStudySetCardFull } from '../../../interfaces';
 import { useLocation } from 'react-router-dom';
 import Reviews from './Reviews';
+import Notes from './Notes';
 
 interface ISingleStudySetProps {
   studySetId: number;
@@ -106,6 +107,9 @@ const SingleStudySet = ({ studySetId }: ISingleStudySetProps) => {
             handleMenuItemClick={handleMenuItemClick}
             selectedMenuItem={selectedMenuItem}
           />
+        </Box>
+        <Box my="2rem">
+          <Notes studySetId={studySetId} />
         </Box>
       </Box>
     </Box>

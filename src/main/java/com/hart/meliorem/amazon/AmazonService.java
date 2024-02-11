@@ -1,7 +1,6 @@
 package com.hart.meliorem.amazon;
 
 import java.util.HashMap;
-import java.util.ArrayList;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -10,8 +9,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
 
-import com.amazonaws.services.s3.model.DeleteObjectsRequest;
 import com.hart.meliorem.advice.BadRequestException;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
 
 import jakarta.annotation.PostConstruct;
 import software.amazon.awssdk.regions.Region;
@@ -19,11 +19,10 @@ import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.core.sync.RequestBody;
-import software.amazon.awssdk.services.s3.model.Delete;
 import software.amazon.awssdk.services.s3.model.GetUrlRequest;
-import software.amazon.awssdk.services.s3.model.ObjectIdentifier;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.services.s3.model.S3Exception;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -141,4 +140,34 @@ public class AmazonService {
         System.out.println("Done!");
 
     }
+
+    public HashMap<String, String> putS3Pdf(String bucketName, String objectKey, Document pdfDocument)
+            throws S3Exception, IOException, DocumentException {
+        try {
+
+            File outputPdf = new File(objectKey);
+
+            String filename = createFilename("meliorem/", objectKey);
+            PutObjectRequest putOb = PutObjectRequest.builder()
+                    .bucket(bucketName)
+                    .acl("public-read")
+                    .key(filename)
+                    .build();
+
+            this.s3Client.putObject(putOb, RequestBody.fromFile(outputPdf));
+
+            System.out.println("Successfully placed " + filename + " into bucket " + bucketName);
+            URL objectUrl = getURL(bucketName, filename);
+
+            outputPdf.delete();
+
+            return wrapContents(objectUrl.toString(), filename);
+
+        } catch (S3Exception e) {
+            System.err.println(e.getMessage());
+            System.exit(1);
+            throw new BadRequestException("Trouble uploading file to s3");
+        }
+    }
+
 }

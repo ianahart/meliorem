@@ -160,4 +160,11 @@ export const Client = {
   getBookMarks: (userId: number, page: number, pageSize: number, direction: string) => {
     return http.get(`/bookmarks?userId=${userId}&page=${page}&pageSize=${pageSize}&direction=${direction}`);
   },
+
+  createNotes: <T>(formData: T) => {
+    return http.post('/notes', formData);
+  },
+  getNotes: (studySetId: number) => {
+    return http.get(`/notes?studySetId=${studySetId}`);
+  },
 };
