@@ -125,7 +125,7 @@ const YourStudySets = () => {
               exit={{ x: 100, opacity: 0 }}
             >
               {!isLoading ? (
-                <StudySets isBookMarked={true} data={studySets} />
+                <StudySets isBookMarked={false} data={studySets} />
               ) : (
                 <BasicSpinner color="#fff" message="Loading your study sets..." />
               )}
