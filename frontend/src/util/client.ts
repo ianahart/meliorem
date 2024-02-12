@@ -167,4 +167,11 @@ export const Client = {
   getNotes: (studySetId: number) => {
     return http.get(`/notes?studySetId=${studySetId}`);
   },
+  createTopics: (topics: string[]) => {
+    return http.post('/topics', { topics });
+  },
+
+  getTopics: () => {
+    return http.get('/topics');
+  },
 };

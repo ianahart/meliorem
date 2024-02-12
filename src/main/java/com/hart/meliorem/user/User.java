@@ -17,6 +17,7 @@ import com.hart.meliorem.streak.Streak;
 import com.hart.meliorem.studyset.StudySet;
 import com.hart.meliorem.studysetcard.StudySetCard;
 import com.hart.meliorem.token.Token;
+import com.hart.meliorem.topic.Topic;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -121,6 +122,9 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Note> notes;
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Topic> topics;
+
     public User() {
 
     }
@@ -174,6 +178,10 @@ public class User implements UserDetails {
 
     public String getSlug() {
         return (firstName + lastName).toLowerCase();
+    }
+
+    public List<Topic> getTopics() {
+        return topics;
     }
 
     public List<Note> getNotes() {
@@ -275,6 +283,10 @@ public class User implements UserDetails {
 
     public void setProfile(Profile profile) {
         this.profile = profile;
+    }
+
+    public void setTopics(List<Topic> topics) {
+        this.topics = topics;
     }
 
     public void setSetting(Setting setting) {
