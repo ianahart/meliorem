@@ -13,6 +13,7 @@ import com.hart.meliorem.advice.ForbiddenException;
 import com.hart.meliorem.advice.NotFoundException;
 
 import com.hart.meliorem.amazon.AmazonService;
+import com.hart.meliorem.note.dto.NoteDto;
 import com.hart.meliorem.pdf.PdfService;
 import com.hart.meliorem.studyset.StudySet;
 import com.hart.meliorem.studyset.StudySetService;
@@ -97,6 +98,12 @@ public class NoteService {
     }
 
     public String getNotes(Long studySetId) {
-        return this.noteRepository.getNoteUrlByStudySetId(studySetId).getUrl();
+        NoteDto note = this.noteRepository.getNoteUrlByStudySetId(studySetId);
+
+        if (note == null) {
+            return "";
+        } else {
+            return note.getUrl();
+        }
     }
 }
