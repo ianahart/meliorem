@@ -51,7 +51,7 @@ const YourGroups = () => {
           </Heading>
         </Flex>
         <CreateGroup
-                    serverError={serverError}
+          serverError={serverError}
           isGroupCreated={isGroupCreated}
           handleSetIsGroupCreated={handleSetIsGroupCreated}
           handleCreateGroup={handleCreateGroup}
