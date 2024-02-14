@@ -3,9 +3,11 @@ package com.hart.meliorem.group;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import com.hart.meliorem.advice.NotFoundException;
 import com.hart.meliorem.group.dto.CreateGroupDto;
+import com.hart.meliorem.groupmember.GroupMemberService;
 import com.hart.meliorem.advice.BadRequestException;
 import com.hart.meliorem.user.User;
 import com.hart.meliorem.user.UserService;
@@ -17,12 +19,16 @@ public class GroupService {
 
     private final UserService userService;
 
+    private final GroupMemberService groupMemberService;
+
     @Autowired
     public GroupService(
             GroupRepository groupRepository,
-            UserService userService) {
+            UserService userService,
+            @Lazy GroupMemberService groupMemberService) {
         this.groupRepository = groupRepository;
         this.userService = userService;
+        this.groupMemberService = groupMemberService;
     }
 
     public Group findGroupByGroupId(Long groupId) {
@@ -47,6 +53,9 @@ public class GroupService {
         Group group = new Group(Jsoup.clean(name, Safelist.none()), user);
 
         this.groupRepository.save(group);
+
+        this.groupMemberService.createGroupMember(user.getId(), group.getId(), user.getId(), true);
+
         return new CreateGroupDto(group.getName(), group.getId(), group.getAdmin().getId());
     }
 }

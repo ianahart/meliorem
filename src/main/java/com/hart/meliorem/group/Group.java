@@ -1,19 +1,24 @@
 package com.hart.meliorem.group;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.hart.meliorem.groupmember.GroupMember;
 import com.hart.meliorem.user.User;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
@@ -42,6 +47,9 @@ public class Group {
     @JoinColumn(name = "admin_id", referencedColumnName = "id")
     private User admin;
 
+    @OneToMany(mappedBy = "group", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<GroupMember> groupMembers;
+
     public Group() {
 
     }
@@ -64,6 +72,10 @@ public class Group {
 
     public Long getId() {
         return id;
+    }
+
+    public List<GroupMember> getGroupMembers() {
+        return groupMembers;
     }
 
     public User getAdmin() {
@@ -100,5 +112,9 @@ public class Group {
 
     public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public void setGroupMembers(List<GroupMember> groupMembers) {
+        this.groupMembers = groupMembers;
     }
 }

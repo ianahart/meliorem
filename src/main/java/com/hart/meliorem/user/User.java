@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.hart.meliorem.bookmark.BookMark;
 import com.hart.meliorem.group.Group;
+import com.hart.meliorem.groupmember.GroupMember;
 import com.hart.meliorem.note.Note;
 import com.hart.meliorem.passwordreset.PasswordReset;
 import com.hart.meliorem.profile.Profile;
@@ -129,6 +130,12 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "admin", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Group> adminGroups;
 
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<GroupMember> groupMembers;
+
+    @OneToMany(mappedBy = "inviter", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<GroupMember> inviters;
+
     public User() {
 
     }
@@ -186,6 +193,14 @@ public class User implements UserDetails {
 
     public List<Topic> getTopics() {
         return topics;
+    }
+
+    public List<GroupMember> getInviters() {
+        return inviters;
+    }
+
+    public List<GroupMember> getGroupMembers() {
+        return groupMembers;
     }
 
     public List<Note> getNotes() {
@@ -275,6 +290,14 @@ public class User implements UserDetails {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public void setInviters(List<GroupMember> inviters) {
+        this.inviters = inviters;
+    }
+
+    public void setGroupMembers(List<GroupMember> groupMembers) {
+        this.groupMembers = groupMembers;
     }
 
     public void setAdminGroups(List<Group> adminGroups) {
