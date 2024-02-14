@@ -47,6 +47,6 @@ public class GroupService {
         Group group = new Group(Jsoup.clean(name, Safelist.none()), user);
 
         this.groupRepository.save(group);
-        return new CreateGroupDto(group.getName(), group.getId());
+        return new CreateGroupDto(group.getName(), group.getId(), group.getAdmin().getId());
     }
 }
