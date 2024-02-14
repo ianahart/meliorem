@@ -174,4 +174,8 @@ export const Client = {
   getTopics: () => {
     return http.get('/topics');
   },
+
+  createGroup: (userId: number, name: string) => {
+    return http.post('/groups', { userId, name });
+  },
 };
