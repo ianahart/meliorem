@@ -1,6 +1,6 @@
 package com.hart.meliorem.group.dto;
 
-public class CreateGroupDto {
+public class GroupDto {
 
     private String name;
 
@@ -8,11 +8,11 @@ public class CreateGroupDto {
 
     private Long adminId;
 
-    public CreateGroupDto() {
+    public GroupDto() {
 
     }
 
-    public CreateGroupDto(String name, Long id, Long adminId) {
+    public GroupDto(String name, Long id, Long adminId) {
         this.name = name;
         this.id = id;
         this.adminId = adminId;

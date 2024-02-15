@@ -4,10 +4,14 @@ import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.hart.meliorem.advice.NotFoundException;
-import com.hart.meliorem.group.dto.CreateGroupDto;
+import com.hart.meliorem.group.dto.GroupDto;
 import com.hart.meliorem.groupmember.GroupMemberService;
+import com.hart.meliorem.pagination.PaginationService;
+import com.hart.meliorem.pagination.dto.PaginationDto;
 import com.hart.meliorem.advice.BadRequestException;
 import com.hart.meliorem.user.User;
 import com.hart.meliorem.user.UserService;
@@ -21,14 +25,18 @@ public class GroupService {
 
     private final GroupMemberService groupMemberService;
 
+    private final PaginationService paginationService;
+
     @Autowired
     public GroupService(
             GroupRepository groupRepository,
             UserService userService,
-            @Lazy GroupMemberService groupMemberService) {
+            @Lazy GroupMemberService groupMemberService,
+            PaginationService paginationService) {
         this.groupRepository = groupRepository;
         this.userService = userService;
         this.groupMemberService = groupMemberService;
+        this.paginationService = paginationService;
     }
 
     public Group findGroupByGroupId(Long groupId) {
@@ -43,7 +51,7 @@ public class GroupService {
         return this.groupRepository.groupExistsByUserIdAndName(userId, name);
     }
 
-    public CreateGroupDto createGroup(String name) {
+    public GroupDto createGroup(String name) {
         User user = this.userService.getCurrentlyLoggedInUser();
 
         if (userAlreadyCreatedGroup(user.getId(), name)) {
@@ -56,6 +64,22 @@ public class GroupService {
 
         this.groupMemberService.createGroupMember(user.getId(), group.getId(), user.getId(), true);
 
-        return new CreateGroupDto(group.getName(), group.getId(), group.getAdmin().getId());
+        return new GroupDto(group.getName(), group.getId(), group.getAdmin().getId());
+    }
+
+    public PaginationDto<GroupDto> getGroups(int page, int pageSize, String direction, Long userId) {
+
+        Pageable pageable = this.paginationService.getPageable(page, pageSize, direction);
+
+        Page<GroupDto> result = this.groupMemberService.getGroupsForGroupMember(userId, pageable);
+
+        return new PaginationDto<GroupDto>(
+                result.getContent(),
+                result.getNumber(),
+                pageSize,
+                result.getTotalPages(),
+                direction,
+                result.getTotalElements());
+
     }
 }
