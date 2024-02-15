@@ -1,16 +1,26 @@
 package com.hart.meliorem.user;
 
 import java.security.Key;
+import java.util.List;
 import java.util.Optional;
 
 import com.hart.meliorem.advice.NotFoundException;
+import com.hart.meliorem.groupmember.GroupMemberService;
+import com.hart.meliorem.pagination.PaginationService;
+import com.hart.meliorem.pagination.dto.PaginationDto;
 import com.hart.meliorem.token.TokenService;
+import com.hart.meliorem.topic.TopicService;
+import com.hart.meliorem.topic.dto.TopicDto;
 import com.hart.meliorem.advice.BadRequestException;
 import com.hart.meliorem.advice.ForbiddenException;
+import com.hart.meliorem.user.dto.InviteeDto;
 import com.hart.meliorem.user.dto.UserDto;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -30,14 +40,23 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenService tokenService;
+    private final GroupMemberService groupMemberService;
+    private final PaginationService paginationService;
+    private final TopicService topicService;
 
     @Autowired
     public UserService(UserRepository userRepository,
             PasswordEncoder passwordEncoder,
-            TokenService tokenService) {
+            TokenService tokenService,
+            @Lazy GroupMemberService groupMemberService,
+            PaginationService paginationService,
+            @Lazy TopicService topicService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.tokenService = tokenService;
+        this.groupMemberService = groupMemberService;
+        this.paginationService = paginationService;
+        this.topicService = topicService;
     }
 
     public boolean userExistsByEmail(String email) {
@@ -137,4 +156,28 @@ public class UserService {
         this.userRepository.delete(user);
     }
 
+    private void attachUserTopics(List<InviteeDto> invitees) {
+        for (InviteeDto invitee : invitees) {
+            List<TopicDto> topics = this.topicService.getTopicsByUserId(invitee.getUserId());
+            invitee.setTopics(topics);
+        }
+    }
+
+    public PaginationDto<InviteeDto> getUsers(int page, int pageSize, String direction, Long adminId, Long groupId) {
+
+        List<Long> groupMemberIds = this.groupMemberService.getGroupMemberIdsFromGroup(groupId);
+        Pageable pageable = this.paginationService.getPageable(page, pageSize, direction);
+        Page<InviteeDto> result = this.userRepository.getInvitees(adminId, pageable, groupMemberIds);
+
+        attachUserTopics(result.getContent());
+
+        return new PaginationDto<InviteeDto>(
+                result.getContent(),
+                result.getNumber(),
+                pageSize,
+                result.getTotalPages(),
+                direction,
+                result.getTotalElements());
+
+    }
 }

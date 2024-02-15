@@ -2,6 +2,7 @@ import { Box, Flex, Heading } from '@chakra-ui/react';
 import CreateGroup from './CreateGroup';
 import { useState } from 'react';
 import { Client } from '../../../util/client';
+import { IMinGroup } from '../../../interfaces';
 
 interface IServerError {
   message: string;
@@ -10,7 +11,12 @@ interface IServerError {
 
 const YourGroups = () => {
   const [isGroupCreated, setIsGroupCreated] = useState(false);
+  const [groups, setGroups] = useState<IMinGroup[]>([]);
   const [serverError, setServerError] = useState('');
+  const [groupInProgress, setGroupInProgress] = useState({
+    adminId: 0,
+    groupId: 0,
+  });
 
   const handleSetServerErrors = <T extends IServerError>(data: T) => {
     for (let prop in data) {
@@ -18,12 +24,18 @@ const YourGroups = () => {
     }
   };
 
+  const resetGroupInProgress = () => {
+    const groupInProgress = { adminId: 0, groupId: 0 };
+    setGroupInProgress(groupInProgress);
+  };
+
   const handleCreateGroup = (userId: number, name: string) => {
     setServerError('');
     Client.createGroup(userId, name)
       .then((res) => {
-        console.log(res);
+        const { data } = res.data;
         handleSetIsGroupCreated(true);
+        setGroupInProgress({ adminId: data.adminId, groupId: data.id });
       })
       .catch((err) => {
         console.log(err);
@@ -55,6 +67,8 @@ const YourGroups = () => {
           isGroupCreated={isGroupCreated}
           handleSetIsGroupCreated={handleSetIsGroupCreated}
           handleCreateGroup={handleCreateGroup}
+          resetGroupInProgress={resetGroupInProgress}
+          groupInProgress={groupInProgress}
         />
       </Box>
     </Box>

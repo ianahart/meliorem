@@ -1,5 +1,7 @@
 package com.hart.meliorem.groupmember;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,5 +37,10 @@ public class GroupMemberService {
         GroupMember groupMember = new GroupMember(group, member, inviter, accepted, true);
 
         this.groupMemberRepository.save(groupMember);
+    }
+
+    public List<Long> getGroupMemberIdsFromGroup(Long groupId) {
+        return this.groupMemberRepository.getGroupMembersByGroupId(groupId);
+
     }
 }
