@@ -184,4 +184,8 @@ export const Client = {
       `/users/?adminId=${adminId}&groupId=${groupId}&page=${page}&pageSize=${pageSize}&direction=${direction}`
     );
   },
+
+  sendGroupInvite: (groupId: number, memberId: number, inviterId: number) => {
+    return http.post('/group-members', { groupId, memberId, inviterId });
+  },
 };

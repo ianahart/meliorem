@@ -50,6 +50,22 @@ const CreateGroup = ({
     totalElements: 0,
   });
 
+  const sendGroupInvite = (userId: number) => {
+    const { adminId, groupId } = { ...groupInProgress };
+
+    Client.sendGroupInvite(groupId, userId, adminId)
+      .then((res) => {
+        const updatedInvitees = [...invitees].filter((invitee) => invitee.userId !== userId);
+        setInvitees(updatedInvitees);
+
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+        throw new Error(err.message);
+      });
+  };
+
   const getInvitees = (paginate: boolean) => {
     const { adminId, groupId } = { ...groupInProgress };
     const pageNum = paginate ? pagination.page : -1;
@@ -113,7 +129,7 @@ const CreateGroup = ({
       totalElements: 0,
     };
 
-        setPagination(defaultPagination)
+    setPagination(defaultPagination);
     handleSetIsGroupCreated(false);
     setInvitees([]);
     resetGroupInProgress();
@@ -175,7 +191,7 @@ const CreateGroup = ({
             <Box height="300px" overflowY="auto" className="overflow-scroll" my="2rem">
               <Flex justify="space-evenly" flexWrap="wrap">
                 {invitees.map((invitee) => {
-                  return <Invitee key={invitee.userId} data={invitee} />;
+                  return <Invitee sendGroupInvite={sendGroupInvite} key={invitee.userId} data={invitee} />;
                 })}
               </Flex>
               {pagination.page < pagination.totalPages - 1 && isGroupCreated && (

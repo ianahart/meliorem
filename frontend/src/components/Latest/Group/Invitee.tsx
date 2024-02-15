@@ -7,10 +7,17 @@ import dayjs from 'dayjs';
 
 export interface IInviteeProps {
   data: IInvitee;
+    sendGroupInvite: (userId: number) => void;
 }
 
-const Invitee = ({ data }: IInviteeProps) => {
-  console.log(data);
+const Invitee = ({ data, sendGroupInvite }: IInviteeProps) => {
+
+
+    const handleOnClick = () => {
+        sendGroupInvite(data.userId);
+    }
+
+
   return (
     <Flex minW="180px" justify="space-between" flexDir="column" m="1rem" borderRadius={8} bg="form.primary" p="0.5rem">
       <Box>
@@ -47,7 +54,7 @@ const Invitee = ({ data }: IInviteeProps) => {
         </Flex>
       </Box>
       <Flex my="1.5rem">
-        <Button colorScheme="purple" width="100%">
+        <Button onClick={handleOnClick} colorScheme="purple" width="100%">
           Invite
         </Button>
       </Flex>
