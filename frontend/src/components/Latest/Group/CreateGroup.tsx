@@ -12,16 +12,21 @@ import {
   Flex,
   Input,
   Text,
+  Divider,
 } from '@chakra-ui/react';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../../../context/user';
-import { IUserContext } from '../../../interfaces';
+import { IGroupInProgress, IInvitee, IUserContext } from '../../../interfaces';
+import { Client } from '../../../util/client';
+import Invitee from './Invitee';
 
 export interface ICreateGroupProps {
   handleCreateGroup: (userId: number, name: string) => void;
   isGroupCreated: boolean;
   handleSetIsGroupCreated: (isGroupCreated: boolean) => void;
   serverError: string;
+  groupInProgress: IGroupInProgress;
+  resetGroupInProgress: () => void;
 }
 
 const CreateGroup = ({
@@ -29,11 +34,48 @@ const CreateGroup = ({
   isGroupCreated,
   handleSetIsGroupCreated,
   serverError,
+  groupInProgress,
+  resetGroupInProgress,
 }: ICreateGroupProps) => {
   const { user } = useContext(UserContext) as IUserContext;
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [groupName, setGroupName] = useState('');
+  const [invitees, setInvitees] = useState<IInvitee[]>([]);
   const [error, setError] = useState('');
+  const [pagination, setPagination] = useState({
+    page: 0,
+    pageSize: 3,
+    totalPages: 0,
+    direction: 'next',
+    totalElements: 0,
+  });
+
+  const getInvitees = (paginate: boolean) => {
+    const { adminId, groupId } = { ...groupInProgress };
+    const pageNum = paginate ? pagination.page : -1;
+    Client.getInvitees(pageNum, pagination.pageSize, pagination.direction, adminId, groupId)
+      .then((res) => {
+        const { direction, items, page, pageSize, totalElements, totalPages } = res.data.data;
+        setInvitees((prevState) => [...prevState, ...items]);
+        setPagination((prevState) => ({
+          ...prevState,
+          page,
+          pageSize,
+          direction,
+          totalPages,
+          totalElements,
+        }));
+      })
+      .catch((err) => {
+        throw new Error(err.message);
+      });
+  };
+
+  useEffect(() => {
+    if (isGroupCreated) {
+      getInvitees(false);
+    }
+  }, [isGroupCreated]);
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setGroupName(e.target.value);
@@ -56,14 +98,25 @@ const CreateGroup = ({
     e.preventDefault();
     setError('');
 
-    //if (validateForm()) {
-    // return;
-    // }
+    if (validateForm()) {
+      return;
+    }
     createGroup();
   };
 
   const handleOnClose = () => {
+    const defaultPagination = {
+      page: 0,
+      pageSize: 3,
+      totalPages: 0,
+      direction: 'next',
+      totalElements: 0,
+    };
+
+        setPagination(defaultPagination)
     handleSetIsGroupCreated(false);
+    setInvitees([]);
+    resetGroupInProgress();
     setGroupName('');
     setError('');
     onClose();
@@ -118,6 +171,21 @@ const CreateGroup = ({
                 </form>
               </Flex>
             )}
+            <Divider mt="3rem" mb="1.5rem" borderColor="#302e2e" />
+            <Box height="300px" overflowY="auto" className="overflow-scroll" my="2rem">
+              <Flex justify="space-evenly" flexWrap="wrap">
+                {invitees.map((invitee) => {
+                  return <Invitee key={invitee.userId} data={invitee} />;
+                })}
+              </Flex>
+              {pagination.page < pagination.totalPages - 1 && isGroupCreated && (
+                <Flex my="1rem" justify="center">
+                  <Button onClick={() => getInvitees(true)} colorScheme="gray">
+                    More users
+                  </Button>
+                </Flex>
+              )}
+            </Box>
           </ModalBody>
           <ModalFooter>
             <Button size="lg" colorScheme="gray" mr={3} onClick={handleOnClose}>

@@ -1,7 +1,33 @@
+export interface ITopic {
+  id: number;
+  name: string;
+}
+
+export interface IInvitee {
+  avatarUrl: string;
+  firstName: string;
+  fullName: string;
+  schoolName: string;
+  userId: number;
+  topics: ITopic[];
+  createdAt: Date;
+}
+
+export interface IGroupInProgress {
+  adminId: number;
+  groupId: number;
+}
+
 export interface IReviewStats {
   avgRating: number;
   totalReviews: number;
   curUserReviewed: boolean;
+}
+
+export interface IMinGroup {
+  name: string;
+  id: number;
+  adminId: number;
 }
 
 export interface IStreak {

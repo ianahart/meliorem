@@ -178,4 +178,10 @@ export const Client = {
   createGroup: (userId: number, name: string) => {
     return http.post('/groups', { userId, name });
   },
+
+  getInvitees: (page: number, pageSize: number, direction: string, adminId: number, groupId: number) => {
+    return http.get(
+      `/users/?adminId=${adminId}&groupId=${groupId}&page=${page}&pageSize=${pageSize}&direction=${direction}`
+    );
+  },
 };

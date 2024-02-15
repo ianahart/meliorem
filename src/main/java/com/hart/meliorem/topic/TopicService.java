@@ -43,6 +43,10 @@ public class TopicService {
 
     }
 
+    public List<TopicDto> getTopicsByUserId(Long userId) {
+        return this.topicRepository.getTopicsByUserId(userId);
+    }
+
     public List<TopicDto> getTopics() {
         User user = this.userService.getCurrentlyLoggedInUser();
 
