@@ -1,18 +1,15 @@
 package com.hart.meliorem.group.response;
 
 import com.hart.meliorem.group.dto.GroupDto;
+import com.hart.meliorem.pagination.dto.PaginationDto;
 
-public class CreateGroupResponse {
+public class GetGroupsResponse {
 
     private String message;
 
-    private GroupDto data;
+    private PaginationDto<GroupDto> data;
 
-    public CreateGroupResponse() {
-
-    }
-
-    public CreateGroupResponse(String message, GroupDto data) {
+    public GetGroupsResponse(String message, PaginationDto<GroupDto> data) {
         this.message = message;
         this.data = data;
     }
@@ -21,7 +18,7 @@ public class CreateGroupResponse {
         return message;
     }
 
-    public GroupDto getData() {
+    public PaginationDto<GroupDto> getData() {
         return data;
     }
 
@@ -29,7 +26,7 @@ public class CreateGroupResponse {
         this.message = message;
     }
 
-    public void setData(GroupDto data) {
+    public void setData(PaginationDto<GroupDto> data) {
         this.data = data;
     }
 }

@@ -188,4 +188,8 @@ export const Client = {
   sendGroupInvite: (groupId: number, memberId: number, inviterId: number) => {
     return http.post('/group-members', { groupId, memberId, inviterId });
   },
+
+  getGroups: (page: number, pageSize: number, direction: string, userId: number) => {
+    return http.get(`/groups?userId=${userId}&page=${page}&pageSize=${pageSize}&direction=${direction}`);
+  },
 };

@@ -54,11 +54,9 @@ const CreateGroup = ({
     const { adminId, groupId } = { ...groupInProgress };
 
     Client.sendGroupInvite(groupId, userId, adminId)
-      .then((res) => {
+      .then(() => {
         const updatedInvitees = [...invitees].filter((invitee) => invitee.userId !== userId);
         setInvitees(updatedInvitees);
-
-        console.log(res);
       })
       .catch((err) => {
         console.log(err);

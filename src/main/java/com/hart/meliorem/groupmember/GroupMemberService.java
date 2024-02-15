@@ -3,10 +3,13 @@ package com.hart.meliorem.groupmember;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.hart.meliorem.group.Group;
 import com.hart.meliorem.group.GroupService;
+import com.hart.meliorem.group.dto.GroupDto;
 import com.hart.meliorem.user.User;
 import com.hart.meliorem.user.UserService;
 
@@ -42,5 +45,9 @@ public class GroupMemberService {
     public List<Long> getGroupMemberIdsFromGroup(Long groupId) {
         return this.groupMemberRepository.getGroupMembersByGroupId(groupId);
 
+    }
+
+    public Page<GroupDto> getGroupsForGroupMember(Long memberId, Pageable pageable) {
+        return this.groupMemberRepository.getGroupsForGroupMember(memberId, pageable);
     }
 }
