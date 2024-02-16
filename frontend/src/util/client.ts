@@ -192,4 +192,14 @@ export const Client = {
   getGroups: (page: number, pageSize: number, direction: string, userId: number) => {
     return http.get(`/groups?userId=${userId}&page=${page}&pageSize=${pageSize}&direction=${direction}`);
   },
+
+  getGroupInvites: (isAccepted: number, page: number, pageSize: number, direction: string, userId: number) => {
+    return http.get(
+      `/group-members/invites?isAccepted=${isAccepted}&userId=${userId}&page=${page}&pageSize=${pageSize}&direction=${direction}`
+    );
+  },
+
+  joinGroup: (groupMemberId: number, accepted: boolean, groupId: number) => {
+    return http.patch(`/group-members/${groupMemberId}`, { accepted, groupId });
+  },
 };

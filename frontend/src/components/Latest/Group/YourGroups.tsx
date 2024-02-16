@@ -6,6 +6,7 @@ import { IMinGroup, IUserContext } from '../../../interfaces';
 import { UserContext } from '../../../context/user';
 import { FaArrowLeft, FaArrowRight, FaUsers } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import YourInvites from './YourInvites';
 
 interface IServerError {
   message: string;
@@ -124,14 +125,21 @@ const YourGroups = () => {
             Your Groups
           </Heading>
         </Flex>
-        <CreateGroup
-          serverError={serverError}
-          isGroupCreated={isGroupCreated}
-          handleSetIsGroupCreated={handleSetIsGroupCreated}
-          handleCreateGroup={handleCreateGroup}
-          resetGroupInProgress={resetGroupInProgress}
-          groupInProgress={groupInProgress}
-        />
+        <Flex align="center">
+          <Box mr="0.5rem">
+            <CreateGroup
+              serverError={serverError}
+              isGroupCreated={isGroupCreated}
+              handleSetIsGroupCreated={handleSetIsGroupCreated}
+              handleCreateGroup={handleCreateGroup}
+              resetGroupInProgress={resetGroupInProgress}
+              groupInProgress={groupInProgress}
+            />
+          </Box>
+          <Box ml="0.5rem">
+            <YourInvites handleAddGroup={handleAddGroup} />
+          </Box>
+        </Flex>
         <Flex
           position="relative"
           onMouseEnter={handleOnMouseEnter}

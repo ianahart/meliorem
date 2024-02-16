@@ -1,3 +1,11 @@
+export interface IInvite {
+  createdAt: Date;
+  fullName: string;
+  groupId: number;
+  groupMemberId: number;
+  groupName: string;
+}
+
 export interface ITopic {
   id: number;
   name: string;
