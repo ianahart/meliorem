@@ -27,6 +27,7 @@ import SingleStudySetRoute from './routes/SingleStudySetRoute';
 import NotFoundRoute from './routes/NotFoundRoute';
 import EditStudySetRoute from './routes/EditStudySetRoute';
 import FolderRoute from './routes/FolderRoute';
+import GroupRoute from './routes/GroupRoute';
 
 function App() {
   const { updateUser, stowTokens } = useContext(UserContext) as IUserContext;
@@ -167,6 +168,14 @@ function App() {
                 element={
                   <RequireAuth>
                     <FolderRoute />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/groups/:groupName"
+                element={
+                  <RequireAuth>
+                    <GroupRoute />
                   </RequireAuth>
                 }
               />

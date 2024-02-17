@@ -202,4 +202,10 @@ export const Client = {
   joinGroup: (groupMemberId: number, accepted: boolean, groupId: number) => {
     return http.patch(`/group-members/${groupMemberId}`, { accepted, groupId });
   },
+
+  getGroupMembers: (groupId: number, accepted: number, page: number, pageSize: number, direction: string) => {
+    return http.get(
+      `/group-members?groupId=${groupId}&accepted=${accepted}&page=${page}&pageSize=${pageSize}&direction=${direction}`
+    );
+  },
 };

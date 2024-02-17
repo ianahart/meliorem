@@ -7,6 +7,7 @@ import { UserContext } from '../../../context/user';
 import { FaArrowLeft, FaArrowRight, FaUsers } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import YourInvites from './YourInvites';
+import slugify from 'slugify';
 
 interface IServerError {
   message: string;
@@ -104,7 +105,7 @@ const YourGroups = () => {
   };
 
   const goToGroup = (group: IMinGroup) => {
-    navigate(`/groups/${group.name}`, { state: { groupId: group.id, adminId: group.adminId } });
+    navigate(`/groups/${slugify(group.name)}`, { state: { groupId: group.id, adminId: group.adminId } });
   };
 
   const handleAddGroup = (group: IMinGroup) => {

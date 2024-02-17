@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hart.meliorem.groupmember.request.CreateGroupMemberRequest;
 import com.hart.meliorem.groupmember.request.UpdateGroupMemberRequest;
 import com.hart.meliorem.groupmember.response.CreateGroupMemberResponse;
+import com.hart.meliorem.groupmember.response.GetGroupMembersResponse;
 import com.hart.meliorem.groupmember.response.GetInviteResponse;
 import com.hart.meliorem.groupmember.response.UpdateGroupMemberResponse;
 
@@ -53,5 +54,16 @@ public class GroupMemberController {
             @RequestBody UpdateGroupMemberRequest request) {
         return ResponseEntity.status(HttpStatus.OK).body(new UpdateGroupMemberResponse("success",
                 this.groupMemberService.updateGroupMember(groupMemberId, request.getGroupId(), request.getAccepted())));
+    }
+
+    @GetMapping("")
+    ResponseEntity<GetGroupMembersResponse> getGroupMembers(@RequestParam("groupId") Long groupId,
+            @RequestParam("accepted") int accepted, @RequestParam("page") int page,
+            @RequestParam("pageSize") int pageSize, @RequestParam("direction") String direction) {
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(new GetGroupMembersResponse("success",
+                        this.groupMemberService.getGroupMembers(groupId, accepted, page, pageSize, direction)));
     }
 }

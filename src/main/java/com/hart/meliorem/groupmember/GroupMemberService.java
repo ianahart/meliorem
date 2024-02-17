@@ -13,6 +13,7 @@ import com.hart.meliorem.advice.ForbiddenException;
 import com.hart.meliorem.group.Group;
 import com.hart.meliorem.group.GroupService;
 import com.hart.meliorem.group.dto.GroupDto;
+import com.hart.meliorem.groupmember.dto.GroupMemberDto;
 import com.hart.meliorem.groupmember.dto.GroupMemberInviteDto;
 import com.hart.meliorem.pagination.PaginationService;
 import com.hart.meliorem.pagination.dto.PaginationDto;
@@ -79,7 +80,7 @@ public class GroupMemberService {
     }
 
     public List<Long> getGroupMemberIdsFromGroup(Long groupId) {
-        return this.groupMemberRepository.getGroupMembersByGroupId(groupId);
+        return this.groupMemberRepository.getGroupMembersIdByGroupId(groupId);
 
     }
 
@@ -102,6 +103,25 @@ public class GroupMemberService {
         Group group = this.groupService.findGroupByGroupId(groupId);
 
         return new GroupDto(group.getName(), group.getId(), group.getAdmin().getId());
+    }
+
+    public PaginationDto<GroupMemberDto> getGroupMembers(Long groupId, int accepted, int page, int pageSize,
+            String direction) {
+
+        Pageable pageable = this.paginationService.getPageable(page, pageSize, direction);
+        Boolean isAccepted = accepted == 1 ? true : false;
+
+        Page<GroupMemberDto> result = this.groupMemberRepository.getGroupMembersByGroupId(groupId, isAccepted,
+                pageable);
+
+        return new PaginationDto<GroupMemberDto>(
+                result.getContent(),
+                result.getNumber(),
+                pageSize,
+                result.getTotalPages(),
+                direction,
+                result.getTotalElements());
+
     }
 
 }
