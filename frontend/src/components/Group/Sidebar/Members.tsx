@@ -13,7 +13,6 @@ interface IMembersProps {
 
 const GroupMembers = ({ groupId, groupName }: IMembersProps) => {
   const shouldRun = useRef(true);
-
   const [groupMembers, setGroupMembers] = useState<IGroupMember[]>([]);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [pagination, setPagination] = useState({
