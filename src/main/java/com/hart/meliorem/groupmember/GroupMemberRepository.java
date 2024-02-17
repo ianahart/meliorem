@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.hart.meliorem.group.dto.GroupDto;
+import com.hart.meliorem.groupmember.dto.GroupMemberDto;
 import com.hart.meliorem.groupmember.dto.GroupMemberInviteDto;
 
 @Repository
@@ -35,7 +36,7 @@ public interface GroupMemberRepository extends JpaRepository<GroupMember, Long> 
                 INNER JOIN gm.member m
                 WHERE g.id = :groupId
             """)
-    List<Long> getGroupMembersByGroupId(@Param("groupId") Long groupId);
+    List<Long> getGroupMembersIdByGroupId(@Param("groupId") Long groupId);
 
     @Query(value = """
              SELECT new com.hart.meliorem.group.dto.GroupDto(
@@ -49,4 +50,17 @@ public interface GroupMemberRepository extends JpaRepository<GroupMember, Long> 
             """)
     Page<GroupDto> getGroupsForGroupMember(@Param("memberId") Long memberId, @Param("pageable") Pageable pageable);
 
+    @Query(value = """
+            SELECT new com.hart.meliorem.groupmember.dto.GroupMemberDto(
+            gm.id AS id, m.id AS userId, p.avatarUrl AS avatarUrl, p.schoolName AS schoolName,
+            m.fullName AS fullName
+            ) FROM GroupMember gm
+            INNER JOIN gm.member m
+            INNER JOIN gm.member.profile p
+            INNER JOIN gm.group g
+            WHERE g.id = :groupId
+            AND gm.accepted = :accepted
+                """)
+    Page<GroupMemberDto> getGroupMembersByGroupId(@Param("groupId") Long groupID, @Param("accepted") Boolean accepted,
+            @Param("pageable") Pageable pageable);
 }

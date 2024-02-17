@@ -1,3 +1,11 @@
+export interface IGroupMember {
+  id: number;
+  userId: number;
+  avatarUrl: string;
+  schoolName: string;
+  fullName: string;
+}
+
 export interface IInvite {
   createdAt: Date;
   fullName: string;
