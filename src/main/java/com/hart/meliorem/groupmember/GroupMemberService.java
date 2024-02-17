@@ -1,6 +1,7 @@
 package com.hart.meliorem.groupmember;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -105,6 +106,14 @@ public class GroupMemberService {
         return new GroupDto(group.getName(), group.getId(), group.getAdmin().getId());
     }
 
+    private Boolean checkCurUserIsGroupMember(List<GroupMemberDto> groupMembers) {
+        User user = this.userService.getCurrentlyLoggedInUser();
+        Optional<GroupMemberDto> curUser = groupMembers.stream()
+                .filter(gm -> gm.getUserId() == user.getId())
+                .findFirst();
+        return curUser.isPresent();
+    }
+
     public PaginationDto<GroupMemberDto> getGroupMembers(Long groupId, int accepted, int page, int pageSize,
             String direction) {
 
@@ -114,6 +123,9 @@ public class GroupMemberService {
         Page<GroupMemberDto> result = this.groupMemberRepository.getGroupMembersByGroupId(groupId, isAccepted,
                 pageable);
 
+        if (!checkCurUserIsGroupMember(result.getContent())) {
+            throw new ForbiddenException("Cannot view a group you are not apart of");
+        }
         return new PaginationDto<GroupMemberDto>(
                 result.getContent(),
                 result.getNumber(),
