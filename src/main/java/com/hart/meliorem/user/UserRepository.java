@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.hart.meliorem.user.dto.InviteeDto;
+import com.hart.meliorem.user.dto.SearchUserDto;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -36,4 +37,16 @@ public interface UserRepository extends JpaRepository<User, Long> {
             @Param("adminId") Long adminId,
             @Param("pageable") Pageable pageable,
             @Param("groupMembersIds") List<Long> groupMembersIds);
+
+    @Query(value = """
+            SELECT new com.hart.meliorem.user.dto.SearchUserDto(
+             u.id AS id, p.avatarUrl AS avatarUrl, p.schoolName AS schoolName,
+             u.fullName AS fullName
+            ) FROM User u
+            INNER JOIN u.profile p
+            WHERE u.id NOT IN :groupMemberIds
+            AND LOWER(u.fullName) LIKE %:fullName%
+            """)
+    Page<SearchUserDto> queryUsersByFullName(@Param("fullName") String fullName,
+            @Param("groupMemberIds") List<Long> groupMemberIds, @Param("pageable") Pageable pageable);
 }

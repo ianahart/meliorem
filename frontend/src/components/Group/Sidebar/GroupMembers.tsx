@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Client } from '../../../util/client';
 import { IGroupMember } from '../../../interfaces';
 import UserAvatar from '../../Shared/UserAvatar';
+import { useNavigate } from 'react-router-dom';
 
 interface IMembersProps {
   groupId: number;
@@ -12,6 +13,7 @@ interface IMembersProps {
 }
 
 const GroupMembers = ({ groupId, groupName }: IMembersProps) => {
+  const navigate = useNavigate();
   const shouldRun = useRef(true);
   const [groupMembers, setGroupMembers] = useState<IGroupMember[]>([]);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -41,6 +43,11 @@ const GroupMembers = ({ groupId, groupName }: IMembersProps) => {
         setGroupMembers((prevState) => [...prevState, ...items]);
       })
       .catch((err) => {
+        console.log(err);
+        //        if (err.response.status === 403) {
+        //          navigate('/');
+        //        }
+        //        console.log(err.response);
         throw new Error(err.message);
       });
   };
@@ -79,10 +86,10 @@ const GroupMembers = ({ groupId, groupName }: IMembersProps) => {
         <Box
           borderRadius={2}
           p="0.25rem"
-          className="slide-down"
-          bg="#020238
-"
-          minH="80px"
+          className="slide-down overflow-scroll"
+          bg="bg.dark"
+          overflowY="auto"
+          height="120px"
         >
           {groupMembers.map((groupMember) => {
             return (

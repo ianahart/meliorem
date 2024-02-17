@@ -5,6 +5,7 @@ import com.hart.meliorem.user.dto.UserDto;
 import com.hart.meliorem.user.request.UpdateUserEmailRequest;
 import com.hart.meliorem.user.response.DeleteUserResponse;
 import com.hart.meliorem.user.response.GetUsersResponse;
+import com.hart.meliorem.user.response.GetUsersSearchResponse;
 import com.hart.meliorem.user.response.UpdateUserEmailResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,5 +67,16 @@ public class UserController {
 
         return ResponseEntity.status(HttpStatus.OK).body(new GetUsersResponse("success",
                 this.userService.getUsers(page, pageSize, direction, adminId, groupId)));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<GetUsersSearchResponse> getUsersBySearch(@RequestParam("fullName") String fullName,
+            @RequestParam("groupId") Long groupId, @RequestParam("page") int page,
+            
+            @RequestParam("pageSize") int pageSize, @RequestParam("direction") String direction) {
+        return ResponseEntity.status(HttpStatus.OK)
+                        
+                .body(new GetUsersSearchResponse("success",
+                        this.userService.getUsersBySearch(fullName, groupId, page, pageSize, direction)));
     }
 }

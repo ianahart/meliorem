@@ -14,6 +14,7 @@ export const colors = {
   },
   bg: {
     primary: '#14144d',
+    dark: '#020238',
   },
   light: {
     primary: '#e4e3e3',
