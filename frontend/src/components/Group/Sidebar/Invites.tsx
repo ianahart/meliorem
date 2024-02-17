@@ -1,9 +1,10 @@
 import { Box, Button, Divider, Flex, FormControl, Heading, Input, Text, useOutsideClick } from '@chakra-ui/react';
 import { debounce } from 'lodash';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useContext, useRef, useState } from 'react';
 import { Client } from '../../../util/client';
-import { ISearchUser } from '../../../interfaces';
+import { ISearchUser, IUserContext } from '../../../interfaces';
 import UserAvatar from '../../Shared/UserAvatar';
+import { UserContext } from '../../../context/user';
 
 export interface IInvitesProps {
   adminId: number;
@@ -11,12 +12,14 @@ export interface IInvitesProps {
 }
 
 const Invites = ({ adminId, groupId }: IInvitesProps) => {
+  const { user } = useContext(UserContext) as IUserContext;
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [inviteError, setInviteError] = useState('');
   const [search, setSearch] = useState('');
   const [users, setUsers] = useState<ISearchUser[]>([]);
   const [pagination, setPagination] = useState({
     page: 0,
-    pageSize: 2,
+    pageSize: 3,
     totalPages: 0,
     direction: 'next',
     totalElements: 0,
@@ -28,6 +31,7 @@ const Invites = ({ adminId, groupId }: IInvitesProps) => {
     handler: () => {
       setIsDropdownOpen(false);
       setUsers([]);
+      setInviteError('');
     },
   });
 
@@ -76,6 +80,11 @@ const Invites = ({ adminId, groupId }: IInvitesProps) => {
   };
 
   const handleOnInvite = (userId: number) => {
+    setInviteError('');
+    if (user.id !== adminId) {
+      setInviteError('Only an admin can send out invites in this group');
+      return;
+    }
     Client.sendGroupInvite(groupId, userId, adminId)
       .then(() => {
         setIsDropdownOpen(false);
@@ -107,6 +116,11 @@ const Invites = ({ adminId, groupId }: IInvitesProps) => {
             />
           </FormControl>
         </form>
+        {inviteError.length > 0 && (
+          <Text color="red" fontSize="0.85rem">
+            {inviteError}
+          </Text>
+        )}
         {isDropdownOpen && (
           <Box
             ref={ref}
@@ -133,7 +147,16 @@ const Invites = ({ adminId, groupId }: IInvitesProps) => {
                         fontSize="1.6rem"
                       />
                       <Box ml="0.25rem">
-                        <Text color="#fff">{user.fullName}</Text>
+                        {user.fullName.split('').map((char) => {
+                          return (
+                            <Box
+                              color={search.toLowerCase().includes(char.toLowerCase()) ? 'primary.dark' : '#fff'}
+                              as="span"
+                            >
+                              {char}
+                            </Box>
+                          );
+                        })}
                         <Text fontSize="0.85rem" color="gray.400">
                           {user.schoolName}
                         </Text>
