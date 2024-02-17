@@ -1,3 +1,10 @@
+export interface ISearchUser {
+  id: number;
+  fullName: string;
+  schoolName: string;
+  avatarUrl: string;
+}
+
 export interface IGroupMember {
   id: number;
   userId: number;

@@ -3,6 +3,7 @@ package com.hart.meliorem.user;
 import java.security.Key;
 import java.util.List;
 import java.util.Optional;
+import java.util.ArrayList;
 
 import com.hart.meliorem.advice.NotFoundException;
 import com.hart.meliorem.groupmember.GroupMemberService;
@@ -14,6 +15,7 @@ import com.hart.meliorem.topic.dto.TopicDto;
 import com.hart.meliorem.advice.BadRequestException;
 import com.hart.meliorem.advice.ForbiddenException;
 import com.hart.meliorem.user.dto.InviteeDto;
+import com.hart.meliorem.user.dto.SearchUserDto;
 import com.hart.meliorem.user.dto.UserDto;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -172,6 +174,26 @@ public class UserService {
         attachUserTopics(result.getContent());
 
         return new PaginationDto<InviteeDto>(
+                result.getContent(),
+                result.getNumber(),
+                pageSize,
+                result.getTotalPages(),
+                direction,
+                result.getTotalElements());
+
+    }
+
+    public PaginationDto<SearchUserDto> getUsersBySearch(String fullName, Long groupId, int page, int pageSize,
+            String direction) {
+        if (fullName.trim().length() == 0) {
+            throw new BadRequestException("Please provide a search term");
+        }
+        List<Long> groupMemberIds = this.groupMemberService.getGroupMemberIdsFromGroup(groupId);
+        Pageable pageable = this.paginationService.getPageable(page, pageSize, direction);
+        Page<SearchUserDto> result = this.userRepository.queryUsersByFullName(fullName.toLowerCase(), groupMemberIds,
+                pageable);
+
+        return new PaginationDto<SearchUserDto>(
                 result.getContent(),
                 result.getNumber(),
                 pageSize,

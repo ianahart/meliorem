@@ -106,10 +106,12 @@ public class GroupMemberService {
         return new GroupDto(group.getName(), group.getId(), group.getAdmin().getId());
     }
 
-    private Boolean checkCurUserIsGroupMember(List<GroupMemberDto> groupMembers) {
+    private Boolean checkCurUserIsGroupMember(Long groupId) {
         User user = this.userService.getCurrentlyLoggedInUser();
-        Optional<GroupMemberDto> curUser = groupMembers.stream()
-                .filter(gm -> gm.getUserId() == user.getId())
+        Group group = this.groupService.findGroupByGroupId(groupId);
+
+        Optional<GroupMember> curUser = group.getGroupMembers().stream()
+                .filter(gm -> gm.getMember().getId() == user.getId())
                 .findFirst();
         return curUser.isPresent();
     }
@@ -123,7 +125,7 @@ public class GroupMemberService {
         Page<GroupMemberDto> result = this.groupMemberRepository.getGroupMembersByGroupId(groupId, isAccepted,
                 pageable);
 
-        if (!checkCurUserIsGroupMember(result.getContent())) {
+        if (!checkCurUserIsGroupMember(groupId)) {
             throw new ForbiddenException("Cannot view a group you are not apart of");
         }
         return new PaginationDto<GroupMemberDto>(

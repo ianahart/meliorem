@@ -208,4 +208,10 @@ export const Client = {
       `/group-members?groupId=${groupId}&accepted=${accepted}&page=${page}&pageSize=${pageSize}&direction=${direction}`
     );
   },
+
+  searchUsers: (fullName: string, groupId: number, page: number, pageSize: number, direction: string) => {
+    return http.get(
+      `/users/search?fullName=${fullName}&groupId=${groupId}&page=${page}&pageSize=${pageSize}&direction=${direction}`
+    );
+  },
 };

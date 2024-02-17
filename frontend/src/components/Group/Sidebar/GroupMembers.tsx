@@ -43,10 +43,11 @@ const GroupMembers = ({ groupId, groupName }: IMembersProps) => {
         setGroupMembers((prevState) => [...prevState, ...items]);
       })
       .catch((err) => {
-        if (err.response.status === 403) {
-          navigate('/');
-        }
-        console.log(err.response);
+        console.log(err);
+        //        if (err.response.status === 403) {
+        //          navigate('/');
+        //        }
+        //        console.log(err.response);
         throw new Error(err.message);
       });
   };
@@ -85,10 +86,10 @@ const GroupMembers = ({ groupId, groupName }: IMembersProps) => {
         <Box
           borderRadius={2}
           p="0.25rem"
-          className="slide-down"
-          bg="#020238
-"
-          minH="80px"
+          className="slide-down overflow-scroll"
+          bg="bg.dark"
+          overflowY="auto"
+          height="120px"
         >
           {groupMembers.map((groupMember) => {
             return (
