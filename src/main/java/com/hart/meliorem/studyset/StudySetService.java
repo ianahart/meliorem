@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import com.hart.meliorem.advice.NotFoundException;
 import com.hart.meliorem.bookmark.BookMark;
 import com.hart.meliorem.bookmark.dto.BookMarkDto;
+import com.hart.meliorem.group.Group;
+import com.hart.meliorem.group.GroupService;
 import com.hart.meliorem.advice.BadRequestException;
 import com.hart.meliorem.advice.ForbiddenException;
 import com.hart.meliorem.pagination.PaginationService;
@@ -36,15 +38,18 @@ public class StudySetService {
     private final UserService userService;
     private final StudySetCardService studySetCardService;
     private final PaginationService paginationService;
+    private final GroupService groupService;
 
     public StudySetService(StudySetRepository studySetRepository,
             UserService userService,
             @Lazy StudySetCardService studySetCardService,
-            PaginationService paginationService) {
+            PaginationService paginationService,
+            GroupService groupService) {
         this.studySetRepository = studySetRepository;
         this.userService = userService;
         this.studySetCardService = studySetCardService;
         this.paginationService = paginationService;
+        this.groupService = groupService;
     }
 
     public StudySet findStudySetById(Long studySetId) {
@@ -223,6 +228,39 @@ public class StudySetService {
 
         return new PaginationDto<StudySetFolderDto>(
                 studySetFolders,
+                result.getNumber(),
+                pageSize,
+                result.getTotalPages(),
+                direction,
+                result.getTotalElements());
+
+    }
+
+    private void attachIsAddedToGroup(List<StudySetDto> studySets, Long groupId) {
+        Group group = this.groupService.findGroupByGroupId(groupId);
+        List<Long> studySetGroupIds = group.getGroupStudySets()
+                .stream()
+                .map(gss -> gss.getStudySet().getId()).toList();
+
+        for (StudySetDto studySet : studySets) {
+            if (studySetGroupIds.contains(studySet.getId())) {
+                studySet.setIsAddedToGroup(true);
+            } else {
+                studySet.setIsAddedToGroup(false);
+            }
+        }
+    }
+
+    public PaginationDto<StudySetDto> searchStudySets(String query, Long groupId, int page, int pageSize,
+            String direction) {
+
+        Pageable pageable = this.paginationService.getPageable(page, pageSize, direction);
+        Page<StudySetDto> result = this.studySetRepository.searchStudySets(query, pageable);
+
+        attachIsAddedToGroup(result.getContent(), groupId);
+
+        return new PaginationDto<StudySetDto>(
+                result.getContent(),
                 result.getNumber(),
                 pageSize,
                 result.getTotalPages(),

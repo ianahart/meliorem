@@ -89,4 +89,18 @@ public interface StudySetRepository extends JpaRepository<StudySet, Long> {
              WHERE ss.id = :studySetId
             """)
     StudySetPopulateDto populateStudySetById(@Param("studySetId") Long studySetId);
+
+    @Query(value = """
+            SELECT new com.hart.meliorem.studyset.dto.StudySetDto(
+             u.id AS userId, p.avatarUrl AS avatarUrl, ss.id AS id,
+             ss.createdAt AS createdAt, ss.course AS course, ss.description AS description,
+             ss.folder AS folder, ss.schoolName AS schoolName, ss.title AS title,
+             ss.visibility AS visibility, u.fullName AS fullName
+            ) FROM StudySet ss
+            INNER JOIN ss.user u
+            INNER JOIN ss.user.profile p
+            WHERE LOWER(ss.title) LIKE %:query%
+            """)
+    Page<StudySetDto> searchStudySets(@Param("query") String query, @Param("pageable") Pageable pageable);
+
 }

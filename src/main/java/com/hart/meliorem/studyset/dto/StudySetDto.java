@@ -33,6 +33,8 @@ public class StudySetDto {
 
     private BookMarkDto bookMark;
 
+    private Boolean isAddedToGroup;
+
     public StudySetDto() {
 
     }
@@ -106,6 +108,10 @@ public class StudySetDto {
         return createdAt;
     }
 
+    public Boolean getIsAddedToGroup() {
+        return isAddedToGroup;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -164,6 +170,10 @@ public class StudySetDto {
 
     public void setBookMark(BookMarkDto bookMark) {
         this.bookMark = bookMark;
+    }
+
+    public void setIsAddedToGroup(Boolean isAddedToGroup) {
+        this.isAddedToGroup = isAddedToGroup;
     }
 
 }

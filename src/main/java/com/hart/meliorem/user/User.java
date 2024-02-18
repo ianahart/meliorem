@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.hart.meliorem.bookmark.BookMark;
 import com.hart.meliorem.group.Group;
 import com.hart.meliorem.groupmember.GroupMember;
+import com.hart.meliorem.groupstudyset.GroupStudySet;
 import com.hart.meliorem.note.Note;
 import com.hart.meliorem.passwordreset.PasswordReset;
 import com.hart.meliorem.profile.Profile;
@@ -136,6 +137,9 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "inviter", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<GroupMember> inviters;
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<GroupStudySet> groupStudySets;
+
     public User() {
 
     }
@@ -193,6 +197,10 @@ public class User implements UserDetails {
 
     public List<Topic> getTopics() {
         return topics;
+    }
+
+    public List<GroupStudySet> getGroupStudySets() {
+        return groupStudySets;
     }
 
     public List<GroupMember> getInviters() {
@@ -302,6 +310,10 @@ public class User implements UserDetails {
 
     public void setAdminGroups(List<Group> adminGroups) {
         this.adminGroups = adminGroups;
+    }
+
+    public void setGroupStudySets(List<GroupStudySet> groupStudySets) {
+        this.groupStudySets = groupStudySets;
     }
 
     public void setStudySetCards(List<StudySetCard> studySetCards) {
