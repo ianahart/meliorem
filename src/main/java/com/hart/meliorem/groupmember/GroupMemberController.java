@@ -72,10 +72,10 @@ public class GroupMemberController {
     @DeleteMapping("/{groupMemberId}")
     ResponseEntity<DeleteGroupMemberResponse> deleteGroupMember(@PathVariable("groupMemberId") Long groupMemberId) {
 
-      this.groupMemberService.deleteGroupMember(groupMemberId);
+        this.groupMemberService.deleteGroupMember(groupMemberId);
 
-      return ResponseEntity
-        .status(HttpStatus.OK)
-        .body(new DeleteGroupMemberResponse("success"));
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(new DeleteGroupMemberResponse("success"));
     }
 }

@@ -138,9 +138,8 @@ public class GroupMemberService {
 
     }
 
-
     public void deleteGroupMember(Long groupMemberId) {
 
-       this.groupMemberRepository.deleteById(groupMemberId);
+        this.groupMemberRepository.deleteById(groupMemberId);
     }
 }
