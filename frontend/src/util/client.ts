@@ -214,4 +214,22 @@ export const Client = {
       `/users/search?fullName=${fullName}&groupId=${groupId}&page=${page}&pageSize=${pageSize}&direction=${direction}`
     );
   },
+
+  searchStudySets: (query: string, groupId: number, pageNum: number, pageSize: number, direction: string) => {
+    return http.get(
+      `/studysets/search?query=${query}&groupId=${groupId}&page=${pageNum}&pageSize=${pageSize}&direction=${direction}`
+    );
+  },
+
+  addGroupStudySet: (studySetId: number, groupId: number) => {
+    return http.post(`/group-studysets`, { studySetId, groupId });
+  },
+  getGroupStudySets: (groupId: number, page: number, pageSize: number, direction: string) => {
+    return http.get(`/group-studysets?groupId=${groupId}&page=${page}&pageSize=${pageSize}&direction=${direction}`);
+  },
+    removeGroupStudySet: (groupStudySetId: number) => {
+        return http.delete(`/group-studysets/${groupStudySetId}`);
+    }
+
+
 };

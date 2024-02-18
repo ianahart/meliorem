@@ -2,6 +2,7 @@ import { Box } from '@chakra-ui/react';
 import { useParams, useLocation } from 'react-router-dom';
 import GroupMembers from './GroupMembers';
 import Invites from './Invites';
+import GroupStudySets from './GroupStudySets';
 
 const Sidebar = () => {
   const groupName = useParams().groupName as string;
@@ -14,6 +15,9 @@ const Sidebar = () => {
       </Box>
       <Box my="4rem">
         <Invites groupId={location.state.groupId} adminId={location.state.adminId} />
+      </Box>
+      <Box my="4rem">
+        <GroupStudySets groupId={location.state.groupId} adminId={location.state.adminId} />
       </Box>
     </Box>
   );

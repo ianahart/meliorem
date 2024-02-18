@@ -22,6 +22,7 @@ import com.hart.meliorem.studyset.response.GetStudySetDistinctFolderResponse;
 import com.hart.meliorem.studyset.response.GetStudySetFolderResponse;
 import com.hart.meliorem.studyset.response.GetStudySetPopulateResponse;
 import com.hart.meliorem.studyset.response.GetStudySetResponse;
+import com.hart.meliorem.studyset.response.SearchStudySetResponse;
 
 import jakarta.validation.Valid;
 
@@ -110,5 +111,14 @@ public class StudySetController {
 
         return ResponseEntity.status(HttpStatus.OK).body(new GetStudySetDistinctFolderResponse("success",
                 this.studySetService.getDistinctFolders(page, pageSize, direction)));
+    }
+
+    @GetMapping("/search")
+    ResponseEntity<SearchStudySetResponse> searchStudySets(@RequestParam("query") String query,
+            @RequestParam("groupId") Long groupId, @RequestParam("page") int page,
+            @RequestParam("pageSize") int pageSize, @RequestParam("direction") String direction) {
+
+        return ResponseEntity.status(HttpStatus.OK).body(new SearchStudySetResponse("success",
+                this.studySetService.searchStudySets(query, groupId, page, pageSize, direction)));
     }
 }

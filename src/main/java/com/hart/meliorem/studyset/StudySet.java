@@ -6,6 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.hart.meliorem.bookmark.BookMark;
+import com.hart.meliorem.groupstudyset.GroupStudySet;
 import com.hart.meliorem.note.Note;
 import com.hart.meliorem.review.Review;
 import com.hart.meliorem.streak.Streak;
@@ -84,6 +85,9 @@ public class StudySet {
     @OneToMany(mappedBy = "studySet", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Note> notes;
 
+    @OneToMany(mappedBy = "studySet", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<GroupStudySet> groupStudySets;
+
     public StudySet() {
 
     }
@@ -128,6 +132,10 @@ public class StudySet {
 
     public Long getId() {
         return id;
+    }
+
+    public List<GroupStudySet> getGroupStudySets() {
+        return groupStudySets;
     }
 
     public List<Streak> getStreaks() {
@@ -244,5 +252,9 @@ public class StudySet {
 
     public void setNotes(List<Note> notes) {
         this.notes = notes;
+    }
+
+    public void setGroupStudySets(List<GroupStudySet> groupStudySets) {
+        this.groupStudySets = groupStudySets;
     }
 }

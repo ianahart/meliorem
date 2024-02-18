@@ -1,3 +1,24 @@
+export interface IGroupStudySet {
+  id: number;
+  groupId: number;
+  title: string;
+  course: string;
+  studySetId: number;
+  studySetTitle: string;
+}
+
+export interface ISearchStudySet extends IStudySet {
+  isAddedToGroup: boolean;
+}
+
+export interface IPagination {
+  page: number;
+  pageSize: number;
+  totalPages: number;
+  direction: string;
+  totalElements: number;
+}
+
 export interface ISearchUser {
   id: number;
   fullName: string;

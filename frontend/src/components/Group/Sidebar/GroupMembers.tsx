@@ -16,7 +16,7 @@ const GroupMembers = ({ groupId, groupName }: IMembersProps) => {
   const navigate = useNavigate();
   const shouldRun = useRef(true);
   const [groupMembers, setGroupMembers] = useState<IGroupMember[]>([]);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(true);
   const [pagination, setPagination] = useState({
     page: 0,
     pageSize: 3,
@@ -43,11 +43,10 @@ const GroupMembers = ({ groupId, groupName }: IMembersProps) => {
         setGroupMembers((prevState) => [...prevState, ...items]);
       })
       .catch((err) => {
-        console.log(err);
-        //        if (err.response.status === 403) {
-        //          navigate('/');
-        //        }
-        //        console.log(err.response);
+        if (err.response.status === 403) {
+          navigate('/');
+        }
+        console.log(err.response);
         throw new Error(err.message);
       });
   };
