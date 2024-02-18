@@ -10,12 +10,19 @@ dayjs.extend(relativeTime);
 export interface IInviteProps {
   data: IInvite;
   joinGroup: (groupMemberId: number, isAccepted: boolean, groupId: number) => void;
+  ignoreInvite: (groupMemberId: number) => void;
 }
 
-const Invite = ({ data, joinGroup }: IInviteProps) => {
-  const handleOnClick = () => {
+const Invite = ({ data, joinGroup, ignoreInvite }: IInviteProps) => {
+  const handleOnJoin = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
     const isAccepted = true;
     joinGroup(data.groupMemberId, isAccepted, data.groupId);
+  };
+
+  const handleOnIgnoreInvite = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    ignoreInvite(data.groupMemberId);
   };
 
   return (
@@ -31,8 +38,11 @@ const Invite = ({ data, joinGroup }: IInviteProps) => {
         </Text>
       </Box>
       <Flex justify="flex-end">
-        <Button onClick={handleOnClick} colorScheme="purple">
+        <Button mx="0.25rem" onClick={handleOnJoin} colorScheme="purple">
           Join
+        </Button>
+        <Button mx="0.25rem" onClick={handleOnIgnoreInvite} colorScheme="gray">
+          Ignore
         </Button>
       </Flex>
     </Box>
