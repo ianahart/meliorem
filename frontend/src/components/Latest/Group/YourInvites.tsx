@@ -51,7 +51,16 @@ const YourInvites = ({ handleAddGroup }: IYourInvitesProps) => {
         });
       })
       .catch((err) => {
-        console.log(err);
+        throw new Error(err.message);
+      });
+  };
+
+  const ignoreInvite = (groupMemberId: number) => {
+    Client.ignoreInvite(groupMemberId)
+      .then(() => {
+        setInvites((prevState) => prevState.filter((invite) => invite.groupMemberId !== groupMemberId));
+      })
+      .catch((err) => {
         throw new Error(err.message);
       });
   };
@@ -101,7 +110,14 @@ const YourInvites = ({ handleAddGroup }: IYourInvitesProps) => {
             <Box height="300px" overflowY="auto" className="overflow-scroll" my="2rem">
               <Flex justify="space-evenly" flexWrap="wrap">
                 {invites.map((invite) => {
-                  return <Invite key={invite.groupMemberId} data={invite} joinGroup={joinGroup} />;
+                  return (
+                    <Invite
+                      ignoreInvite={ignoreInvite}
+                      key={invite.groupMemberId}
+                      data={invite}
+                      joinGroup={joinGroup}
+                    />
+                  );
                 })}
               </Flex>
               {pagination.page < pagination.totalPages - 1 && (

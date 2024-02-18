@@ -70,7 +70,6 @@ const GroupStudySets = ({ groupId, adminId }: IGroupStudyStudySetsProps) => {
     Client.searchStudySets(query, groupId, pageNum, searchPagination.pageSize, searchPagination.direction)
       .then((res) => {
         const { direction, items, page, pageSize, totalElements, totalPages } = res.data.data;
-        console.log(items);
         setSearchPagination((prevState) => ({
           ...prevState,
           page,

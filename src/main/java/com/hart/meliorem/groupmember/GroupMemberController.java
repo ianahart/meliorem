@@ -2,6 +2,7 @@ package com.hart.meliorem.groupmember;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hart.meliorem.groupmember.request.CreateGroupMemberRequest;
 import com.hart.meliorem.groupmember.request.UpdateGroupMemberRequest;
 import com.hart.meliorem.groupmember.response.CreateGroupMemberResponse;
+import com.hart.meliorem.groupmember.response.DeleteGroupMemberResponse;
 import com.hart.meliorem.groupmember.response.GetGroupMembersResponse;
 import com.hart.meliorem.groupmember.response.GetInviteResponse;
 import com.hart.meliorem.groupmember.response.UpdateGroupMemberResponse;
@@ -65,5 +67,15 @@ public class GroupMemberController {
                 .status(HttpStatus.OK)
                 .body(new GetGroupMembersResponse("success",
                         this.groupMemberService.getGroupMembers(groupId, accepted, page, pageSize, direction)));
+    }
+
+    @DeleteMapping("/{groupMemberId}")
+    ResponseEntity<DeleteGroupMemberResponse> deleteGroupMember(@PathVariable("groupMemberId") Long groupMemberId) {
+
+      this.groupMemberService.deleteGroupMember(groupMemberId);
+
+      return ResponseEntity
+        .status(HttpStatus.OK)
+        .body(new DeleteGroupMemberResponse("success"));
     }
 }

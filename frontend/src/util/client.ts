@@ -227,9 +227,10 @@ export const Client = {
   getGroupStudySets: (groupId: number, page: number, pageSize: number, direction: string) => {
     return http.get(`/group-studysets?groupId=${groupId}&page=${page}&pageSize=${pageSize}&direction=${direction}`);
   },
-    removeGroupStudySet: (groupStudySetId: number) => {
-        return http.delete(`/group-studysets/${groupStudySetId}`);
-    }
-
-
+  removeGroupStudySet: (groupStudySetId: number) => {
+    return http.delete(`/group-studysets/${groupStudySetId}`);
+  },
+  ignoreInvite: (groupMemberId: number) => {
+    return http.delete(`/group-members/${groupMemberId}`);
+  },
 };
