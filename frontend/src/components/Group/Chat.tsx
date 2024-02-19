@@ -126,7 +126,7 @@ const Chat = () => {
                           <Text color="#fff">{chatMessage.message}</Text>
                           <Flex justify="flex-end" my="0.25rem">
                             <Text fontStyle="italic" color="gray.400">
-                              {dayjs(chatMessage.createdAt).format('MM/DD/YYYY')}
+                              {dayjs(chatMessage.createdAt).format('MM/DD/YYYY hh:mma')}
                             </Text>
                           </Flex>
                         </Box>
