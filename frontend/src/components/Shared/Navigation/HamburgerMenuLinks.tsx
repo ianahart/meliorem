@@ -12,9 +12,7 @@ export interface IHamburgerMenuLinksProps {
 
 const HamburgerMenuLinks = ({ closeHamburgerMenu }: IHamburgerMenuLinksProps) => {
   const createSubLinks = [
-    { linkName: '/notes', linkText: 'Notes', icon: <CgNotes /> },
     { linkName: '/study-set', linkText: 'Study set', icon: <PiCards /> },
-    { linkName: '/add-folder', linkText: 'Folder', icon: <FaRegFolder /> },
   ];
 
   return (
