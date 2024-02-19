@@ -1,3 +1,13 @@
+export interface IChatMessage {
+  id: number;
+  userId: number;
+  fullName: string;
+  createdAt: Date;
+  avatarUrl: string;
+  groupId: number;
+  message: string;
+}
+
 export interface IGroupStudySet {
   id: number;
   groupId: number;

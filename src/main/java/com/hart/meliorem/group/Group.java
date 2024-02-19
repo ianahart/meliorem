@@ -7,6 +7,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.hart.meliorem.groupmember.GroupMember;
+import com.hart.meliorem.groupmessage.GroupMessage;
 import com.hart.meliorem.groupstudyset.GroupStudySet;
 import com.hart.meliorem.user.User;
 
@@ -54,6 +55,9 @@ public class Group {
     @OneToMany(mappedBy = "group", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<GroupStudySet> groupStudySets;
 
+    @OneToMany(mappedBy = "group", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<GroupMessage> groupMessages;
+
     public Group() {
     }
 
@@ -83,6 +87,10 @@ public class Group {
 
     public List<GroupStudySet> getGroupStudySets() {
         return groupStudySets;
+    }
+
+    public List<GroupMessage> getGroupMessages() {
+        return groupMessages;
     }
 
     public User getAdmin() {
@@ -127,5 +135,9 @@ public class Group {
 
     public void setGroupStudySets(List<GroupStudySet> groupStudySets) {
         this.groupStudySets = groupStudySets;
+    }
+
+    public void setGroupMessages(List<GroupMessage> groupMessages) {
+        this.groupMessages = groupMessages;
     }
 }
