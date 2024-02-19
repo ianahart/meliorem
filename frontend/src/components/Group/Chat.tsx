@@ -18,10 +18,11 @@ const Chat = () => {
   const location = useLocation();
   const groupId = location.state.groupId;
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const shouldRun = useRef(true);
   const { user } = useContext(UserContext) as IUserContext;
   const [messageText, setMessageText] = useState('');
   const [chatMessages, setChatMessages] = useState<IChatMessage[]>([]);
-  const shouldRun = useRef(true);
+  const [error, setError] = useState('');
 
   const connect = () => {
     let Sock = new SockJS('http://localhost:8080/ws');
@@ -86,6 +87,11 @@ const Chat = () => {
   };
 
   const handleOnSendChatMessage = () => {
+    setError('');
+    if (messageText.length > 200) {
+      setError('Message cannot exceed 200 characters.');
+      return;
+    }
     sendChatMessage(groupId, user.id);
   };
 
@@ -128,6 +134,11 @@ const Chat = () => {
                     );
                   })}
                 </Flex>
+                {error.length > 0 && (
+                  <Flex>
+                    <Text color="#fff">{error}</Text>
+                  </Flex>
+                )}
                 <Box ref={messagesEndRef}></Box>
               </Box>
             </Box>
