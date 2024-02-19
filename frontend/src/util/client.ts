@@ -233,4 +233,8 @@ export const Client = {
   ignoreInvite: (groupMemberId: number) => {
     return http.delete(`/group-members/${groupMemberId}`);
   },
+
+  getGroupMessages: (groupId: number) => {
+    return http.get(`/group-messages?groupId=${groupId}`);
+  },
 };

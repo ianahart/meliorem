@@ -63,7 +63,6 @@ const GroupMembers = ({ groupId, groupName }: IMembersProps) => {
       <Heading color="#fff" as="h2">
         {deslugify(groupName)}
       </Heading>
-      <Divider my="0.5rem" borderColor="gray.700" />
       <Flex
         onClick={() => setIsDrawerOpen((prevState) => !prevState)}
         cursor="pointer"
@@ -111,7 +110,7 @@ const GroupMembers = ({ groupId, groupName }: IMembersProps) => {
             );
           })}
           {pagination.page < pagination.totalPages - 1 && (
-            <Flex my="0.5rem">
+            <Flex my="0.5rem" justify="center">
               <Button onClick={() => getGroupMembers(true)} colorScheme="purple">
                 More
               </Button>
