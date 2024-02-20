@@ -9,10 +9,11 @@ import { useNavigate } from 'react-router-dom';
 
 interface IMembersProps {
   groupId: number;
+  adminId: number;
   groupName: string;
 }
 
-const GroupMembers = ({ groupId, groupName }: IMembersProps) => {
+const GroupMembers = ({ groupId, adminId, groupName }: IMembersProps) => {
   const navigate = useNavigate();
   const shouldRun = useRef(true);
   const [groupMembers, setGroupMembers] = useState<IGroupMember[]>([]);
@@ -54,6 +55,7 @@ const GroupMembers = ({ groupId, groupName }: IMembersProps) => {
   useEffect(() => {
     if (shouldRun.current) {
       shouldRun.current = false;
+
       getGroupMembers(false);
     }
   }, [shouldRun.current]);
@@ -101,6 +103,11 @@ const GroupMembers = ({ groupId, groupName }: IMembersProps) => {
                     avatarUrl={groupMember.avatarUrl}
                   />
                   <Box ml="0.5rem">
+                    {groupMember.userId === adminId && (
+                      <Text color="gray.400" fontSize="0.85rem">
+                        (admin)
+                      </Text>
+                    )}
                     <Text color="#fff">{groupMember.fullName}</Text>
                     <Text color="gray.400">{groupMember.schoolName}</Text>
                   </Box>

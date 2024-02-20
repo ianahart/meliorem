@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.hart.meliorem.advice.NotFoundException;
 import com.hart.meliorem.group.dto.GroupDto;
+import com.hart.meliorem.group.request.UpdateGroupRequest;
 import com.hart.meliorem.groupmember.GroupMemberService;
 import com.hart.meliorem.pagination.PaginationService;
 import com.hart.meliorem.pagination.dto.PaginationDto;
@@ -81,5 +82,22 @@ public class GroupService {
                 direction,
                 result.getTotalElements());
 
+    }
+
+    public void updateGroup(Long groupId, UpdateGroupRequest request) {
+        Group group = findGroupByGroupId(groupId);
+        User newAdmin = this.userService.getUserById(request.getNewAdminId());
+
+        this.groupMemberService.deleteGroupMemberFromGroup(request.getOldAdminId(), groupId);
+        this.groupMemberService.updateGroupMemberInviter(newAdmin, request.getOldAdminId(), groupId);
+
+        group.setAdmin(newAdmin);
+
+        this.groupRepository.save(group);
+
+    }
+
+    public void deleteGroup(Long groupId) {
+        this.groupRepository.deleteById(groupId);
     }
 }

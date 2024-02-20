@@ -138,8 +138,25 @@ public class GroupMemberService {
 
     }
 
-    public void deleteGroupMember(Long groupMemberId) {
+    public void deleteGroupMemberFromGroup(Long userId, Long groupId) {
+        Long groupMemberId = this.groupMemberRepository.findGroupMemberByUserIdAndGroupId(userId, groupId);
 
         this.groupMemberRepository.deleteById(groupMemberId);
+    }
+
+    public void deleteGroupMember(Long groupMemberId) {
+        this.groupMemberRepository.deleteById(groupMemberId);
+    }
+
+    public void updateGroupMemberInviter(User newInviter, Long oldInviterId, Long groupId) {
+        List<Long> groupMemberIds = this.groupMemberRepository.findGroupMembersByUserIdAndGroupId(oldInviterId,
+                groupId);
+
+        for (Long groupMemberId : groupMemberIds) {
+            GroupMember groupMember = findGroupMemberById(groupMemberId);
+            groupMember.setInviter(newInviter);
+            this.groupMemberRepository.save(groupMember);
+        }
+
     }
 }

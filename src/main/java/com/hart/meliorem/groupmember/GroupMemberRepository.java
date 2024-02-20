@@ -63,4 +63,25 @@ public interface GroupMemberRepository extends JpaRepository<GroupMember, Long> 
                 """)
     Page<GroupMemberDto> getGroupMembersByGroupId(@Param("groupId") Long groupID, @Param("accepted") Boolean accepted,
             @Param("pageable") Pageable pageable);
+
+    @Query(value = """
+            SELECT gm.id FROM GroupMember gm
+            INNER JOIN gm.member m
+            INNER JOIN gm.group g
+            WHERE m.id = :userId
+            AND g.id = :groupId
+            """)
+
+    Long findGroupMemberByUserIdAndGroupId(@Param("userId") Long userId, @Param("groupId") Long groupId);
+
+    @Query(value = """
+            SELECT gm.id FROM GroupMember gm
+            INNER JOIN gm.inviter i
+            INNER JOIN gm.group g
+            WHERE i.id = :userId
+            AND g.id = :groupId
+            """)
+
+    List<Long> findGroupMembersByUserIdAndGroupId(@Param("userId") Long userId, @Param("groupId") Long groupId);
+
 }
