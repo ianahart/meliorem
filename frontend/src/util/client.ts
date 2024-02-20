@@ -237,4 +237,11 @@ export const Client = {
   getGroupMessages: (groupId: number) => {
     return http.get(`/group-messages?groupId=${groupId}`);
   },
+
+  updateGroup: (newAdminId: number, groupId: number, oldAdminId: number) => {
+    return http.patch(`/groups/${groupId}`, { newAdminId, oldAdminId });
+  },
+  deleteGroup: (groupId: number) => {
+    return http.delete(`/groups/${groupId}`);
+  },
 };
