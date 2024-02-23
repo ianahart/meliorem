@@ -9,8 +9,11 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.Calendar;
 import java.util.List;
+import java.util.ArrayList;
 
 import com.hart.meliorem.advice.BadRequestException;
 import com.hart.meliorem.datetime.DateTimeService;
@@ -68,13 +71,22 @@ public class StreakService {
         this.streakRepository.save(newStreak);
     }
 
-    public List<StreakDto> getStreaks(Long userId) {
+    public List<StreakDto> getStreaks(Long userId, String duration, Integer month, Integer year) {
 
-        Timestamp oneWeekAgo = this.dateTimeService.getDateTimeWeekAgo();
-        Timestamp now = Timestamp.from(Instant.now());
-        List<StreakDto> streaks = this.streakRepository.findAllStreaksByUserId(userId, oneWeekAgo, now);
+        if (duration.equals("month")) {
+            LocalDate startOfMonth = LocalDate.of(year, month, 1);
+            Timestamp endOfMonth = this.dateTimeService.getAMonthAgo(year, month);
+            return this.streakRepository.findAllStreaksByUserIdMonth(userId, endOfMonth,
+                    Timestamp.valueOf(startOfMonth.atStartOfDay()));
+        }
 
-        return streaks;
+        if (duration.equals("week")) {
+            Timestamp now = Timestamp.from(Instant.now());
+            Timestamp oneWeekAgo = this.dateTimeService.getDateTimeWeekAgo();
+            return this.streakRepository.findAllStreaksByUserIdWeek(userId, oneWeekAgo, now);
+        }
 
+        List<StreakDto> empty = new ArrayList<>();
+        return empty;
     }
 }

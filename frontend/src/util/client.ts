@@ -100,8 +100,8 @@ export const Client = {
     return http.post('/streaks', { studySetId });
   },
 
-  getStreak: (userId: number) => {
-    return http.get(`/streaks?userId=${userId}`);
+  getStreak: (userId: number, duration: string, month: number = 0, year: number = 0) => {
+    return http.get(`/streaks?userId=${userId}&duration=${duration}&month=${month}&year=${year}`);
   },
 
   getStudySet: (studySetId: number) => {

@@ -36,10 +36,12 @@ public class StreakController {
     }
 
     @GetMapping("")
-    ResponseEntity<GetStreakResponse> getStreaks(@RequestParam("userId") Long userId) {
+    ResponseEntity<GetStreakResponse> getStreaks(@RequestParam("userId") Long userId,
+            @RequestParam("duration") String duration, @RequestParam("month") Integer month,
+            @RequestParam("year") Integer year) {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(new GetStreakResponse("success", this.streakService.getStreaks(userId)));
+                .body(new GetStreakResponse("success", this.streakService.getStreaks(userId, duration, month, year)));
     }
 }

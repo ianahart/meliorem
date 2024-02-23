@@ -35,6 +35,21 @@ public interface StreakRepository extends JpaRepository<Streak, Long> {
                 WHERE u.id = :userId
                 AND s.createdAt BETWEEN :oneWeekAgo AND :now
                       """)
-    List<StreakDto> findAllStreaksByUserId(@Param("userId") Long userId, @Param("oneWeekAgo") Timestamp oneWeekAgo,
+    List<StreakDto> findAllStreaksByUserIdWeek(@Param("userId") Long userId, @Param("oneWeekAgo") Timestamp oneWeekAgo,
             @Param("now") Timestamp now);
+
+    @Query(value = """
+            SELECT new com.hart.meliorem.streak.dto.StreakDto(
+            s.id AS id, s.createdAt AS createdAt, s.day AS day,
+            s.dayOfWeek AS dayOfWeek, s.month AS month, s.year AS year,
+            s.timestamp AS timestamp
+            ) FROM Streak s
+                INNER JOIN s.user u
+                WHERE u.id = :userId
+                AND s.createdAt BETWEEN :startOfMonth AND :endOfMonth
+                      """)
+    List<StreakDto> findAllStreaksByUserIdMonth(@Param("userId") Long userId,
+            @Param("endOfMonth") Timestamp endOfMonth,
+            @Param("startOfMonth") Timestamp startOfMonth);
+
 }
