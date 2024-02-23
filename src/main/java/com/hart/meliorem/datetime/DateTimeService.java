@@ -3,6 +3,8 @@ package com.hart.meliorem.datetime;
 import java.sql.Timestamp;
 import java.time.*;
 import java.time.format.TextStyle;
+import java.time.temporal.TemporalAdjuster;
+import java.time.temporal.TemporalAdjusters;
 import java.util.Date;
 import java.util.Locale;
 
@@ -60,5 +62,15 @@ public class DateTimeService {
         Timestamp timestamp = Timestamp.valueOf(weekStart.atStartOfDay());
 
         return timestamp;
+    }
+
+    public Timestamp getAMonthAgo(Integer year, Integer month) {
+        LocalDate startOfMonth = LocalDate.of(year, month, 1);
+        LocalDate endOfMonth = startOfMonth.with(TemporalAdjusters.lastDayOfMonth());
+
+        Timestamp timestamp = Timestamp.valueOf(endOfMonth.atStartOfDay());
+
+        return timestamp;
+
     }
 }

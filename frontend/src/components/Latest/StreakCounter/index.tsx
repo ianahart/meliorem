@@ -50,7 +50,7 @@ const StreakCounter = () => {
   }, [streaks]);
 
   const getStreakCounter = () => {
-    Client.getStreak(user.id)
+    Client.getStreak(user.id, 'week')
       .then((res) => {
         const { data } = res.data;
 
