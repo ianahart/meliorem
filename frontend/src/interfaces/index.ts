@@ -1,3 +1,8 @@
+export interface IStreakStat {
+  setsStudied: number;
+  weeklyStreak: number;
+}
+
 export interface IChatMessage {
   id: number;
   userId: number;

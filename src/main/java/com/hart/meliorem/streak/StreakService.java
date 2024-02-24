@@ -1,17 +1,11 @@
 package com.hart.meliorem.streak;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDate;
-import java.time.Month;
-import java.util.Calendar;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -19,6 +13,7 @@ import com.hart.meliorem.advice.BadRequestException;
 import com.hart.meliorem.datetime.DateTimeService;
 import com.hart.meliorem.datetime.dto.DateTimeDto;
 import com.hart.meliorem.streak.dto.StreakDto;
+import com.hart.meliorem.streak.dto.StreakStatDto;
 import com.hart.meliorem.studyset.StudySet;
 import com.hart.meliorem.studyset.StudySetService;
 import com.hart.meliorem.user.User;
@@ -88,5 +83,12 @@ public class StreakService {
 
         List<StreakDto> empty = new ArrayList<>();
         return empty;
+    }
+
+    public StreakStatDto getStreakStats(Long userId) {
+        Long setsStudied = this.streakRepository.getSetsStudied(userId);
+        Integer weeklyStreak = getStreaks(userId, "week", 0, 0).size();
+
+        return new StreakStatDto(setsStudied, weeklyStreak);
     }
 }

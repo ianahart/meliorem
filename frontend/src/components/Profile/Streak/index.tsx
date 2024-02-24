@@ -1,4 +1,4 @@
-import { Box, Flex, Heading } from '@chakra-ui/react';
+import { Box, Flex, Heading, Image, Text } from '@chakra-ui/react';
 import { useEffect, useState, useRef, useContext } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
@@ -6,11 +6,12 @@ import isBetween from 'dayjs/plugin/isBetween';
 dayjs.extend(isBetween);
 
 import fireImg from '../../../assets/fire.png';
+import trophyImg from '../../../assets/trophy.png';
 
 import Calendar from 'react-calendar';
 import { Client } from '../../../util/client';
 import { UserContext } from '../../../context/user';
-import { IUserContext } from '../../../interfaces';
+import { IStreakStat, IUserContext } from '../../../interfaces';
 
 type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
@@ -20,11 +21,25 @@ const Streak = () => {
   const shouldRun = useRef(true);
   const [value, onChange] = useState<Value>(new Date());
   const [streaks, setStreaks] = useState<Dayjs[]>([]);
+  const [streakStat, setStreakStat] = useState<IStreakStat>({ setsStudied: 0, weeklyStreak: 0 });
+
+  const getStreakStats = () => {
+    Client.getStreakStats(user.id)
+      .then((res) => {
+        const { data } = res.data;
+        setStreakStat((prevState) => ({
+          ...prevState,
+          ...data,
+        }));
+      })
+      .catch((err) => {
+        throw new Error(err.message);
+      });
+  };
 
   const getStreaks = (month: number, year: number) => {
     Client.getStreak(user.id, 'month', month, year)
       .then((res) => {
-        console.log(res);
         const { data } = res.data;
         const dates: Dayjs[] = [];
         for (const streak of data) {
@@ -33,7 +48,7 @@ const Streak = () => {
         setStreaks(dates);
       })
       .catch((err) => {
-        console.log(err);
+        throw new Error(err.message);
       });
   };
 
@@ -41,6 +56,7 @@ const Streak = () => {
     if (shouldRun.current && user.id !== 0) {
       shouldRun.current = false;
       getStreaks(dayjs().month() + 1, dayjs().year());
+      getStreakStats();
     }
   }, [shouldRun.current, user.id]);
 
@@ -53,7 +69,19 @@ const Streak = () => {
       <Heading fontSize="1.8rem" as="h3">
         Recent activity
       </Heading>
-      <Flex mx="auto" justify="center" my="3rem" width={['95%', '95%', '65%']}>
+      <Flex flexDir={['column', 'row', 'row']} mx="auto" align="center" justify="space-around" my="3rem" width="95%">
+        {streakStat.setsStudied > 0 ? (
+          <Box position="relative">
+            <Text textAlign="center">Sets studied</Text>
+            <Image src={trophyImg} alt="a golden trophy" />
+            <Text fontSize="1.6rem" color="#000" fontWeight="bold" position="absolute" top="40px" left="45px">
+              {streakStat.setsStudied}
+            </Text>
+          </Box>
+        ) : (
+          <Text>You haven't studied any sets</Text>
+        )}
+
         <Box className="container">
           <Calendar
             onActiveStartDateChange={({ activeStartDate }) => {
@@ -62,7 +90,6 @@ const Streak = () => {
             tileClassName={({ date, view }) => {
               if (view === 'month') {
                 const tileDate = dayjs(date);
-
                 for (const streak of streaks) {
                   if (streak.isBetween(tileDate.startOf('week'), tileDate.endOf('week'))) {
                     return 'streak';
@@ -89,6 +116,17 @@ const Streak = () => {
             value={value}
           />
         </Box>
+        {streakStat.weeklyStreak > 0 ? (
+          <Box position="relative">
+            <Text>Current Weekly Streak</Text>
+            <Image src={fireImg} alt="a flame that is orange and red" />
+            <Text fontSize="1.6rem" color="#000" fontWeight="bold" position="absolute" top="70px" left="45px">
+              {streakStat.weeklyStreak}
+            </Text>
+          </Box>
+        ) : (
+          <Text>You currently do not have a streak</Text>
+        )}
       </Flex>
     </Box>
   );
