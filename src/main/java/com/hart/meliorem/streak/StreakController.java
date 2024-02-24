@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hart.meliorem.streak.request.CreateStreakRequest;
 import com.hart.meliorem.streak.response.CreateStreakResponse;
 import com.hart.meliorem.streak.response.GetStreakResponse;
+import com.hart.meliorem.streak.response.GetStreakStatResponse;
 
 @RestController
 @RequestMapping(path = "/api/v1/streaks")
@@ -35,6 +36,13 @@ public class StreakController {
                 .body(new CreateStreakResponse("success"));
     }
 
+    @GetMapping("/stats")
+    ResponseEntity<GetStreakStatResponse> getStreakStats(@RequestParam("userId") Long userId) {
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new GetStreakStatResponse("success", this.streakService.getStreakStats(userId)));
+    }
+
     @GetMapping("")
     ResponseEntity<GetStreakResponse> getStreaks(@RequestParam("userId") Long userId,
             @RequestParam("duration") String duration, @RequestParam("month") Integer month,
@@ -44,4 +52,5 @@ public class StreakController {
                 .status(HttpStatus.OK)
                 .body(new GetStreakResponse("success", this.streakService.getStreaks(userId, duration, month, year)));
     }
+
 }

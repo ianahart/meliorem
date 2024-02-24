@@ -118,11 +118,11 @@ const Topics = () => {
                 <Box
                   boxShadow="lg"
                   border="1px solid"
-                  borderColor="primary.light"
+                  borderColor="bg.dark"
                   borderRadius={20}
                   my="0.5rem"
                   p="0.5rem 1rem"
-                  bg="primary.dark"
+                  bg="bg.primary"
                   mx="1rem"
                   key={id}
                 >

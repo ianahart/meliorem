@@ -244,4 +244,7 @@ export const Client = {
   deleteGroup: (groupId: number) => {
     return http.delete(`/groups/${groupId}`);
   },
+  getStreakStats: (userId: number) => {
+    return http.get(`/streaks/stats?userId=${userId}`);
+  },
 };

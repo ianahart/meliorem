@@ -52,4 +52,12 @@ public interface StreakRepository extends JpaRepository<Streak, Long> {
             @Param("endOfMonth") Timestamp endOfMonth,
             @Param("startOfMonth") Timestamp startOfMonth);
 
+    @Query(value = """
+               SELECT COUNT(DISTINCT (ss.id)) FROM Streak s
+               INNER JOIN s.studySet ss
+               INNER JOIN s.user u
+               WHERE u.id = :userId
+            """)
+    Long getSetsStudied(@Param("userId") Long userId);
+
 }
