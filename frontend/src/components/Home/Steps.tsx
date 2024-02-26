@@ -18,8 +18,8 @@ const steps = [{ title: 'Create Account' }, { title: 'Study' }, { title: 'Evolve
 
 const Steps = () => {
   return (
-    <Box minH="800px">
-      <Box p="1rem" mt="5rem" bg="rgba(0, 0, 0, 0.45)" maxW="800px" w={['100%', '100%', '800px']} mx="auto">
+    <Box p="1rem" minH="800px">
+      <Box p="1rem" mb="3rem" mt="5rem" bg="rgba(0, 0, 0, 0.45)" maxW="800px" w={['100%', '100%', '800px']} mx="auto">
         <Box>
           <Stepper colorScheme="purple" size="lg" color="#fff" p="1rem" bg="rgba(0, 0, 0, 0.8)" index={3}>
             {steps.map((step, index) => (
