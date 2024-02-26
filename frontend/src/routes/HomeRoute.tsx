@@ -8,7 +8,7 @@ const HomeRoute = () => {
     <Box>
       <Hero />
       <Tools />
-        <Steps />
+      <Steps />
     </Box>
   );
 };
