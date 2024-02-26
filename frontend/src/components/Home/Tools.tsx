@@ -1,4 +1,5 @@
-import { Box, Flex, Heading, Image } from '@chakra-ui/react';
+import { Box, Button, Flex, Heading } from '@chakra-ui/react';
+import { Link as RouterLink } from 'react-router-dom';
 import landingFlashCardImg from '../../assets/landing-flashcard.svg';
 import landingNotesImg from '../../assets/landing-notes.svg';
 import landingMessagesImg from '../../assets/landing-messages.svg';
@@ -33,6 +34,13 @@ const Tools = () => {
             />
           </Flex>
         </Box>
+        <Flex justify="center">
+          <RouterLink to="/register">
+            <Button colorScheme="blue" size="lg">
+              Get started
+            </Button>
+          </RouterLink>
+        </Flex>
       </Box>
     </Flex>
   );
