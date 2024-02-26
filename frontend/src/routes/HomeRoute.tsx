@@ -1,26 +1,16 @@
 import { Box } from '@chakra-ui/react';
-import { useEffect, useRef } from 'react';
-import { Client } from '../util/client';
+import Hero from '../components/Home/Hero';
+import Tools from '../components/Home/Tools';
+import Steps from '../components/Home/Steps';
 
 const HomeRoute = () => {
-  const shouldRun = useRef(true);
-
-  const getHeartbeat = () => {
-    Client.heartbeat()
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => console.log(err));
-  };
-
-  useEffect(() => {
-    if (shouldRun.current) {
-      shouldRun.current = false;
-      getHeartbeat();
-    }
-  }, []);
-
-  return <Box>Home Route</Box>;
+  return (
+    <Box>
+      <Hero />
+      <Tools />
+        <Steps />
+    </Box>
+  );
 };
 
 export default HomeRoute;
