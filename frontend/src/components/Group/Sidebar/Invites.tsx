@@ -61,6 +61,7 @@ const Invites = ({ adminId, groupId }: IInvitesProps) => {
       setInviteError('Only an admin can send out invites in this group');
       return;
     }
+
     Client.sendGroupInvite(groupId, userId, adminId)
       .then(() => {
         setUsers([]);

@@ -25,6 +25,7 @@ public class NotificationWebSocketController {
 
     @MessageMapping("private-notifications")
     public void receiveNotification(@Payload CreateNotificationRequest request) {
+
         NotificationDto notification = this.notificationService.createNotification(request);
 
         if (notification.getId() != null) {
