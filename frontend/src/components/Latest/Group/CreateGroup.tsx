@@ -20,6 +20,11 @@ import { IGroupInProgress, IInvitee, IUserContext } from '../../../interfaces';
 import { Client } from '../../../util/client';
 import Invitee from './Invitee';
 
+import { over } from 'stompjs';
+import SockJS from 'sockjs-client';
+
+let stompClient: any = null;
+
 export interface ICreateGroupProps {
   handleCreateGroup: (userId: number, name: string) => void;
   isGroupCreated: boolean;
@@ -50,11 +55,48 @@ const CreateGroup = ({
     totalElements: 0,
   });
 
+  const connect = () => {
+    let Sock = new SockJS('http://localhost:8080/ws');
+    stompClient = over(Sock);
+    if (!stompClient.connected) {
+      stompClient.connect({}, onConnected, onError);
+    }
+  };
+
+  const onConnected = () => console.log('connected');
+
+  const onError = (err: any) => console.error(err);
+
+  useEffect(() => {
+    return () => {
+      if (stompClient !== null) {
+        stompClient.disconnect();
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (user.id !== 0) {
+      connect();
+    } else {
+      if (stompClient !== null) {
+        stompClient.disconnect();
+      }
+    }
+  }, [user.id]);
+
+  const sendNotification = (userId: number, text: string, notificationType: string) => {
+    if (stompClient) {
+      stompClient.send('/api/v1/private-notifications', {}, JSON.stringify({ userId, text, notificationType }));
+    }
+  };
+
   const sendGroupInvite = (userId: number) => {
     const { adminId, groupId } = { ...groupInProgress };
 
     Client.sendGroupInvite(groupId, userId, adminId)
       .then(() => {
+        sendNotification(userId, `${user.fullName} has asked you to join the group ${groupName}`, 'REQUEST');
         const updatedInvitees = [...invitees].filter((invitee) => invitee.userId !== userId);
         setInvitees(updatedInvitees);
       })

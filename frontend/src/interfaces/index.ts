@@ -1,3 +1,10 @@
+export interface INotification {
+  id: number;
+  text: string;
+  createdAt: Date;
+  notificationType: string;
+}
+
 export interface IStreakStat {
   setsStudied: number;
   weeklyStreak: number;

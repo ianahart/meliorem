@@ -247,4 +247,12 @@ export const Client = {
   getStreakStats: (userId: number) => {
     return http.get(`/streaks/stats?userId=${userId}`);
   },
+
+  getNotifications: (userId: number, page: number, pageSize: number, direction: string) => {
+    return http.get(`/notifications?userId=${userId}&page=${page}&pageSize=${pageSize}&direction=${direction}`);
+  },
+
+  removeNotification: (notificationId: number) => {
+    return http.delete(`/notifications/${notificationId}`);
+  },
 };

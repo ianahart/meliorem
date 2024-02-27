@@ -38,17 +38,23 @@ public class StreakService {
         this.studySetService = studySetService;
     }
 
+    public boolean checkForExistingStreak(Long userId, Integer day, String month, Integer year) {
+
+        List<Streak> streaks = this.streakRepository.findStreaksLessThanOneDayOld(
+                userId,
+                day,
+                month,
+                year);
+
+        return streaks.size() == 1;
+    }
+
     public void createStreak(Long studySetId) {
         User user = this.userService.getCurrentlyLoggedInUser();
 
         DateTimeDto dateTime = this.dateTimeService.getDateTimeDisplays();
 
-        List<Streak> streaks = this.streakRepository.findStreaksLessThanOneDayOld(
-                user.getId(),
-                dateTime.getDay(),
-                dateTime.getMonth(),
-                dateTime.getYear());
-        if (streaks.size() == 1) {
+        if (checkForExistingStreak(user.getId(), dateTime.getDay(), dateTime.getMonth(), dateTime.getYear())) {
             throw new BadRequestException("Already scored a point in your streak today");
         }
 
