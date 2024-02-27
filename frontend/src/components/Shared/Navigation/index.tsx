@@ -7,6 +7,7 @@ import { useContext, useState } from 'react';
 import { UserContext } from '../../../context/user';
 import { IUserContext } from '../../../interfaces';
 import UserMenu from '../UserMenu';
+import Notification from '../../Notification';
 
 const Navigation = () => {
   const [hamburgerMenuOpen, setHamburgerMenuOpen] = useState(false);
@@ -26,21 +27,11 @@ const Navigation = () => {
     >
       {hamburgerMenuOpen && <HamburgerMenu closeHamburgerMenu={closeHamburgerMenu} />}
       <Flex align="center">
-        <Heading
-          mx="1rem"
-          display={['none', 'none', 'block']}
-          color="primary.light"
-          as="h2"
-        >
+        <Heading mx="1rem" display={['none', 'none', 'block']} color="primary.light" as="h2">
           Meliorem
         </Heading>
         <Flex display={['flex', 'flex', 'flex']} align="center">
-          <Box
-            onClick={() => setHamburgerMenuOpen(true)}
-            fontSize="2.5rem"
-            color="primary.light"
-            cursor="pointer"
-          >
+          <Box onClick={() => setHamburgerMenuOpen(true)} fontSize="2.5rem" color="primary.light" cursor="pointer">
             <RxHamburgerMenu />
           </Box>
           <Box color="primary.light" display={['block', 'block', 'none']}>
@@ -53,29 +44,20 @@ const Navigation = () => {
         </Flex>
       </Flex>
       {user.loggedIn && (
-        <Flex>
+        <Flex align="center">
+          <Box mx="1rem">
+            <Notification />
+          </Box>
           <UserMenu />
         </Flex>
       )}
       {!user.loggedIn && (
-        <UnorderedList
-          display="flex"
-          fontSize="1.4rem"
-          color="primary.light"
-          listStyleType="none"
-        >
+        <UnorderedList display="flex" fontSize="1.4rem" color="primary.light" listStyleType="none">
           <>
             <ListItem fontWeight="bold" mx="1.5rem" p="1rem">
               <NavLink to="/login">Log in</NavLink>
             </ListItem>
-            <ListItem
-              bg="primary.dark"
-              color="#fff"
-              p="1rem"
-              fontWeight="bold"
-              mx="1.5rem"
-              borderRadius={8}
-            >
+            <ListItem bg="primary.dark" color="#fff" p="1rem" fontWeight="bold" mx="1.5rem" borderRadius={8}>
               <NavLink to="/register">Sign up</NavLink>
             </ListItem>
           </>

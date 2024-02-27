@@ -1,19 +1,25 @@
 import { Box } from '@chakra-ui/react';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { Client } from '../../../util/client';
 import Main from './Main';
 import StillLearning from './StillLearning';
 import FlashCards from './FlashCards';
-import { IStudySetCardFull } from '../../../interfaces';
+import { IStudySetCardFull, IUserContext } from '../../../interfaces';
 import { useLocation } from 'react-router-dom';
 import Reviews from './Reviews';
 import Notes from './Notes';
+import { over } from 'stompjs';
+import SockJS from 'sockjs-client';
+import { UserContext } from '../../../context/user';
+
+let stompClient: any = null;
 
 interface ISingleStudySetProps {
   studySetId: number;
 }
 
 const SingleStudySet = ({ studySetId }: ISingleStudySetProps) => {
+  const { user } = useContext(UserContext) as IUserContext;
   const shouldRun = useRef(true);
   const location = useLocation();
 
@@ -36,6 +42,35 @@ const SingleStudySet = ({ studySetId }: ISingleStudySetProps) => {
         throw new Error(err);
       });
   };
+
+  const connect = () => {
+    let Sock = new SockJS('http://localhost:8080/ws');
+    stompClient = over(Sock);
+    if (!stompClient.connected) {
+      stompClient.connect({}, onConnected, onError);
+    }
+  };
+
+  useEffect(() => {
+    if (user.id !== 0) {
+      connect();
+    } else {
+      if (stompClient !== null) {
+        stompClient.disconnect();
+      }
+    }
+  }, [user.id]);
+
+  const sendNotification = (userId: number, text: string, notificationType: string) => {
+    if (stompClient) {
+      stompClient.send('/api/v1/private-notifications', {}, JSON.stringify({ userId, text, notificationType }));
+    }
+  };
+
+  const onConnected = () => {
+    sendNotification(user.id, "You've added another day onto your streak!", 'STREAK');
+  };
+  const onError = () => {};
 
   const createStreak = () => {
     Client.createStreak(studySetId)

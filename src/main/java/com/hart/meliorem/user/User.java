@@ -12,6 +12,7 @@ import com.hart.meliorem.groupmember.GroupMember;
 import com.hart.meliorem.groupmessage.GroupMessage;
 import com.hart.meliorem.groupstudyset.GroupStudySet;
 import com.hart.meliorem.note.Note;
+import com.hart.meliorem.notification.Notification;
 import com.hart.meliorem.passwordreset.PasswordReset;
 import com.hart.meliorem.profile.Profile;
 import com.hart.meliorem.refreshtoken.RefreshToken;
@@ -144,6 +145,9 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<GroupMessage> groupMessages;
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Notification> notifications;
+
     public User() {
 
     }
@@ -213,6 +217,10 @@ public class User implements UserDetails {
 
     public List<GroupMember> getGroupMembers() {
         return groupMembers;
+    }
+
+    public List<Notification> getNotifications() {
+        return notifications;
     }
 
     public List<GroupMessage> getGroupMessages() {
@@ -394,6 +402,10 @@ public class User implements UserDetails {
 
     public void setStudySets(List<StudySet> studySets) {
         this.studySets = studySets;
+    }
+
+    public void setNotifications(List<Notification> notifications) {
+        this.notifications = notifications;
     }
 
     public void setUpdatedAt(Timestamp updatedAt) {
