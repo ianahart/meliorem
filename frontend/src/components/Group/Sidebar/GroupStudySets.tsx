@@ -1,4 +1,4 @@
-import { Box, Flex, Text, Button, Heading, Divider } from '@chakra-ui/react';
+import { Box, Flex, Text, Button, Heading, Divider, Tooltip } from '@chakra-ui/react';
 import DebouncedForm from './DebouncedForm';
 import { Client } from '../../../util/client';
 import { useContext, useEffect, useRef, useState } from 'react';
@@ -6,7 +6,7 @@ import { UserContext } from '../../../context/user';
 import { IUserContext, IGroupStudySet, ISearchStudySet } from '../../../interfaces';
 import { FaChevronUp, FaChevronDown } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import { AiOutlineCheck, AiOutlinePlus } from 'react-icons/ai';
+import { AiOutlineCheck, AiOutlinePlus, AiOutlineMinusCircle } from 'react-icons/ai';
 
 export interface IGroupStudyStudySetsProps {
   groupId: number;
@@ -115,7 +115,7 @@ const GroupStudySets = ({ groupId, adminId }: IGroupStudyStudySetsProps) => {
     navigate(`/studysets/${studySetId}`, { state: { title } });
   };
 
-  const removeGroupStudySet = (e: React.MouseEvent<HTMLButtonElement>, groupStudySetId: number) => {
+  const removeGroupStudySet = (e: React.MouseEvent<HTMLDivElement>, groupStudySetId: number) => {
     e.stopPropagation();
     Client.removeGroupStudySet(groupStudySetId)
       .then(() => {
@@ -234,16 +234,11 @@ const GroupStudySets = ({ groupId, adminId }: IGroupStudyStudySetsProps) => {
                     <Text color="gray.400">{groupStudySet.course}</Text>
                   </Box>
                   {user.id === adminId && (
-                    <Box>
-                      <Button
-                        onClick={(e) => removeGroupStudySet(e, groupStudySet.id)}
-                        size="sm"
-                        colorScheme="red"
-                        variant="outline"
-                      >
-                        Remove
-                      </Button>
-                    </Box>
+                    <Tooltip label="Remove">
+                      <Box color="#fff" fontSize="2rem" onClick={(e) => removeGroupStudySet(e, groupStudySet.id)}>
+                        <AiOutlineMinusCircle />
+                      </Box>
+                    </Tooltip>
                   )}
                 </Flex>
                 <Divider borderColor="gray.700" />
