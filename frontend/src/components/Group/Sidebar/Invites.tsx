@@ -1,10 +1,15 @@
 import { Box, Button, Divider, Flex, Text } from '@chakra-ui/react';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Client } from '../../../util/client';
 import { ISearchUser, IUserContext } from '../../../interfaces';
 import UserAvatar from '../../Shared/UserAvatar';
 import { UserContext } from '../../../context/user';
 import DebouncedForm from './DebouncedForm';
+
+import { over } from 'stompjs';
+import SockJS from 'sockjs-client';
+
+let stompClient: any = null;
 
 export interface IInvitesProps {
   adminId: number;
@@ -24,6 +29,33 @@ const Invites = ({ adminId, groupId }: IInvitesProps) => {
     direction: 'next',
     totalElements: 0,
   });
+
+  const connect = () => {
+    let Sock = new SockJS('http://localhost:8080/ws');
+    stompClient = over(Sock);
+    if (!stompClient.connected) {
+      stompClient.connect({}, onConnected, onError);
+    }
+  };
+
+  const onConnected = () => console.log('connected');
+
+  const onError = (err: any) => console.error(err);
+
+  useEffect(() => {
+    connect();
+    return () => {
+      if (stompClient !== null) {
+        stompClient.disconnect();
+      }
+    };
+  }, []);
+
+  const sendNotification = (userId: number, text: string, notificationType: string) => {
+    if (stompClient) {
+      stompClient.send('/api/v1/private-notifications', {}, JSON.stringify({ userId, text, notificationType }));
+    }
+  };
 
   const getData = (pageNum: number, paginate: boolean, query: string) => {
     setSearch(query);
@@ -64,6 +96,8 @@ const Invites = ({ adminId, groupId }: IInvitesProps) => {
 
     Client.sendGroupInvite(groupId, userId, adminId)
       .then(() => {
+        sendNotification(userId, `${user.fullName} has asked you to join a group`, 'REQUEST');
+
         setUsers([]);
         setSearch('');
         setPagination({ page: 0, pageSize: 3, totalPages: 0, direction: 'next', totalElements: 0 });
