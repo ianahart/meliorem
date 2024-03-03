@@ -1,3 +1,12 @@
+export interface IQuizQuestion {
+  category: string;
+  correctAnswer: string;
+  difficulty: string;
+  incorrectAnswers: string[];
+  question: string;
+  type: string;
+}
+
 export interface INotification {
   id: number;
   text: string;

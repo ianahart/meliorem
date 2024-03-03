@@ -15,6 +15,7 @@ import com.hart.meliorem.note.Note;
 import com.hart.meliorem.notification.Notification;
 import com.hart.meliorem.passwordreset.PasswordReset;
 import com.hart.meliorem.profile.Profile;
+import com.hart.meliorem.quiz.Quiz;
 import com.hart.meliorem.refreshtoken.RefreshToken;
 import com.hart.meliorem.review.Review;
 import com.hart.meliorem.setting.Setting;
@@ -148,6 +149,9 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Notification> notifications;
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Quiz> quizzes;
+
     public User() {
 
     }
@@ -201,6 +205,10 @@ public class User implements UserDetails {
 
     public String getSlug() {
         return (firstName + lastName).toLowerCase();
+    }
+
+    public List<Quiz> getQuizzes() {
+        return quizzes;
     }
 
     public List<Topic> getTopics() {
@@ -426,6 +434,10 @@ public class User implements UserDetails {
 
     public void setStreaks(List<Streak> streaks) {
         this.streaks = streaks;
+    }
+
+    public void setQuizzes(List<Quiz> quizzes) {
+        this.quizzes = quizzes;
     }
 
     public void setReviews(List<Review> reviews) {

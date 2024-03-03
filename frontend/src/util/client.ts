@@ -255,4 +255,8 @@ export const Client = {
   removeNotification: (notificationId: number) => {
     return http.delete(`/notifications/${notificationId}`);
   },
+
+  getQuiz: (quizAPIUrl: string, topicName: string) => {
+    return http.post('/quizzes', { quizAPIUrl, topicName });
+  },
 };
