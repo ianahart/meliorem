@@ -28,6 +28,8 @@ import NotFoundRoute from './routes/NotFoundRoute';
 import EditStudySetRoute from './routes/EditStudySetRoute';
 import FolderRoute from './routes/FolderRoute';
 import GroupRoute from './routes/GroupRoute';
+import CreateQuizRoute from './routes/CreateQuizRoute';
+import QuizRoute from './routes/QuizRoute';
 
 function App() {
   const { updateUser, stowTokens } = useContext(UserContext) as IUserContext;
@@ -179,6 +181,23 @@ function App() {
                   </RequireAuth>
                 }
               />
+              <Route
+                path="/create-quiz"
+                element={
+                  <RequireAuth>
+                    <CreateQuizRoute />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/quiz/:id"
+                element={
+                  <RequireAuth>
+                    <QuizRoute />
+                  </RequireAuth>
+                }
+              />
+
               <Route path="*" element={<NotFoundRoute />} />
             </Routes>
           </WithAxios>

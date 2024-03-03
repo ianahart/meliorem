@@ -1,3 +1,25 @@
+export interface ITrophy {
+  [key: number]: string;
+}
+
+export interface IQuiz {
+  id: number;
+  userId: number;
+  createdAt: Date;
+  category: string;
+  correctAnswers: number;
+  incorrectAnswers: number;
+}
+
+export interface IQuizQuestion {
+  category: string;
+  correctAnswer: string;
+  difficulty: string;
+  incorrectAnswers: string[];
+  question: string;
+  type: string;
+}
+
 export interface INotification {
   id: number;
   text: string;

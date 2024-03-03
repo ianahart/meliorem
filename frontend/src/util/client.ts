@@ -255,4 +255,16 @@ export const Client = {
   removeNotification: (notificationId: number) => {
     return http.delete(`/notifications/${notificationId}`);
   },
+
+  getQuiz: (quizAPIUrl: string, topicName: string) => {
+    return http.post('/quizzes', { quizAPIUrl, topicName });
+  },
+
+  saveQuiz: (userId: number, correctAnswers: number, incorrectAnswers: number, category: string) => {
+    return http.post('/quizzes/save', { userId, correctAnswers, incorrectAnswers, category });
+  },
+
+  getQuizzes: (page: number, pageSize: number, direction: string) => {
+    return http.get(`/quizzes?page=${page}&pageSize=${pageSize}&direction=${direction}`);
+  },
 };
