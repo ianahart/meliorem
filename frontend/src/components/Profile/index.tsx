@@ -1,6 +1,7 @@
 import { Box, Flex, Heading } from '@chakra-ui/react';
 import Topics from './Topics';
 import Streak from './Streak';
+import Quiz from './Quiz';
 
 const Profile = () => {
   return (
@@ -11,9 +12,11 @@ const Profile = () => {
       <Box my="2rem">
         <Topics />
       </Box>
-
       <Box my="2rem">
         <Streak />
+      </Box>
+      <Box my="2rem">
+        <Quiz />
       </Box>
     </Box>
   );

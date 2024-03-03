@@ -259,4 +259,12 @@ export const Client = {
   getQuiz: (quizAPIUrl: string, topicName: string) => {
     return http.post('/quizzes', { quizAPIUrl, topicName });
   },
+
+  saveQuiz: (userId: number, correctAnswers: number, incorrectAnswers: number, category: string) => {
+    return http.post('/quizzes/save', { userId, correctAnswers, incorrectAnswers, category });
+  },
+
+  getQuizzes: (page: number, pageSize: number, direction: string) => {
+    return http.get(`/quizzes?page=${page}&pageSize=${pageSize}&direction=${direction}`);
+  },
 };

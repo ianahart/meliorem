@@ -11,10 +11,17 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.hart.meliorem.pagination.PaginationService;
+import com.hart.meliorem.pagination.dto.PaginationDto;
 import com.hart.meliorem.quiz.dto.GetQuizDto;
+import com.hart.meliorem.quiz.dto.QuizDto;
 import com.hart.meliorem.quiz.dto.QuizResultDto;
+import com.hart.meliorem.quiz.request.CreateQuizRequest;
+import com.hart.meliorem.user.User;
 import com.hart.meliorem.user.UserService;
 
 @Service
@@ -22,9 +29,17 @@ class QuizService {
 
     private final UserService userService;
 
+    private final QuizRepository quizRepository;
+
+    private final PaginationService paginationService;
+
     @Autowired
-    public QuizService(UserService userService) {
+    public QuizService(UserService userService,
+            QuizRepository quizRepository,
+            PaginationService paginationService) {
         this.userService = userService;
+        this.quizRepository = quizRepository;
+        this.paginationService = paginationService;
     }
 
     public GetQuizDto getQuiz(String quizAPIUrl, String topicName) throws IOException {
@@ -71,4 +86,30 @@ class QuizService {
         return quizResults;
     }
 
+    public void createQuiz(CreateQuizRequest request) {
+        User user = this.userService.getUserById(request.getUserId());
+
+        this.quizRepository.save(new Quiz(
+                request.getIncorrectAnswers(),
+                request.getCorrectAnswers(),
+                request.getCategory(),
+                user));
+
+    }
+
+    public PaginationDto<QuizDto> getQuizzes(int page, int pageSize, String direction) {
+        User user = this.userService.getCurrentlyLoggedInUser();
+
+        Pageable pageable = this.paginationService.getPageable(page, pageSize, direction);
+        Page<QuizDto> result = this.quizRepository.getQuizzesByUserId(user.getId(), pageable);
+
+        return new PaginationDto<QuizDto>(
+                result.getContent(),
+                result.getNumber(),
+                pageSize,
+                result.getTotalPages(),
+                direction,
+                result.getTotalElements());
+
+    }
 }

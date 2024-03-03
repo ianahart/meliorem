@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Text } from '@chakra-ui/react';
+import { Button, Flex, Text } from '@chakra-ui/react';
 import { useMemo, useState } from 'react';
 import Answer from './Answer';
 
@@ -24,7 +24,7 @@ const Question = ({
   const handleSelectedAnswer = (answer: string) => {
     setSelectedAnswer(answer);
 
-    answer === selectedAnswer ? handleAnswer(true) : handleAnswer(false);
+    answer === correctAnswer ? handleAnswer(true) : handleAnswer(false);
   };
 
   const onNextQuestion = () => {
@@ -45,7 +45,7 @@ const Question = ({
       bg="rgba(0, 0, 0, 0.9)"
       mx="auto"
       maxW="100%"
-      width={['95%', '95%', '400px']}
+      width={['95%', '95%', '600px']}
       p="1rem"
       mt="15rem"
       borderRadius={8}

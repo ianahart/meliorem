@@ -1,17 +1,22 @@
-import { Box, Button, Flex, Heading, Text } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Box, Button, Flex, Heading, Image, Text } from '@chakra-ui/react';
+import { useContext, useEffect, useState } from 'react';
+import { useLocation, useNavigate, Link as RouterLink } from 'react-router-dom';
 import { Client } from '../../util/client';
-import { IQuizQuestion } from '../../interfaces';
+import { IQuizQuestion, IUserContext } from '../../interfaces';
 import quizImg from '../../assets/quiz.svg';
+import celebratioImg from '../../assets/celebration.png';
+import ConfettiExplosion from 'react-confetti-explosion';
 import Question from './Question';
+import { UserContext } from '../../context/user';
 
 const Quiz = () => {
+  const { user } = useContext(UserContext) as IUserContext;
   const location = useLocation();
   const navigate = useNavigate();
   const [questions, setQuestions] = useState<IQuizQuestion[]>([]);
   const [title, setTitle] = useState('');
   const [quizInProgress, setQuizInProgress] = useState(false);
+  const [quizOver, setQuizOver] = useState(false);
   const [questionIndex, setQuestionIndex] = useState(0);
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [incorrectAnswers, setIncorrectAnswers] = useState(0);
@@ -24,9 +29,27 @@ const Quiz = () => {
     }
   };
 
+  const saveQuizResults = () => {
+    Client.saveQuiz(user.id, correctAnswers, incorrectAnswers, title)
+      .then(() => {})
+      .catch((err) => {
+        throw new Error(err.message);
+      });
+  };
+
+  const endQuiz = () => {
+    setQuizOver(true);
+    setQuizInProgress(false);
+    if (correctAnswers > 0) {
+      saveQuizResults();
+    }
+  };
+
   const moveToNextQuestion = () => {
     if (questionIndex < questions.length - 1) {
       setQuestionIndex((prevState) => prevState + 1);
+    } else {
+      endQuiz();
     }
   };
 
@@ -66,7 +89,49 @@ const Quiz = () => {
             {title}
           </Heading>
         </Box>
-        {!quizInProgress && (
+
+        {!quizInProgress && quizOver && (
+          <Flex
+            flexDir="column"
+            borderRadius={4}
+            mx="auto"
+            my="3rem"
+            justify="center"
+            p="2rem"
+            bg="rgba(0, 0, 0, 0.85)"
+            width={['100%', '350px', '350px']}
+            color="#fff"
+          >
+            <Heading mx="auto" textAlign="center" as="h4" fontSize="1.6rem">
+              Congratulations!
+            </Heading>
+            <Text
+              mx="auto"
+              pb="0.25rem"
+              width="160px"
+              borderBottom="2px solid"
+              borderColor="blue.500"
+              textAlign="center"
+              my="1rem"
+              fontWeight="bold"
+            >
+              You scored {correctAnswers} out of {correctAnswers + incorrectAnswers} correctly
+            </Text>
+            <Flex justify="center">
+              <Image src={celebratioImg} alt="celebration with bell and confetti" />
+            </Flex>
+            <Flex my="2rem" justify="center">
+              <RouterLink to="/create-quiz">
+                <Button colorScheme="blue">Try another quiz</Button>
+              </RouterLink>
+            </Flex>
+            <Flex justify="center">
+              <ConfettiExplosion force={0.6} duration={2500} particleCount={80} width={1000} />
+            </Flex>
+          </Flex>
+        )}
+
+        {!quizInProgress && !quizOver && (
           <Flex
             flexDir="column"
             borderRadius={4}
@@ -97,7 +162,7 @@ const Quiz = () => {
             </Text>
           </Flex>
         )}
-        {quizInProgress && (
+        {quizInProgress && !quizOver && (
           <Question
             question={questions[questionIndex].question}
             questionIndex={questionIndex}

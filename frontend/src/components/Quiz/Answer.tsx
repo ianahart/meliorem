@@ -1,5 +1,4 @@
-import { Box, Flex, Text } from '@chakra-ui/react';
-import { useMemo, useState } from 'react';
+import { Flex, Text } from '@chakra-ui/react';
 
 export interface IAnswerProps {
   letter: string;
@@ -14,18 +13,18 @@ const Answer = ({ letter, text, correctAnswer, handleSelectedAnswer, selectedAns
     handleSelectedAnswer(text);
   };
 
-  const borderAnswer = () => {
+  const highlight = (background: boolean) => {
     if (selectedAnswer.length && selectedAnswer === text) {
       return correctAnswer === selectedAnswer ? 'green' : 'red';
     } else {
-      return '';
+      return background ? 'primary.dark' : '';
     }
   };
 
   return (
     <Flex
       pointerEvents={selectedAnswer.length ? 'none' : 'auto'}
-            cursor="pointer"
+      cursor="pointer"
       onClick={onSelectedAnswer}
       align="center"
       m="1rem"
@@ -33,13 +32,13 @@ const Answer = ({ letter, text, correctAnswer, handleSelectedAnswer, selectedAns
       border="1px solid transparent"
       borderRadius={4}
       p="0.25rem"
-      borderColor={borderAnswer()}
+      borderColor={highlight(false)}
     >
       <Flex
         flexDir="column"
         align="center"
         justify="center"
-        bg="primary.dark"
+        bg={highlight(true)}
         borderRadius={50}
         width="20px"
         height="20px"

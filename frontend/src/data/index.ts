@@ -1,4 +1,5 @@
 import { nanoid } from 'nanoid';
+import { ITrophy } from '../interfaces';
 
 export const forgotPasswordForm = {
   email: { name: 'email', value: '', error: '', type: 'email' },
@@ -7,6 +8,19 @@ export const forgotPasswordForm = {
 export const updateEmailFormState = {
   email: { name: 'email', value: '', error: '', type: 'email' },
   password: { name: 'password', value: '', error: '', type: 'password' },
+};
+
+export const trophies: ITrophy = {
+  1: 'aquamarine',
+  2: 'blueviolet',
+  3: 'dodgerblue',
+  4: 'deeppink',
+  5: 'lightsteelblue',
+  6: 'firebrick',
+  7: 'mediumBlue',
+  8: 'mediumspringgreen',
+  9: 'red',
+  10: 'gold',
 };
 
 export const registerFormState = {
