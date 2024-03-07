@@ -20,8 +20,10 @@ import com.hart.meliorem.refreshtoken.RefreshToken;
 import com.hart.meliorem.review.Review;
 import com.hart.meliorem.setting.Setting;
 import com.hart.meliorem.streak.Streak;
+import com.hart.meliorem.studyplan.StudyPlan;
 import com.hart.meliorem.studyset.StudySet;
 import com.hart.meliorem.studysetcard.StudySetCard;
+import com.hart.meliorem.timeslot.TimeSlot;
 import com.hart.meliorem.token.Token;
 import com.hart.meliorem.topic.Topic;
 
@@ -152,6 +154,12 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Quiz> quizzes;
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<StudyPlan> studyPlans;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TimeSlot> timeSlots;
+
     public User() {
 
     }
@@ -217,6 +225,14 @@ public class User implements UserDetails {
 
     public List<GroupStudySet> getGroupStudySets() {
         return groupStudySets;
+    }
+
+    public List<TimeSlot> getTimeSlots() {
+        return timeSlots;
+    }
+
+    public List<StudyPlan> getStudyPlans() {
+        return studyPlans;
     }
 
     public List<GroupMember> getInviters() {
@@ -344,6 +360,10 @@ public class User implements UserDetails {
         this.groupMessages = groupMessages;
     }
 
+    public void setStudyPlans(List<StudyPlan> studyPlans) {
+        this.studyPlans = studyPlans;
+    }
+
     public void setStudySetCards(List<StudySetCard> studySetCards) {
         this.studySetCards = studySetCards;
     }
@@ -430,6 +450,10 @@ public class User implements UserDetails {
 
     public String getUsername() {
         return email;
+    }
+
+    public void setTimeSlots(List<TimeSlot> timeSlots) {
+        this.timeSlots = timeSlots;
     }
 
     public void setStreaks(List<Streak> streaks) {

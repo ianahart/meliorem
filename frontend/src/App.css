@@ -183,3 +183,24 @@ body {
   left: 0px;
 }
 /*REACT CALENDAR*/
+
+/*REACT TIME PICKER*/
+.react-time-picker__wrapper {
+  border: none;
+}
+
+.time-picker {
+  background-color: #14144d;
+  color: #fff;
+}
+
+.time-picker button svg {
+  fill: white;
+  stroke: white;
+}
+/*REACT TIME PICKER*/
+
+/*REACT BIG CALENDAR*/
+.rbc-toolbar button {
+  color: white !important;
+}
