@@ -1,6 +1,18 @@
 import { nanoid } from 'nanoid';
 import { ITrophy } from '../interfaces';
 
+export const daysData = [
+  { day: 0, name: 'Sunday' },
+  { day: 1, name: 'Monday' },
+  { day: 2, name: 'Tuesday' },
+  { day: 3, name: 'Wednesday' },
+  { day: 4, name: 'Thursday' },
+  { day: 5, name: 'Friday' },
+  { day: 6, name: 'Saturday' },
+];
+
+export const topics = ['Math', 'Science', 'Social Studies', 'Spanish', 'Writing'];
+
 export const forgotPasswordForm = {
   email: { name: 'email', value: '', error: '', type: 'email' },
 };

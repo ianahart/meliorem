@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ILoginForm, IRegisterForm } from '../interfaces';
+import { ILoginForm, IRegisterForm, ITime } from '../interfaces';
 
 export const http = axios.create({
   baseURL: 'http://localhost:5173/api/v1',
@@ -266,5 +266,17 @@ export const Client = {
 
   getQuizzes: (page: number, pageSize: number, direction: string) => {
     return http.get(`/quizzes?page=${page}&pageSize=${pageSize}&direction=${direction}`);
+  },
+
+  createStudyPlan: (times: ITime[], topics: string[], days: { day: number; name: string }[]) => {
+    return http.post('/study-plans', { times, topics, days });
+  },
+
+  getTimeSlots: () => {
+    return http.get('/time-slots');
+  },
+
+  updateTimeSlot: (day: number, id: number) => {
+    return http.patch(`/time-slots/${id}`, { day });
   },
 };

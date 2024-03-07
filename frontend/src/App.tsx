@@ -30,6 +30,7 @@ import FolderRoute from './routes/FolderRoute';
 import GroupRoute from './routes/GroupRoute';
 import CreateQuizRoute from './routes/CreateQuizRoute';
 import QuizRoute from './routes/QuizRoute';
+import CreateStudyPlanRoute from './routes/CreateStudyPlanRoute';
 
 function App() {
   const { updateUser, stowTokens } = useContext(UserContext) as IUserContext;
@@ -194,6 +195,14 @@ function App() {
                 element={
                   <RequireAuth>
                     <QuizRoute />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/create-study-plan"
+                element={
+                  <RequireAuth>
+                    <CreateStudyPlanRoute />
                   </RequireAuth>
                 }
               />

@@ -1,3 +1,12 @@
+export interface ITime {
+  startTime: string;
+  endTime: string;
+}
+
+export interface IStudyPlanDay extends ITime {}
+export interface IStudyPlanStartTime extends ITime {}
+export interface IStudyPlanEndTime extends ITime {}
+
 export interface ITrophy {
   [key: number]: string;
 }
