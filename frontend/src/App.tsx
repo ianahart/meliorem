@@ -31,6 +31,8 @@ import GroupRoute from './routes/GroupRoute';
 import CreateQuizRoute from './routes/CreateQuizRoute';
 import QuizRoute from './routes/QuizRoute';
 import CreateStudyPlanRoute from './routes/CreateStudyPlanRoute';
+import TermsOfServiceRoute from './routes/TermsOfServiceRoute';
+import PrivacyPolicyRoute from './routes/PrivacyPolicyRoute';
 
 function App() {
   const { updateUser, stowTokens } = useContext(UserContext) as IUserContext;
@@ -70,6 +72,8 @@ function App() {
                   </RequireGuest>
                 }
               />
+              <Route path="/terms-of-service" element={<TermsOfServiceRoute />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicyRoute />} />
               <Route
                 path="/login"
                 element={
@@ -206,7 +210,6 @@ function App() {
                   </RequireAuth>
                 }
               />
-
               <Route path="*" element={<NotFoundRoute />} />
             </Routes>
           </WithAxios>
