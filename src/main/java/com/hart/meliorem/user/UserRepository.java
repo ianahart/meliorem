@@ -15,6 +15,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
+    @Query(value = """
+            SELECT COUNT(u.id) FROM User u
+            """)
+    Long countUsers();
+
     Optional<User> findByEmail(String email);
 
     @Modifying
@@ -32,6 +37,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
             INNER JOIN u.profile p
             WHERE u.id NOT IN :groupMembersIds
             AND u.id <> :adminId
+            AND u.role <> 'ADMIN'
                 """)
     Page<InviteeDto> getInvitees(
             @Param("adminId") Long adminId,
@@ -46,6 +52,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
             INNER JOIN u.profile p
             WHERE u.id NOT IN :groupMemberIds
             AND LOWER(u.fullName) LIKE %:fullName%
+            AND u.role <> 'ADMIN'
             """)
     Page<SearchUserDto> queryUsersByFullName(@Param("fullName") String fullName,
             @Param("groupMemberIds") List<Long> groupMemberIds, @Param("pageable") Pageable pageable);

@@ -22,7 +22,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -168,7 +170,10 @@ public class UserService {
     public PaginationDto<InviteeDto> getUsers(int page, int pageSize, String direction, Long adminId, Long groupId) {
 
         List<Long> groupMemberIds = this.groupMemberService.getGroupMemberIdsFromGroup(groupId);
-        Pageable pageable = this.paginationService.getPageable(page, pageSize, direction);
+        int currentPage = this.paginationService.paginate(page, direction);
+
+        Pageable pageable = PageRequest.of(currentPage, pageSize, Sort.by("id").descending());
+
         Page<InviteeDto> result = this.userRepository.getInvitees(adminId, pageable, groupMemberIds);
 
         attachUserTopics(result.getContent());

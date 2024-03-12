@@ -93,6 +93,12 @@ public class AuthenticationService {
     public RegisterResponse register(RegisterRequest request) {
         validateRegistration(request);
 
+        Role role = Role.USER;
+
+        if (this.userRepository.countUsers() == 0) {
+            role = Role.ADMIN;
+        }
+
         String firstName = MyUtil.capitalize(request.getFirstName());
         String lastName = MyUtil.capitalize(request.getLastName());
         User user = new User(
@@ -100,7 +106,7 @@ public class AuthenticationService {
                 Jsoup.clean(firstName, Safelist.none()),
                 Jsoup.clean(lastName, Safelist.none()),
                 String.format("%s %s", firstName, lastName),
-                request.getRole().equals("USER") ? Role.USER : Role.TEACHER,
+                role,
                 false,
                 this.profileService.createProfile(),
                 this.passwordEncoder.encode(request.getPassword()),

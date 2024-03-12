@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class PaginationService {
 
-    private int paginate(int page, String direction) {
+    public int paginate(int page, String direction) {
         int currentPage = page;
 
         if (direction.equals("next")) {

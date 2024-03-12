@@ -107,10 +107,16 @@ const CreateGroup = ({
   };
 
   const getInvitees = (paginate: boolean) => {
-    const { adminId, groupId } = { ...groupInProgress };
     const pageNum = paginate ? pagination.page : -1;
-    Client.getInvitees(pageNum, pagination.pageSize, pagination.direction, adminId, groupId)
+    Client.getInvitees(
+      pageNum,
+      pagination.pageSize,
+      pagination.direction,
+      groupInProgress.adminId,
+      groupInProgress.groupId
+    )
       .then((res) => {
+        console.log(res.data.data.items);
         const { direction, items, page, pageSize, totalElements, totalPages } = res.data.data;
         setInvitees((prevState) => [...prevState, ...items]);
         setPagination((prevState) => ({
