@@ -8,6 +8,7 @@ import { UserContext } from '../../../context/user';
 import { IUserContext } from '../../../interfaces';
 import UserMenu from '../UserMenu';
 import Notification from '../../Notification';
+import Logout from '../Logout';
 
 const Navigation = () => {
   const [hamburgerMenuOpen, setHamburgerMenuOpen] = useState(false);
@@ -30,26 +31,33 @@ const Navigation = () => {
         <Heading mx="1rem" display={['none', 'none', 'block']} color="primary.light" as="h2">
           Meliorem
         </Heading>
-        <Flex display={['flex', 'flex', 'flex']} align="center">
-          <Box onClick={() => setHamburgerMenuOpen(true)} fontSize="2.5rem" color="primary.light" cursor="pointer">
-            <RxHamburgerMenu />
-          </Box>
-          <Box color="primary.light" display={['block', 'block', 'none']}>
-            <NavLink to="/">
-              <Text fontWeight="bold" fontSize="2.2rem" mx="1rem">
-                M
-              </Text>
-            </NavLink>
-          </Box>
-        </Flex>
+        {user.role !== 'ADMIN' && (
+          <Flex display={['flex', 'flex', 'flex']} align="center">
+            <Box onClick={() => setHamburgerMenuOpen(true)} fontSize="2.5rem" color="primary.light" cursor="pointer">
+              <RxHamburgerMenu />
+            </Box>
+            <Box color="primary.light" display={['block', 'block', 'none']}>
+              <NavLink to="/">
+                <Text fontWeight="bold" fontSize="2.2rem" mx="1rem">
+                  M
+                </Text>
+              </NavLink>
+            </Box>
+          </Flex>
+        )}
       </Flex>
-      {user.loggedIn && (
+      {user.loggedIn && user.role === 'USER' && (
         <Flex align="center">
           <Box mx="1rem">
             <Notification />
           </Box>
           <UserMenu />
         </Flex>
+      )}
+      {user.loggedIn && user.role === 'ADMIN' && (
+        <UnorderedList>
+          <Logout />
+        </UnorderedList>
       )}
       {!user.loggedIn && (
         <UnorderedList display="flex" fontSize="1.4rem" color="primary.light" listStyleType="none">

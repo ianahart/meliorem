@@ -33,6 +33,8 @@ import QuizRoute from './routes/QuizRoute';
 import CreateStudyPlanRoute from './routes/CreateStudyPlanRoute';
 import TermsOfServiceRoute from './routes/TermsOfServiceRoute';
 import PrivacyPolicyRoute from './routes/PrivacyPolicyRoute';
+import AdminDashboardRoute from './routes/AdminDashboardRoute';
+import RequireAdmin from './components/Guard/RequireAdmin';
 
 function App() {
   const { updateUser, stowTokens } = useContext(UserContext) as IUserContext;
@@ -210,6 +212,15 @@ function App() {
                   </RequireAuth>
                 }
               />
+              <Route
+                path="/admin/dashboard"
+                element={
+                  <RequireAdmin>
+                    <AdminDashboardRoute />
+                  </RequireAdmin>
+                }
+              />
+
               <Route path="*" element={<NotFoundRoute />} />
             </Routes>
           </WithAxios>
