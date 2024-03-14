@@ -1,6 +1,16 @@
 import { nanoid } from 'nanoid';
 import { ITrophy } from '../interfaces';
 
+export const bookState = {
+  author: '',
+  bookshelf: '',
+  downloadCount: 0,
+  id: 0,
+  imageUrl: '',
+  pdfUrl: '',
+  title: '',
+};
+
 export const daysData = [
   { day: 0, name: 'Sunday' },
   { day: 1, name: 'Monday' },
@@ -81,7 +91,7 @@ export const userState = {
   lastName: '',
   loggedIn: false,
   profileId: 0,
-  role: 'USER',
+  role: '',
   settingId: 0,
   slug: '',
 };

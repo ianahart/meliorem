@@ -12,13 +12,12 @@ const RequireAdmin: React.FC<Props> = ({ children }): JSX.Element => {
   const { user } = useContext(UserContext) as IUserContext;
 
   if (retreiveTokens()?.token && user.role === 'USER') {
-    <Navigate to={`/${user.slug}/latest`} replace state={{ path: location.pathname }} />;
-  }
-  if (retreiveTokens()?.token && user.role === 'ADMIN') {
+    return <Navigate to={`/${user.slug}/latest`} replace state={{ path: location.pathname }} />;
+  } else if (retreiveTokens()?.token) {
     return children;
+  } else {
+    return <Navigate to="/login" replace state={{ path: location.pathname }} />;
   }
-
-  return <Navigate to="/login" replace state={{ path: location.pathname }} />;
 };
 
 export default RequireAdmin;

@@ -279,4 +279,18 @@ export const Client = {
   updateTimeSlot: (day: number, id: number) => {
     return http.patch(`/time-slots/${id}`, { day });
   },
+
+  createBook: (title: string, topic: string, userId: number) => {
+    return http.post('/books', { title, topic, userId });
+  },
+
+  getBooks: (page: number, pageSize: number, direction: string) => {
+    return http.get(`/books?page=${page}&pageSize=${pageSize}&direction=${direction}`);
+  },
+  getBook: (bookId: number) => {
+    return http.get(`/books/${bookId}`);
+  },
+  deleteBook: (bookId: number) => {
+    return http.delete(`/books/${bookId}`);
+  },
 };

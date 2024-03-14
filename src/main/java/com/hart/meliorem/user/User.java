@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
+import com.hart.meliorem.book.Book;
 import com.hart.meliorem.bookmark.BookMark;
 import com.hart.meliorem.group.Group;
 import com.hart.meliorem.groupmember.GroupMember;
@@ -160,6 +161,9 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TimeSlot> timeSlots;
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Book> books;
+
     public User() {
 
     }
@@ -291,6 +295,10 @@ public class User implements UserDetails {
         return tokens;
     }
 
+    public List<Book> getBooks() {
+        return books;
+    }
+
     public Setting getSetting() {
 
         return setting;
@@ -398,6 +406,10 @@ public class User implements UserDetails {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
     }
 
     public void setFullName(String fullName) {

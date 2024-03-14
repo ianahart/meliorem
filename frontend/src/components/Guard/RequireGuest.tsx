@@ -16,13 +16,7 @@ const RequireGuest: React.FC<Props> = ({ children }) => {
   } else {
     const { user } = useContext(UserContext) as IUserContext;
     if (user.id !== 0) {
-      return (
-        <Navigate
-          to={`/${user.slug}/latest`}
-          replace
-          state={{ path: location.pathname }}
-        />
-      );
+      return <Navigate to={`/${user.slug}/latest`} replace state={{ path: location.pathname }} />;
     }
   }
 };
