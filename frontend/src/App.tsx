@@ -35,6 +35,9 @@ import TermsOfServiceRoute from './routes/TermsOfServiceRoute';
 import PrivacyPolicyRoute from './routes/PrivacyPolicyRoute';
 import AdminDashboardRoute from './routes/AdminDashboardRoute';
 import RequireAdmin from './components/Guard/RequireAdmin';
+import AdminCreateBookRoute from './routes/AdminCreateBookRoute';
+import AdminListBooksRoute from './routes/AdminListBooksRoute';
+import AdminBookDetailsRoute from './routes/AdminBookDetailsRoute';
 
 function App() {
   const { updateUser, stowTokens } = useContext(UserContext) as IUserContext;
@@ -219,7 +222,32 @@ function App() {
                     <AdminDashboardRoute />
                   </RequireAdmin>
                 }
-              />
+              >
+                <Route
+                  path="books/create"
+                  element={
+                    <RequireAdmin>
+                      <AdminCreateBookRoute />
+                    </RequireAdmin>
+                  }
+                />
+                <Route
+                  path="books"
+                  element={
+                    <RequireAdmin>
+                      <AdminListBooksRoute />
+                    </RequireAdmin>
+                  }
+                />
+                <Route
+                  path="books/:id"
+                  element={
+                    <RequireAdmin>
+                      <AdminBookDetailsRoute />
+                    </RequireAdmin>
+                  }
+                />
+              </Route>
 
               <Route path="*" element={<NotFoundRoute />} />
             </Routes>

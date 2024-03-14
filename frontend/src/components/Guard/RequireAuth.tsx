@@ -13,12 +13,11 @@ const RequireAuth: React.FC<Props> = ({ children }): JSX.Element => {
 
   if (retreiveTokens()?.token && user.role === 'USER') {
     return children;
-  }
-  if (retreiveTokens()?.token && user.role === 'ADMIN') {
+  } else if (retreiveTokens()?.token && user.role === 'ADMIN') {
     return <Navigate to="/admin/dashboard" replace state={{ path: location.pathname }} />;
+  } else {
+    return <Navigate to="/login" replace state={{ path: location.pathname }} />;
   }
-
-  return <Navigate to="/login" replace state={{ path: location.pathname }} />;
 };
 
 export default RequireAuth;

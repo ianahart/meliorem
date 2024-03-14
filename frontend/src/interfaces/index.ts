@@ -1,3 +1,13 @@
+export interface IBook {
+  author: string;
+  bookshelf: string;
+  downloadCount: number;
+  id: number;
+  imageUrl: string;
+  pdfUrl: string;
+  title: string;
+}
+
 export interface ITime {
   startTime: string;
   endTime: string;

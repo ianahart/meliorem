@@ -56,7 +56,11 @@ const Form = () => {
         stowTokens({ refreshToken, token });
         updateUser(user);
         setIsLoading(false);
-        navigate(`/${user.slug}/latest`);
+        if (user.role === 'ADMIN') {
+          navigate('/admin/dashboard');
+        } else {
+          navigate(`/${user.slug}/latest`);
+        }
       })
       .catch((err) => {
         setError(err.response.data.message);
@@ -74,13 +78,7 @@ const Form = () => {
   };
 
   return (
-    <Box
-      minH="600px"
-      width={['100%', '100%', '95%']}
-      maxW="600px"
-      borderRadius={8}
-      p="1rem"
-    >
+    <Box minH="600px" width={['100%', '100%', '95%']} maxW="600px" borderRadius={8} p="1rem">
       <Heading color="primary.light" fontSize="3rem" textAlign="left" my="5rem">
         Sign In
       </Heading>
@@ -134,19 +132,10 @@ const Form = () => {
             <Text color="red">{error}</Text>
           </Flex>
         )}
-        {isLoading && (
-          <BasicSpinner message="Authenticating user..." color="text.primary" />
-        )}
+        {isLoading && <BasicSpinner message="Authenticating user..." color="text.primary" />}
         {!isLoading && (
           <Flex mt="8rem" mb="2rem">
-            <Button
-              type="submit"
-              height="35px"
-              fontSize="1.4rem"
-              colorScheme="purple"
-              bg="primary.dark"
-              width="100%"
-            >
+            <Button type="submit" height="35px" fontSize="1.4rem" colorScheme="purple" bg="primary.dark" width="100%">
               Sign Up
             </Button>
           </Flex>
