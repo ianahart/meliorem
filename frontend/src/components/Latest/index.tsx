@@ -6,6 +6,7 @@ import StreakCounter from './StreakCounter';
 import Folders from './Folders';
 import BookMarks from './BookMarks';
 import YourGroups from './Group/YourGroups';
+import Books from './Books';
 
 const Latest = () => {
   return (
@@ -27,6 +28,9 @@ const Latest = () => {
       </Box>
       <Box my="2rem" as="section">
         <YourGroups />
+      </Box>
+      <Box my="2rem" as="section">
+        <Books />
       </Box>
     </LatestContainer>
   );

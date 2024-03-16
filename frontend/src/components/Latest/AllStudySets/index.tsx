@@ -87,7 +87,7 @@ const AllStudySets = () => {
     >
       <Box display="flex" flexDir="column" alignItems="flex-start">
         <Heading as="h2" fontSize="2rem" color="#fff">
-          All Study sets
+          All study sets
         </Heading>
         <Box
           onMouseEnter={handleOnMouseEnter}

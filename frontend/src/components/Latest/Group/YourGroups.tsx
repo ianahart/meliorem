@@ -123,7 +123,7 @@ const YourGroups = () => {
       <Box display="flex" flexDir="column" alignItems="flex-start">
         <Flex align="center">
           <Heading as="h2" fontSize="2rem" color="#fff">
-            Your Groups
+            Your groups
           </Heading>
         </Flex>
         <Flex align="center">
