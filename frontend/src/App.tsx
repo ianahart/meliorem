@@ -38,6 +38,7 @@ import RequireAdmin from './components/Guard/RequireAdmin';
 import AdminCreateBookRoute from './routes/AdminCreateBookRoute';
 import AdminListBooksRoute from './routes/AdminListBooksRoute';
 import AdminBookDetailsRoute from './routes/AdminBookDetailsRoute';
+import BookDetailsRoute from './routes/BookDetailsRoute';
 
 function App() {
   const { updateUser, stowTokens } = useContext(UserContext) as IUserContext;
@@ -249,6 +250,14 @@ function App() {
                 />
               </Route>
 
+              <Route
+                path="/books/:id"
+                element={
+                  <RequireAuth>
+                    <BookDetailsRoute />
+                  </RequireAuth>
+                }
+              />
               <Route path="*" element={<NotFoundRoute />} />
             </Routes>
           </WithAxios>
