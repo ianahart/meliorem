@@ -1,29 +1,36 @@
 package com.hart.meliorem.book;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URI;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import com.hart.meliorem.book.dto.BookDto;
 import com.hart.meliorem.book.request.CreateBookRequest;
 import com.hart.meliorem.pagination.PaginationService;
 import com.hart.meliorem.pagination.dto.PaginationDto;
+import com.hart.meliorem.pdf.PdfService;
 import com.hart.meliorem.user.Role;
 import com.hart.meliorem.user.User;
 import com.hart.meliorem.user.UserService;
 import com.hart.meliorem.advice.ForbiddenException;
 import com.hart.meliorem.advice.NotFoundException;
 
-import reactor.core.publisher.Mono;
-
 @Service
 public class BookService {
+
+    private final PdfService pdfService;
 
     private final PaginationService paginationService;
 
@@ -31,51 +38,55 @@ public class BookService {
 
     private final UserService userService;
 
-    private final WebClient webClient;
-
     @Autowired
     BookService(
+            PdfService pdfService,
             PaginationService paginationService,
             BookRepository bookRepository,
-            UserService userService,
-            WebClient.Builder webClientBuilder) {
+            UserService userService) {
+        this.pdfService = pdfService;
         this.paginationService = paginationService;
         this.bookRepository = bookRepository;
         this.userService = userService;
-        this.webClient = webClientBuilder.baseUrl("https://gutendex.com")
-                .filter(ExchangeFilterFunction.ofResponseProcessor(clientResponse -> {
-                    if (clientResponse.statusCode().is3xxRedirection()) {
-                        String redirectUrl = clientResponse.headers().asHttpHeaders().getLocation().toString();
-                        return Mono.error(new RedirectException(redirectUrl));
-                    }
-                    return Mono.just(clientResponse);
-                }))
-                .build();
     }
 
-    public void makeRequestToGutendex(CreateBookRequest request) {
+    public InputStream proxyPdf(Long bookId) {
+        Book book = getBookById(bookId);
+
+        return this.pdfService.proxyPdf(book.getPdfUrl());
+    }
+
+    public void makeRequestToGutendex(CreateBookRequest request) throws IOException {
         User currentUser = this.userService.getCurrentlyLoggedInUser();
 
-        if (!currentUser.getRole().equals(Role.ADMIN)) {
-            throw new ForbiddenException("You must be an admin to create books");
-        }
-
-        String response;
         try {
-            response = this.webClient.get()
-                    .uri("/books?copyright=false&search=" + request.getTitle() + "&topic=" + request.getTopic())
-                    .retrieve()
-                    .bodyToMono(String.class)
-                    .block();
-        } catch (RedirectException e) {
-            String redirectUrl = e.redirectUrl;
-            response = this.webClient.get().uri(redirectUrl)
-                    .retrieve()
-                    .bodyToMono(String.class)
-                    .block();
-            createBook(response, currentUser);
-        }
+            if (!currentUser.getRole().equals(Role.ADMIN)) {
+                throw new ForbiddenException("You must be an admin to create books");
+            }
 
+            String url = "https://gutendex.com/books?copyright=false&search=" + request.getTitle() + "&topic="
+                    + request.getTopic();
+            HttpURLConnection connection = (HttpURLConnection) URI.create(url).toURL().openConnection();
+
+            connection.setRequestMethod("GET");
+
+            int responseCode = connection.getResponseCode();
+
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                StringBuffer jsonResponseData = new StringBuffer();
+                String readLine = null;
+                while ((readLine = in.readLine()) != null) {
+                    jsonResponseData.append(readLine);
+                }
+
+                in.close();
+                createBook(jsonResponseData.toString(), currentUser);
+            }
+
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private void createBook(String jsonData, User user) {
@@ -134,7 +145,7 @@ public class BookService {
 
     public void deleteBook(Long bookId) {
 
-          Book book = getBookById(bookId);
+        Book book = getBookById(bookId);
 
         this.bookRepository.delete(book);
 
