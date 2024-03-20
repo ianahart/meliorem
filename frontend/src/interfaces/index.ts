@@ -1,3 +1,14 @@
+export interface IBookProgress {
+  bookId: number;
+  currentPage: number;
+  id: number;
+  imageUrl: string;
+  isCompleted: boolean;
+  notes: string;
+  totalPages: number;
+  userId: number;
+}
+
 export interface IBook {
   author: string;
   bookshelf: string;

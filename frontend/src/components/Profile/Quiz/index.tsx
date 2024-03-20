@@ -58,7 +58,7 @@ const Quiz = () => {
   return (
     <Box p="1rem" bg="form.primary" minH="250px" borderRadius={8} boxShadow="md">
       <Heading fontSize="1.8rem" as="h3">
-        Quiz results
+        Quizzes you've taken
       </Heading>
       <Flex flexWrap="wrap" mx="auto" align="center" justify="flex-start" my="3rem" width="95%">
         {quizzes.map((quiz) => {

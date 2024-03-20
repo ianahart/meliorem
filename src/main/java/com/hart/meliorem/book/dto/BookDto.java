@@ -92,4 +92,5 @@ public class BookDto {
     public void setDownloadCount(Integer downloadCount) {
         this.downloadCount = downloadCount;
     }
+
 }

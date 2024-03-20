@@ -10,6 +10,7 @@ import 'react-big-calendar/lib/addons/dragAndDrop/styles.css';
 import { useEffect, useRef, useState } from 'react';
 import { nanoid } from 'nanoid';
 import { Client } from '../../util/client';
+import Books from './Books';
 
 const DnDcalendar = withDragAndDrop(Calendar);
 
@@ -105,6 +106,9 @@ const Profile = () => {
       </Box>
       <Box my="2rem">
         <Quiz />
+      </Box>
+      <Box my="2rem">
+        <Books />
       </Box>
       <Box bg="form.primary">
         <DnDcalendar

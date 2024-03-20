@@ -1,18 +1,24 @@
 package com.hart.meliorem.book;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.hart.meliorem.bookprogress.BookProgress;
 import com.hart.meliorem.user.User;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Table;
@@ -55,6 +61,10 @@ public class Book {
     @ManyToOne()
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<BookProgress> bookProgresses;
 
     public Book() {
 
@@ -100,6 +110,10 @@ public class Book {
         return id;
     }
 
+    public List<BookProgress> getBookProgresses() {
+        return bookProgresses;
+    }
+
     public User getUser() {
         return user;
     }
@@ -142,6 +156,10 @@ public class Book {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public void setBookProgresses(List<BookProgress> bookProgresses) {
+        this.bookProgresses = bookProgresses;
     }
 
     public void setTitle(String title) {

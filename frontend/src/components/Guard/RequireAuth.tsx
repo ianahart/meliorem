@@ -11,7 +11,7 @@ const RequireAuth: React.FC<Props> = ({ children }): JSX.Element => {
   const location = useLocation();
   const { user } = useContext(UserContext) as IUserContext;
 
-  if (retreiveTokens()?.token && user.role === 'USER') {
+  if (retreiveTokens()?.token && user.role !== 'ADMIN') {
     return children;
   } else if (retreiveTokens()?.token && user.role === 'ADMIN') {
     return <Navigate to="/admin/dashboard" replace state={{ path: location.pathname }} />;
