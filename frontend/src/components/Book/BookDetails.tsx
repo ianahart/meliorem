@@ -1,19 +1,22 @@
 import axios, { AxiosResponse } from 'axios';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Document, Page, pdfjs } from 'react-pdf';
-import { IBook } from '../../interfaces';
+import { IBook, IUserContext } from '../../interfaces';
 import { bookState } from '../../data';
 import { Client } from '../../util/client';
 import { retreiveTokens } from '../../util';
 import 'react-pdf/dist/esm/Page/TextLayer.css';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
-import { InView, useInView } from 'react-intersection-observer';
+import { InView } from 'react-intersection-observer';
 import { Box } from '@chakra-ui/react';
+import { debounce } from 'lodash';
+import { UserContext } from '../../context/user';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/legacy/build/pdf.worker.min.js`;
 
 const BookDetails = () => {
+  const { user } = useContext(UserContext) as IUserContext;
   const shouldRun = useRef(true);
   const shouldRunProxy = useRef(true);
   const { id } = useParams();
@@ -25,7 +28,11 @@ const BookDetails = () => {
   const getBook = (id: number) => {
     Client.getBook(id)
       .then((res) => {
-        setBook(res.data.data);
+        console.log(res);
+        if (res.data.data.bookProgress !== null) {
+          setCurrentPage(res.data.data.bookProgress.currentPage);
+        }
+        setBook(res.data.data.book);
       })
       .catch((err) => {
         throw new Error(err.message);
@@ -82,27 +89,61 @@ const BookDetails = () => {
     }
   }, [shouldRun.current]);
 
+  const handleSetCurrentPage = (newCurrentPage: number) => {
+    if (newCurrentPage > currentPage) {
+      console.log('-------------------');
+      console.log('Saving book progress........');
+      console.log('-------------------');
+      saveBookProgress(newCurrentPage);
+    }
+    setCurrentPage(newCurrentPage);
+  };
+
+  const saveBookProgress = (newCurrentPage: number) => {
+    const notes = '';
+    Client.saveBookProgress(user.id, book.id, numPages as number, newCurrentPage, notes)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        throw new Error(err.message);
+      });
+  };
+
+  const delayedSetCurrentPage = debounce((newCurentPage: number) => {
+    handleSetCurrentPage(newCurentPage);
+  }, 1000);
+
   return (
-    <Document file={blobUrl} onLoadSuccess={onDocumentLoadSuccess}>
-      {[...Array(numPages)].map((_, index) => (
-        <InView
-          key={`page_${index + 1}`}
-          onChange={(inView, entry) => {
-            if (inView) {
-              setCurrentPage(index + 1);
-            }
-            console.log(entry);
-            console.log(`Page ${index + 1} is in view:`, inView);
-          }}
-        >
-          {({ ref }) => (
-            <Box ref={ref}>
-              <Page key={`page_${index + 1}`} pageNumber={index + 1} width={600} />
-            </Box>
-          )}
-        </InView>
-      ))}
-    </Document>
+    <Box height="600px" overflowY="auto" width={['100%', '100%', '700px']} mx="auto">
+      <Document file={blobUrl} onLoadSuccess={onDocumentLoadSuccess}>
+        {[...Array(numPages)].map((_, index) => (
+          <InView
+            key={`page_${index + 1}`}
+            onChange={(inView) => {
+              if (inView) {
+                delayedSetCurrentPage(index + 1);
+              }
+            }}
+          >
+            {({ ref }) => (
+              <Box ref={ref}>
+                <Page
+                  key={`page_${index + 1}`}
+                  pageNumber={index + 1}
+                  inputRef={(pageRef) => {
+                    if (pageRef && currentPage === index + 1) {
+                      pageRef.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }
+                  }}
+                  width={600}
+                />
+              </Box>
+            )}
+          </InView>
+        ))}
+      </Document>
+    </Box>
   );
 };
 

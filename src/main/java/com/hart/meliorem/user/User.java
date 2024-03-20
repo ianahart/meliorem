@@ -4,12 +4,14 @@ import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.hart.meliorem.book.Book;
 import com.hart.meliorem.bookmark.BookMark;
 import com.hart.meliorem.group.Group;
 import com.hart.meliorem.groupmember.GroupMember;
+import com.hart.meliorem.bookprogress.BookProgress;
 import com.hart.meliorem.groupmessage.GroupMessage;
 import com.hart.meliorem.groupstudyset.GroupStudySet;
 import com.hart.meliorem.note.Note;
@@ -163,6 +165,10 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Book> books;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<BookProgress> bookProgresses;
 
     public User() {
 
@@ -344,6 +350,10 @@ public class User implements UserDetails {
         return streaks;
     }
 
+    public List<BookProgress> getBookProgresses() {
+        return bookProgresses;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -406,6 +416,10 @@ public class User implements UserDetails {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setBookProgresses(List<BookProgress> bookProgresses) {
+        this.bookProgresses = bookProgresses;
     }
 
     public void setBooks(List<Book> books) {

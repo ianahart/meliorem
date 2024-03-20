@@ -17,7 +17,7 @@ const AdminBookDetailsRoute = () => {
   const getBook = (id: number) => {
     Client.getBook(id)
       .then((res) => {
-        setBook(res.data.data);
+        setBook(res.data.data.book);
       })
       .catch((err) => {
         throw new Error(err.message);

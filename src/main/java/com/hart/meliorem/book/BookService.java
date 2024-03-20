@@ -6,18 +6,22 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URI;
+import java.util.List;
+import java.util.Optional;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.hart.meliorem.book.dto.BookDto;
+import com.hart.meliorem.book.dto.FullBookDto;
 import com.hart.meliorem.book.request.CreateBookRequest;
+import com.hart.meliorem.bookprogress.BookProgress;
+import com.hart.meliorem.bookprogress.dto.BookProgressDto;
 import com.hart.meliorem.pagination.PaginationService;
 import com.hart.meliorem.pagination.dto.PaginationDto;
 import com.hart.meliorem.pdf.PdfService;
@@ -134,8 +138,35 @@ public class BookService {
 
     }
 
-    public BookDto getBook(Long bookId) {
-        return this.bookRepository.getBook(bookId);
+    private Optional<BookProgress> findUserBookProgress(User user, Long bookId) {
+
+        List<BookProgress> bookProgresses = getBookById(bookId).getBookProgresses();
+
+        Optional<BookProgress> bookProgress = bookProgresses.stream().filter(bp -> bp.getUser().getId() == user.getId())
+                .findFirst();
+
+        return bookProgress;
+    }
+
+    public FullBookDto getBook(Long bookId) {
+        User user = this.userService.getCurrentlyLoggedInUser();
+        BookDto book = this.bookRepository.getBook(bookId);
+
+        Optional<BookProgress> bookProgress = findUserBookProgress(user, book.getId());
+
+        if (bookProgress.isEmpty()) {
+            return new FullBookDto(book, null);
+
+        }
+
+        return new FullBookDto(book, new BookProgressDto(user.getId(),
+                book.getId(),
+                bookProgress.get().getId(),
+                bookProgress.get().getCurrentPage(),
+                bookProgress.get().getTotalPages(),
+                bookProgress.get().getNotes(),
+                bookProgress.get().getIsCompleted()));
+
     }
 
     public Book getBookById(Long bookId) {
@@ -151,11 +182,4 @@ public class BookService {
 
     }
 
-    private static class RedirectException extends RuntimeException {
-        private final String redirectUrl;
-
-        public RedirectException(String redirectUrl) {
-            this.redirectUrl = redirectUrl;
-        }
-    }
 }

@@ -1,18 +1,18 @@
 package com.hart.meliorem.book.response;
 
-import com.hart.meliorem.book.dto.BookDto;
+import com.hart.meliorem.book.dto.FullBookDto;
 
 public class GetBookResponse {
 
     private String message;
 
-    private BookDto data;
+    private FullBookDto data;
 
     public GetBookResponse() {
 
     }
 
-    public GetBookResponse(String message, BookDto data) {
+    public GetBookResponse(String message, FullBookDto data) {
         this.message = message;
         this.data = data;
     }
@@ -21,7 +21,7 @@ public class GetBookResponse {
         return message;
     }
 
-    public BookDto getData() {
+    public FullBookDto getData() {
         return data;
     }
 
@@ -29,7 +29,7 @@ public class GetBookResponse {
         this.message = message;
     }
 
-    public void setData(BookDto data) {
+    public void setData(FullBookDto data) {
         this.data = data;
     }
 }

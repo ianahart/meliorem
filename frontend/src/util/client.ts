@@ -293,4 +293,12 @@ export const Client = {
   deleteBook: (bookId: number) => {
     return http.delete(`/books/${bookId}`);
   },
+
+  saveBookProgress: (userId: number, bookId: number, totalPages: number, currentPage: number, notes: string) => {
+    return http.post('/book-progresses', { userId, bookId, totalPages, currentPage, notes });
+  },
+
+  getBookProgresses: (userId: number, page: number, pageSize: number, direction: string) => {
+    return http.get(`/book-progresses?userId=${userId}&page=${page}&pageSize=${pageSize}&direction=${direction}`);
+  },
 };
