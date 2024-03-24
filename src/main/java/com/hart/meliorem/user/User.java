@@ -12,6 +12,7 @@ import com.hart.meliorem.bookmark.BookMark;
 import com.hart.meliorem.group.Group;
 import com.hart.meliorem.groupmember.GroupMember;
 import com.hart.meliorem.bookprogress.BookProgress;
+import com.hart.meliorem.goals.Goal;
 import com.hart.meliorem.groupmessage.GroupMessage;
 import com.hart.meliorem.groupstudyset.GroupStudySet;
 import com.hart.meliorem.note.Note;
@@ -170,6 +171,10 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BookProgress> bookProgresses;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Goal> goals;
+
     public User() {
 
     }
@@ -231,6 +236,10 @@ public class User implements UserDetails {
 
     public List<Topic> getTopics() {
         return topics;
+    }
+
+    public List<Goal> getGoals() {
+        return goals;
     }
 
     public List<GroupStudySet> getGroupStudySets() {
@@ -360,6 +369,10 @@ public class User implements UserDetails {
 
     public void setInviters(List<GroupMember> inviters) {
         this.inviters = inviters;
+    }
+
+    public void setGoals(List<Goal> goals) {
+        this.goals = goals;
     }
 
     public void setGroupMembers(List<GroupMember> groupMembers) {

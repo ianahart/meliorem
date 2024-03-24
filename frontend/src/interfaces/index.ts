@@ -1,3 +1,25 @@
+export type ValuePiece = Date | null;
+
+export type Value = ValuePiece | [ValuePiece, ValuePiece];
+
+export interface IGoal {
+  createdAt: Date;
+  updatedAt: Date;
+  goalDesc: string;
+  goalTitle: string;
+  goalType: string;
+  id: number;
+  isCompleted: boolean;
+  targetCompletionDate: Date;
+  userId: number;
+}
+
+export interface ICreateGoalForm {
+  title: { name: string; error: string; value: string; type: string; max: number };
+  desc: { name: string; error: string; value: string; type: string; max: number };
+  goalType: { name: string; error: string; value: string; type: string; max: number };
+}
+
 export interface IBookProgress {
   bookId: number;
   currentPage: number;
@@ -310,4 +332,26 @@ export interface IProfileContext {
   profile: IProfile;
   handleSetProfile: (profile: IProfile) => void;
   handleSetInitialProfile: (profile: IProfile) => void;
+}
+
+export interface IGoalContext {
+  goals: IGoal[];
+  filter: string;
+  subject: string;
+  completion: string;
+  pagination: IPagination;
+  createGoalForm: ICreateGoalForm;
+  goalCompletionDate: Value;
+  setFilter: (filter: string) => void;
+  setSubject: (subject: string) => void;
+  setCompletion: (completion: string) => void;
+  setCreateGoalForm: (goalForm: ICreateGoalForm) => void;
+  addNewGoal: (newGoal: IGoal) => void;
+  updateCreateGoalFormField: (name: string, value: string, attribute: string) => void;
+  updateGoalCompletionDate: (newGoalCompletionDate: Value) => void;
+  clearCreateGoalFormValues: () => void;
+  addMultipleGoals: (goals: IGoal[]) => void;
+  updatePagination: (pagination: IPagination) => void;
+  updateGoal: (goalId: number, goal: IGoal) => void;
+  markGoalCompleted: (goalId: number, isCompleted: boolean) => void;
 }

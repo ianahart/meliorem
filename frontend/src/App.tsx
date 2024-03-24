@@ -39,6 +39,8 @@ import AdminCreateBookRoute from './routes/AdminCreateBookRoute';
 import AdminListBooksRoute from './routes/AdminListBooksRoute';
 import AdminBookDetailsRoute from './routes/AdminBookDetailsRoute';
 import BookDetailsRoute from './routes/BookDetailsRoute';
+import GoalsRoute from './routes/GoalsRoute';
+import GoalDetails from './components/Goals/GoalDetails';
 
 function App() {
   const { updateUser, stowTokens } = useContext(UserContext) as IUserContext;
@@ -112,6 +114,23 @@ function App() {
                   </RequireGuest>
                 }
               />
+              <Route
+                path="/:name/goals"
+                element={
+                  <RequireAuth>
+                    <GoalsRoute />
+                  </RequireAuth>
+                }
+              >
+                <Route
+                  path=":id"
+                  element={
+                    <RequireAuth>
+                      <GoalDetails />
+                    </RequireAuth>
+                  }
+                />
+              </Route>
               <Route
                 path="/:name/latest"
                 element={

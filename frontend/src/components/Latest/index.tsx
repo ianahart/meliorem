@@ -7,10 +7,14 @@ import Folders from './Folders';
 import BookMarks from './BookMarks';
 import YourGroups from './Group/YourGroups';
 import Books from './Books';
+import GoalsLink from './GoalsLink';
 
 const Latest = () => {
   return (
     <LatestContainer>
+      <Box my="2rem">
+        <GoalsLink />
+      </Box>
       <Box my="2rem" as="section">
         <YourStudySets />
       </Box>

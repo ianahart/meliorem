@@ -4,3 +4,8 @@ export enum FeedbackChoices {
   GoodRefresher = 'Good refresher',
   Impressed = 'Impressed',
 }
+
+export enum CreateGoalFormFields {
+  title = 'title',
+  desc = 'desc',
+}

@@ -301,4 +301,36 @@ export const Client = {
   getBookProgresses: (userId: number, page: number, pageSize: number, direction: string) => {
     return http.get(`/book-progresses?userId=${userId}&page=${page}&pageSize=${pageSize}&direction=${direction}`);
   },
+
+  createGoal: <T>(data: T) => {
+    return http.post('/goals', data);
+  },
+
+  getGoals: (
+    page: number,
+    pageSize: number,
+    direction: string,
+    filter: string = '',
+    subject: string = '',
+    completion: string = ''
+  ) => {
+    return http.get(
+      `/goals?page=${page}&pageSize=${pageSize}&direction=${direction}&filter=${filter}&subject=${subject}&completion=${completion}`
+    );
+  },
+
+  getGoal: (goalId: string) => {
+    return http.get(`/goals/${goalId}`);
+  },
+  updateGoal: <T>(goalId: number, data: T) => {
+    return http.put(`/goals/${goalId}`, data);
+  },
+
+  deleteGoal: (goalId: number) => {
+    return http.delete(`/goals/${goalId}`);
+  },
+
+  markGoalCompleted: (goalId: number, isCompleted: boolean) => {
+    return http.patch(`/goals/${goalId}`, { isCompleted });
+  },
 };

@@ -1,6 +1,18 @@
 import { nanoid } from 'nanoid';
 import { ITrophy } from '../interfaces';
 
+export const goalState = {
+  id: 0,
+  userId: 0,
+  createdAt: new Date(),
+  updatedAt: new Date(),
+  goalDesc: '',
+  goalTitle: '',
+  goalType: '',
+  isCompleted: false,
+  targetCompletionDate: new Date(),
+};
+
 export const bookState = {
   author: '',
   bookshelf: '',
@@ -72,6 +84,12 @@ export const resetPasswordFormState = {
     error: '',
     type: 'password',
   },
+};
+
+export const goalFormState = {
+  title: { name: 'title', value: '', error: '', type: 'text', max: 50 },
+  desc: { name: 'desc', value: '', error: '', type: 'text', max: 300 },
+  goalType: { name: 'goalType', value: '', error: '', type: '', max: 30 },
 };
 
 export const loginFormState = {
