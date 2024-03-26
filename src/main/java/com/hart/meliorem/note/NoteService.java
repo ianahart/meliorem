@@ -19,8 +19,7 @@ import com.hart.meliorem.studyset.StudySet;
 import com.hart.meliorem.studyset.StudySetService;
 import com.hart.meliorem.user.User;
 import com.hart.meliorem.user.UserService;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
+import com.itextpdf.layout.Document;
 
 @Service
 public class NoteService {
@@ -65,9 +64,8 @@ public class NoteService {
 
     }
 
-    public String createNote(MultipartFile file, Long studySetId) throws IOException, DocumentException {
+    public String createNote(MultipartFile file, Long studySetId) throws IOException {
         try {
-
             StudySet studySet = this.studySetService.findStudySetById(studySetId);
 
             checkForExistingNote(studySet);
@@ -78,9 +76,10 @@ public class NoteService {
                 throw new ForbiddenException("Cannot upload notes to which the studyset is not yours");
             }
 
-            Document document = this.pdfService.convertToPdf(file);
+            File document = this.pdfService.convertToPdf(file);
 
-            HashMap<String, String> contents = this.amazonService.putS3Pdf("arrow-date", "output.pdf", document);
+            HashMap<String, String> contents = this.amazonService.putS3Pdf("arrow-date",
+                    "output.pdf", document);
             String url = contents.get("objectUrl");
             String filename = contents.get("filename");
 
@@ -90,7 +89,7 @@ public class NoteService {
 
             return note.getUrl();
 
-        } catch (IOException | DocumentException e) {
+        } catch (IOException e) {
             System.out.println(e.getMessage());
             System.out.println("Something went wrong creating note");
             return "";

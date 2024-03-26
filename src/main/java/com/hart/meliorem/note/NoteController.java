@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hart.meliorem.note.request.CreateNoteRequest;
 import com.hart.meliorem.note.response.CreateNoteResponse;
 import com.hart.meliorem.note.response.GetNoteResponse;
-import com.itextpdf.text.DocumentException;
+import com.itextpdf.layout.Document;
 
 @RestController
 @RequestMapping("/api/v1/notes")
@@ -33,7 +33,7 @@ public class NoteController {
     }
 
     @PostMapping("")
-    ResponseEntity<CreateNoteResponse> createNote(CreateNoteRequest request) throws IOException, DocumentException {
+    ResponseEntity<CreateNoteResponse> createNote(CreateNoteRequest request) throws IOException {
 
         try {
 
@@ -42,7 +42,7 @@ public class NoteController {
                     .body(new CreateNoteResponse("success",
                             this.noteService.createNote(request.getFile(), request.getStudySetId())));
 
-        } catch (IOException | DocumentException e) {
+        } catch (IOException e) {
             System.out.println("Trouble creating note in controller");
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)

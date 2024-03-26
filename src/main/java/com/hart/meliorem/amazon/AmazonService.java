@@ -10,8 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
 
 import com.hart.meliorem.advice.BadRequestException;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
+import com.itextpdf.layout.Document;
 
 import jakarta.annotation.PostConstruct;
 import software.amazon.awssdk.regions.Region;
@@ -141,8 +140,8 @@ public class AmazonService {
 
     }
 
-    public HashMap<String, String> putS3Pdf(String bucketName, String objectKey, Document pdfDocument)
-            throws S3Exception, IOException, DocumentException {
+    public HashMap<String, String> putS3Pdf(String bucketName, String objectKey, File pdfDocument)
+            throws S3Exception, IOException {
         try {
 
             File outputPdf = new File(objectKey);
