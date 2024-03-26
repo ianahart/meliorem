@@ -2,10 +2,12 @@ package com.hart.meliorem.pdf;
 
 import com.hart.meliorem.advice.BadRequestException;
 import com.hart.meliorem.advice.RedirectException;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfWriter;
+
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Paragraph;
+
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
 
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
@@ -71,22 +73,25 @@ public class PdfService {
         }
     }
 
-    public Document convertToPdf(MultipartFile file) throws IOException, DocumentException {
+    public File convertToPdf(MultipartFile file) throws IOException, java.io.IOException {
         File convertedFile = convertMultipartFileToFile(file);
-        InputStream docxInputStream = new FileInputStream(convertedFile);
-        try (XWPFDocument document = new XWPFDocument(docxInputStream);
-                OutputStream pdfOutputStream = new FileOutputStream("output.pdf");) {
-            Document pdfDocument = new Document();
-            PdfWriter.getInstance(pdfDocument, pdfOutputStream);
-            pdfDocument.open();
+        try (InputStream docxInputStream = new FileInputStream(convertedFile);
+                XWPFDocument document = new XWPFDocument(docxInputStream);
+                OutputStream pdfOutputStream = new FileOutputStream("output.pdf")) {
+            PdfWriter pdfWriter = new PdfWriter(pdfOutputStream);
+            PdfDocument pdfDocument = new PdfDocument(pdfWriter);
+            Document pdfLayout = new Document(pdfDocument);
 
             List<XWPFParagraph> paragraphs = document.getParagraphs();
             for (XWPFParagraph paragraph : paragraphs) {
-                pdfDocument.add(new Paragraph(paragraph.getText()));
+                pdfLayout.add(new Paragraph(paragraph.getText()));
             }
+
+            pdfLayout.close();
             pdfDocument.close();
             convertedFile.delete();
-            return pdfDocument;
+
+            return new File("output.pdf");
         }
     }
 }
