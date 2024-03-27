@@ -131,7 +131,9 @@ public class RecommendationService {
 
             UniqueUserStudySetItemsDto uniqueUserStudySets = getUniqueUserStudySets(
                     this.studySetService.byUserId(user.getId()));
-
+            System.out.println("==================");
+            System.out.println(uniqueUserStudySets);
+            System.out.println("====================");
             List<StudySetMinDto> matchingStudySets = this.studySetService.getMatchingStudySetsBySchoolAndCourses(
                     user.getId(), uniqueUserStudySets.getUniqueUserCourses(),
                     uniqueUserStudySets.getUniqueUserSchoolNames());
