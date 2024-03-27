@@ -168,4 +168,75 @@ public class Goal {
         this.targetCompletionDate = targetCompletionDate;
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((createdAt == null) ? 0 : createdAt.hashCode());
+        result = prime * result + ((updatedAt == null) ? 0 : updatedAt.hashCode());
+        result = prime * result + ((goalTitle == null) ? 0 : goalTitle.hashCode());
+        result = prime * result + ((goalDesc == null) ? 0 : goalDesc.hashCode());
+        result = prime * result + ((targetCompletionDate == null) ? 0 : targetCompletionDate.hashCode());
+        result = prime * result + ((isCompleted == null) ? 0 : isCompleted.hashCode());
+        result = prime * result + ((goalType == null) ? 0 : goalType.hashCode());
+        result = prime * result + ((user == null) ? 0 : user.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Goal other = (Goal) obj;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        if (createdAt == null) {
+            if (other.createdAt != null)
+                return false;
+        } else if (!createdAt.equals(other.createdAt))
+            return false;
+        if (updatedAt == null) {
+            if (other.updatedAt != null)
+                return false;
+        } else if (!updatedAt.equals(other.updatedAt))
+            return false;
+        if (goalTitle == null) {
+            if (other.goalTitle != null)
+                return false;
+        } else if (!goalTitle.equals(other.goalTitle))
+            return false;
+        if (goalDesc == null) {
+            if (other.goalDesc != null)
+                return false;
+        } else if (!goalDesc.equals(other.goalDesc))
+            return false;
+        if (targetCompletionDate == null) {
+            if (other.targetCompletionDate != null)
+                return false;
+        } else if (!targetCompletionDate.equals(other.targetCompletionDate))
+            return false;
+        if (isCompleted == null) {
+            if (other.isCompleted != null)
+                return false;
+        } else if (!isCompleted.equals(other.isCompleted))
+            return false;
+        if (goalType != other.goalType)
+            return false;
+        if (user == null) {
+            if (other.user != null)
+                return false;
+        } else if (!user.equals(other.user))
+            return false;
+        return true;
+    }
+
+
 }

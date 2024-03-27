@@ -193,4 +193,91 @@ public class Book {
     public void setDownloadCount(Integer downloadCount) {
         this.downloadCount = downloadCount;
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((createdAt == null) ? 0 : createdAt.hashCode());
+        result = prime * result + ((updatedAt == null) ? 0 : updatedAt.hashCode());
+        result = prime * result + ((title == null) ? 0 : title.hashCode());
+        result = prime * result + ((author == null) ? 0 : author.hashCode());
+        result = prime * result + ((bookshelf == null) ? 0 : bookshelf.hashCode());
+        result = prime * result + ((pdfUrl == null) ? 0 : pdfUrl.hashCode());
+        result = prime * result + ((imageUrl == null) ? 0 : imageUrl.hashCode());
+        result = prime * result + ((downloadCount == null) ? 0 : downloadCount.hashCode());
+        result = prime * result + ((user == null) ? 0 : user.hashCode());
+        result = prime * result + ((bookProgresses == null) ? 0 : bookProgresses.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Book other = (Book) obj;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        if (createdAt == null) {
+            if (other.createdAt != null)
+                return false;
+        } else if (!createdAt.equals(other.createdAt))
+            return false;
+        if (updatedAt == null) {
+            if (other.updatedAt != null)
+                return false;
+        } else if (!updatedAt.equals(other.updatedAt))
+            return false;
+        if (title == null) {
+            if (other.title != null)
+                return false;
+        } else if (!title.equals(other.title))
+            return false;
+        if (author == null) {
+            if (other.author != null)
+                return false;
+        } else if (!author.equals(other.author))
+            return false;
+        if (bookshelf == null) {
+            if (other.bookshelf != null)
+                return false;
+        } else if (!bookshelf.equals(other.bookshelf))
+            return false;
+        if (pdfUrl == null) {
+            if (other.pdfUrl != null)
+                return false;
+        } else if (!pdfUrl.equals(other.pdfUrl))
+            return false;
+        if (imageUrl == null) {
+            if (other.imageUrl != null)
+                return false;
+        } else if (!imageUrl.equals(other.imageUrl))
+            return false;
+        if (downloadCount == null) {
+            if (other.downloadCount != null)
+                return false;
+        } else if (!downloadCount.equals(other.downloadCount))
+            return false;
+        if (user == null) {
+            if (other.user != null)
+                return false;
+        } else if (!user.equals(other.user))
+            return false;
+        if (bookProgresses == null) {
+            if (other.bookProgresses != null)
+                return false;
+        } else if (!bookProgresses.equals(other.bookProgresses))
+            return false;
+        return true;
+    }
+
+
 }

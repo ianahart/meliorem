@@ -224,4 +224,102 @@ public class StudySetCard {
         this.user = user;
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((createdAt == null) ? 0 : createdAt.hashCode());
+        result = prime * result + ((updatedAt == null) ? 0 : updatedAt.hashCode());
+        result = prime * result + ((bgColor == null) ? 0 : bgColor.hashCode());
+        result = prime * result + ((color == null) ? 0 : color.hashCode());
+        result = prime * result + ((definition == null) ? 0 : definition.hashCode());
+        result = prime * result + ((image == null) ? 0 : image.hashCode());
+        result = prime * result + ((number == null) ? 0 : number.hashCode());
+        result = prime * result + ((order == null) ? 0 : order.hashCode());
+        result = prime * result + ((term == null) ? 0 : term.hashCode());
+        result = prime * result + ((starred == null) ? 0 : starred.hashCode());
+        result = prime * result + ((studySet == null) ? 0 : studySet.hashCode());
+        result = prime * result + ((user == null) ? 0 : user.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        StudySetCard other = (StudySetCard) obj;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        if (createdAt == null) {
+            if (other.createdAt != null)
+                return false;
+        } else if (!createdAt.equals(other.createdAt))
+            return false;
+        if (updatedAt == null) {
+            if (other.updatedAt != null)
+                return false;
+        } else if (!updatedAt.equals(other.updatedAt))
+            return false;
+        if (bgColor == null) {
+            if (other.bgColor != null)
+                return false;
+        } else if (!bgColor.equals(other.bgColor))
+            return false;
+        if (color == null) {
+            if (other.color != null)
+                return false;
+        } else if (!color.equals(other.color))
+            return false;
+        if (definition == null) {
+            if (other.definition != null)
+                return false;
+        } else if (!definition.equals(other.definition))
+            return false;
+        if (image == null) {
+            if (other.image != null)
+                return false;
+        } else if (!image.equals(other.image))
+            return false;
+        if (number == null) {
+            if (other.number != null)
+                return false;
+        } else if (!number.equals(other.number))
+            return false;
+        if (order == null) {
+            if (other.order != null)
+                return false;
+        } else if (!order.equals(other.order))
+            return false;
+        if (term == null) {
+            if (other.term != null)
+                return false;
+        } else if (!term.equals(other.term))
+            return false;
+        if (starred == null) {
+            if (other.starred != null)
+                return false;
+        } else if (!starred.equals(other.starred))
+            return false;
+        if (studySet == null) {
+            if (other.studySet != null)
+                return false;
+        } else if (!studySet.equals(other.studySet))
+            return false;
+        if (user == null) {
+            if (other.user != null)
+                return false;
+        } else if (!user.equals(other.user))
+            return false;
+        return true;
+    }
+
+
 }

@@ -47,10 +47,7 @@ public class GroupMessageWebSocketController {
 
         }
 
-        // this.simpMessagingTemplate.convertAndSendToUser(
-        // String.valueOf(groupMessage.getUserId()),
-        // "group",
-        // groupMessage);
-    }//
+
+    }
 
 }
