@@ -2,7 +2,7 @@ import axios from 'axios';
 import { ILoginForm, IRegisterForm, ITime } from '../interfaces';
 
 export const http = axios.create({
-  baseURL: 'http://localhost:5173/api/v1',
+  baseURL: 'https://meliorem.netlify.app/api/v1',
 });
 
 export const Client = {

@@ -41,10 +41,13 @@ const BookDetails = () => {
 
   const proxyBookPdf = async (bookId: number) => {
     try {
-      const response: AxiosResponse<Blob> = await axios.get(`http://localhost:5173/api/v1/books/${bookId}/proxy-pdf`, {
-        responseType: 'arraybuffer',
-        headers: { Authorization: `Bearer ${retreiveTokens().token}` },
-      });
+      const response: AxiosResponse<Blob> = await axios.get(
+        `https://meliorem.netlify.app/api/v1/books/${bookId}/proxy-pdf`,
+        {
+          responseType: 'arraybuffer',
+          headers: { Authorization: `Bearer ${retreiveTokens().token}` },
+        }
+      );
 
       if (response.status !== 200) {
         throw new Error(`Failed to fetch PDF: ${response.status}`);

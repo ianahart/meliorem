@@ -61,7 +61,7 @@ public class ApplicationConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:8080", "http://localhost:5173"));
+        configuration.setAllowedOrigins(Arrays.asList("https://api-meliorem-731d447a39bf.herokuapp.com", "https://meliorem.netlify.app"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "UPDATE", "DELETE"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
