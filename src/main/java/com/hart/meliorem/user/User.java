@@ -20,6 +20,7 @@ import com.hart.meliorem.notification.Notification;
 import com.hart.meliorem.passwordreset.PasswordReset;
 import com.hart.meliorem.profile.Profile;
 import com.hart.meliorem.quiz.Quiz;
+import com.hart.meliorem.recommendation.Recommendation;
 import com.hart.meliorem.refreshtoken.RefreshToken;
 import com.hart.meliorem.review.Review;
 import com.hart.meliorem.setting.Setting;
@@ -175,6 +176,10 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Goal> goals;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Recommendation> recommendations;
+
     public User() {
 
     }
@@ -244,6 +249,10 @@ public class User implements UserDetails {
 
     public List<GroupStudySet> getGroupStudySets() {
         return groupStudySets;
+    }
+
+    public List<Recommendation> getRecommendations() {
+        return recommendations;
     }
 
     public List<TimeSlot> getTimeSlots() {
@@ -393,6 +402,10 @@ public class User implements UserDetails {
 
     public void setStudyPlans(List<StudyPlan> studyPlans) {
         this.studyPlans = studyPlans;
+    }
+
+    public void setRecommendations(List<Recommendation> recommendations) {
+        this.recommendations = recommendations;
     }
 
     public void setStudySetCards(List<StudySetCard> studySetCards) {

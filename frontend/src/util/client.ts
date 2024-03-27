@@ -126,7 +126,7 @@ export const Client = {
     return http.delete(`/studyset-cards/${id}`);
   },
 
-  getStudySetCards: (studySetCardId: number) => {
+  getStudySetCards: (studySetCardId: string) => {
     return http.get(`/studyset-cards?studySetId=${studySetCardId}`);
   },
 
@@ -332,5 +332,13 @@ export const Client = {
 
   markGoalCompleted: (goalId: number, isCompleted: boolean) => {
     return http.patch(`/goals/${goalId}`, { isCompleted });
+  },
+
+  createRecommendations: () => {
+    return http.post('/recommendations', {});
+  },
+
+  getRecommendations: (page: number, pageSize: number, direction: string) => {
+    return http.get(`/recommendations?page=${page}&pageSize=${pageSize}&direction=${direction}`);
   },
 };

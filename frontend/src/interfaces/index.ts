@@ -2,6 +2,22 @@ export type ValuePiece = Date | null;
 
 export type Value = ValuePiece | [ValuePiece, ValuePiece];
 
+export interface IRecommendation {
+  avatarUrl: string;
+  course: string;
+  createdAt: Date;
+  description: string;
+  folder: string;
+  fullName: string;
+  id: number;
+  recommendationId: number;
+  schoolName: string;
+  title: string;
+  userId: number;
+  visibility: string;
+  lastGeneratedAt: Date;
+}
+
 export interface IGoal {
   createdAt: Date;
   updatedAt: Date;

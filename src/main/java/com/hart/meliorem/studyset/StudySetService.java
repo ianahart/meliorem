@@ -22,6 +22,7 @@ import com.hart.meliorem.pagination.PaginationService;
 import com.hart.meliorem.pagination.dto.PaginationDto;
 import com.hart.meliorem.studyset.dto.StudySetDto;
 import com.hart.meliorem.studyset.dto.StudySetFolderDto;
+import com.hart.meliorem.studyset.dto.StudySetMinDto;
 import com.hart.meliorem.studyset.dto.StudySetPopulateDto;
 import com.hart.meliorem.studyset.request.CreateStudySetRequest;
 import com.hart.meliorem.studyset.request.EditStudySetRequest;
@@ -268,4 +269,15 @@ public class StudySetService {
                 result.getTotalElements());
 
     }
+
+    public List<StudySetMinDto> byUserId(Long userId) {
+        return this.studySetRepository.findByUserId(userId);
+    }
+
+    public List<StudySetMinDto> getMatchingStudySetsBySchoolAndCourses(Long userId, List<String> courses,
+            List<String> schoolNames) {
+
+        return this.studySetRepository.getStudySetsBySchoolNameAndCourses(userId, courses, schoolNames);
+    }
+
 }
