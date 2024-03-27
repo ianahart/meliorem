@@ -104,7 +104,7 @@ public class RecommendationService {
         Recommendation mostRecentRecommendation = getMostRecentRecommendation(userId);
 
         if (mostRecentRecommendation == null) {
-            return false;
+            return true;
         }
 
         return isMostRecentAWeekOld(mostRecentRecommendation.getLastGeneratedAt());
