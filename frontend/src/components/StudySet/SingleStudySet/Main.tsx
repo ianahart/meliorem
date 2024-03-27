@@ -12,6 +12,7 @@ interface IMainProps {
 }
 
 const Main = ({ studySetId }: IMainProps) => {
+  console.log(studySetId);
   const params = useParams();
   const [studySet, setStudySet] = useState<IStudySet>(studySetState);
   const shouldRun = useRef(true);
