@@ -1,7 +1,7 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
 import { useEffect, useRef, useState } from 'react';
 import { Client } from '../../../util/client';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { studySetState } from '../../../data';
 import { IStudySet } from '../../../interfaces';
 import UserAvatar from '../../Shared/UserAvatar';
@@ -12,6 +12,7 @@ interface IMainProps {
 }
 
 const Main = ({ studySetId }: IMainProps) => {
+  const params = useParams();
   const [studySet, setStudySet] = useState<IStudySet>(studySetState);
   const shouldRun = useRef(true);
   const navigate = useNavigate();
@@ -24,7 +25,9 @@ const Main = ({ studySetId }: IMainProps) => {
   };
 
   const getStudySet = () => {
-    Client.getStudySet(studySetId)
+    let ssId = Number(params.studySetId as string);
+
+    Client.getStudySet(ssId)
       .then((res) => {
         const { data } = res.data;
         setStudySet(data);
