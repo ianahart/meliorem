@@ -1,11 +1,11 @@
-import { IStudySet } from '../../interfaces';
+import { IRecommendation, IStudySet } from '../../interfaces';
 import { Flex, Text, Box, Heading } from '@chakra-ui/react';
 import UserAvatar from '../Shared/UserAvatar';
 import { useNavigate } from 'react-router-dom';
 import { BsFillBookmarkFill } from 'react-icons/bs';
 
 interface IStudySetProps {
-  data: IStudySet;
+  data: IStudySet | IRecommendation;
   isBookMarked: boolean;
 }
 
@@ -56,7 +56,7 @@ const StudySet = ({ data, isBookMarked }: IStudySetProps) => {
           borderRadius={20}
           padding="0.25rem"
         >
-          <Text color="#fff">{data.totalStudySetCards} terms</Text>
+          {'totalStudySetCards' in data && <Text color="#fff">{data.totalStudySetCards} terms</Text>}
         </Flex>
       </Box>
       <Flex align="center">

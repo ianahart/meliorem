@@ -1,16 +1,17 @@
 import { Box } from '@chakra-ui/react';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Client } from '../../../util/client';
 import Main from './Main';
 import StillLearning from './StillLearning';
 import FlashCards from './FlashCards';
 import { IStudySetCardFull, IUserContext } from '../../../interfaces';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import Reviews from './Reviews';
 import Notes from './Notes';
 import { over } from 'stompjs';
 import SockJS from 'sockjs-client';
 import { UserContext } from '../../../context/user';
+import Recommendations from './Recommendations';
 
 let stompClient: any = null;
 
@@ -19,8 +20,8 @@ interface ISingleStudySetProps {
 }
 
 const SingleStudySet = ({ studySetId }: ISingleStudySetProps) => {
+  const params = useParams();
   const { user } = useContext(UserContext) as IUserContext;
-  const shouldRun = useRef(true);
   const location = useLocation();
 
   const [studySetCards, setStudySetCards] = useState<IStudySetCardFull[]>([]);
@@ -32,7 +33,7 @@ const SingleStudySet = ({ studySetId }: ISingleStudySetProps) => {
   }, [studySetCards.length]);
 
   const getStudySetCards = () => {
-    Client.getStudySetCards(studySetId)
+    Client.getStudySetCards(params.studySetId as string)
       .then((res) => {
         const { data } = res.data;
         setStudySetCards(data);
@@ -81,12 +82,9 @@ const SingleStudySet = ({ studySetId }: ISingleStudySetProps) => {
   };
 
   useEffect(() => {
-    if (shouldRun.current) {
-      shouldRun.current = false;
-      createStreak();
-      getStudySetCards();
-    }
-  }, [shouldRun.current]);
+    createStreak();
+    getStudySetCards();
+  }, [params.studySetId]);
 
   const updateField = <T,>(value: T, prop: string, id: number | string) => {
     const cards = filteredStudySetCards.map((studySetCard) => {
@@ -129,6 +127,9 @@ const SingleStudySet = ({ studySetId }: ISingleStudySetProps) => {
         </Box>
         <Box my="2rem">
           <FlashCards handleMenuItemClick={handleMenuItemClick} studySetCards={filteredStudySetCards} />
+        </Box>
+        <Box my="2rem">
+          <Recommendations />
         </Box>
         <Box my="2rem">
           <Main studySetId={studySetId} />

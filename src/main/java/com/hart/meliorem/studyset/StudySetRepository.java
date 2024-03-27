@@ -6,10 +6,34 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import com.hart.meliorem.studyset.dto.StudySetDto;
+import com.hart.meliorem.studyset.dto.StudySetMinDto;
 import com.hart.meliorem.studyset.dto.StudySetPopulateDto;
 
 public interface StudySetRepository extends JpaRepository<StudySet, Long> {
+
+    @Query(value = """
+            SELECT new com.hart.meliorem.studyset.dto.StudySetMinDto(
+             ss.id AS id, ss.course AS course, ss.folder AS folder,
+             ss.schoolName AS schoolName
+            ) FROM StudySet ss
+            INNER JOIN ss.user u
+            WHERE u.id <> :userId
+            AND (LOWER(ss.course) IN :courses OR LOWER(ss.schoolName) IN :schoolNames)
+            """)
+    List<StudySetMinDto> getStudySetsBySchoolNameAndCourses(@Param("userId") Long userId,
+            @Param("courses") List<String> courses, @Param("schoolNames") List<String> schoolNames);
+
+    @Query(value = """
+            SELECT new com.hart.meliorem.studyset.dto.StudySetMinDto(
+             ss.id AS id, ss.course AS course, ss.folder AS folder,
+             ss.schoolName AS schoolName
+            ) FROM StudySet ss
+            INNER JOIN ss.user u
+            WHERE u.id = :userId
+            """)
+    List<StudySetMinDto> findByUserId(@Param("userId") Long userId);
 
     @Query(value = """
              SELECT new com.hart.meliorem.studyset.dto.StudySetDto(

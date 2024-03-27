@@ -15,13 +15,14 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { nanoid } from 'nanoid';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
 import { FeedbackChoices } from '../../../../enums';
 import { UserContext } from '../../../../context/user';
 import { IReviewStats, IUserContext } from '../../../../interfaces';
 import { Client } from '../../../../util/client';
 import { reviewStatsState } from '../../../../data';
+import { useParams } from 'react-router-dom';
 
 export interface IReviewsProps {
   studySetTitle: string;
@@ -29,8 +30,9 @@ export interface IReviewsProps {
 }
 
 const Reviews = ({ studySetTitle, studySetId }: IReviewsProps) => {
+  console.log(studySetId);
   const NUM_OF_STARS = 5;
-  const shouldRun = useRef(true);
+  const params = useParams();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { user } = useContext(UserContext) as IUserContext;
   const [rating, setRating] = useState(1);
@@ -39,7 +41,15 @@ const Reviews = ({ studySetTitle, studySetId }: IReviewsProps) => {
   const [error, setError] = useState('');
 
   const getReviewStats = () => {
-    Client.getReviewStats(studySetId)
+    let id;
+
+    if (params.studySetId) {
+      id = parseInt(params.studySetId, 10);
+    } else {
+      return;
+    }
+
+    Client.getReviewStats(id)
       .then((res) => {
         const { data } = res.data;
         setReviewStats(data);
@@ -50,14 +60,19 @@ const Reviews = ({ studySetTitle, studySetId }: IReviewsProps) => {
   };
 
   useEffect(() => {
-    if (shouldRun.current) {
-      shouldRun.current = false;
-      getReviewStats();
-    }
-  }, [shouldRun.current]);
+    getReviewStats();
+  }, [params.studySetId]);
 
   const handleAddReview = () => {
-    const data = { feedback: selectedFeedback, userId: user.id, studySetId, rating };
+    let id;
+
+    if (params.studySetId) {
+      id = parseInt(params.studySetId, 10);
+    } else {
+      return;
+    }
+
+    const data = { feedback: selectedFeedback, userId: user.id, studySetId: id, rating };
     setError('');
 
     Client.createReview(data)

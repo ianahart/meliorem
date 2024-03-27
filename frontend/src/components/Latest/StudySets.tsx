@@ -1,10 +1,12 @@
 import { Box, Flex } from '@chakra-ui/react';
 
-import { IStudySet } from '../../interfaces';
+import { IRecommendation, IStudySet } from '../../interfaces';
 import StudySet from './StudySet';
 
+type Data = IStudySet[] | IRecommendation[];
+
 interface IStudySetsProps {
-  data: IStudySet[];
+  data: Data;
   isBookMarked?: boolean;
 }
 

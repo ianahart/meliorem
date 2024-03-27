@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import com.hart.meliorem.bookmark.BookMark;
 import com.hart.meliorem.groupstudyset.GroupStudySet;
 import com.hart.meliorem.note.Note;
+import com.hart.meliorem.recommendation.Recommendation;
 import com.hart.meliorem.review.Review;
 import com.hart.meliorem.streak.Streak;
 import com.hart.meliorem.studysetcard.StudySetCard;
@@ -88,6 +89,9 @@ public class StudySet {
     @OneToMany(mappedBy = "studySet", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<GroupStudySet> groupStudySets;
 
+    @OneToMany(mappedBy = "studySet", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Recommendation> recommendations;
+
     public StudySet() {
 
     }
@@ -140,6 +144,10 @@ public class StudySet {
 
     public List<Streak> getStreaks() {
         return streaks;
+    }
+
+    public List<Recommendation> getRecommendations() {
+        return recommendations;
     }
 
     public List<BookMark> getBookMarks() {
@@ -224,6 +232,10 @@ public class StudySet {
 
     public void setVisibility(Visibility visibility) {
         this.visibility = visibility;
+    }
+
+    public void setRecommendations(List<Recommendation> recommendations) {
+        this.recommendations = recommendations;
     }
 
     public void setTitle(String title) {
