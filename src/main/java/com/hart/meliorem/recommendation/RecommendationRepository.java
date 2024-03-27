@@ -23,8 +23,9 @@ public interface RecommendationRepository extends JpaRepository<Recommendation, 
                 ) FROM Recommendation r
                 INNER JOIN r.studySet ss
                 INNER JOIN ss.user u
+                INNER JOIN r.user ru
                 INNER JOIN ss.user.profile p
-                WHERE u.id = :userId
+                WHERE ru.id = :userId
             """)
 
     Page<RecommendationDto> getRecommendationsByUserId(@Param("userId") Long userId,
