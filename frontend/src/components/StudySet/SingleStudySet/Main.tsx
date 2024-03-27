@@ -1,5 +1,5 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Client } from '../../../util/client';
 import { useNavigate, useParams } from 'react-router-dom';
 import { studySetState } from '../../../data';
@@ -15,7 +15,6 @@ const Main = ({ studySetId }: IMainProps) => {
   console.log(studySetId);
   const params = useParams();
   const [studySet, setStudySet] = useState<IStudySet>(studySetState);
-  const shouldRun = useRef(true);
   const navigate = useNavigate();
 
   const handleOnBookMark = (isBookMarked: boolean, id: number) => {
@@ -42,11 +41,8 @@ const Main = ({ studySetId }: IMainProps) => {
   };
 
   useEffect(() => {
-    if (shouldRun.current) {
-      shouldRun.current = false;
-      getStudySet();
-    }
-  }, [shouldRun.current]);
+    getStudySet();
+  }, [params.studySetId]);
 
   return (
     <Box fontSize="1.2rem" p="1rem" color="#fff">
