@@ -31,7 +31,7 @@ const Invites = ({ adminId, groupId }: IInvitesProps) => {
   });
 
   const connect = () => {
-    let Sock = new SockJS('http://localhost:8080/ws');
+    let Sock = new SockJS('https://api-meliorem-731d447a39bf.herokuapp.com/wss');
     stompClient = over(Sock);
     if (!stompClient.connected) {
       stompClient.connect({}, onConnected, onError);

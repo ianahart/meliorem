@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Heading, Text } from '@chakra-ui/react';
+import { Box, Button, Flex } from '@chakra-ui/react';
 import { useState } from 'react';
 import LeaveGroupModal from './LeaveGroupModal';
 

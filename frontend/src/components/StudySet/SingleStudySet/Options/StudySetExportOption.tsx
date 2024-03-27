@@ -58,7 +58,7 @@ const StudySetExportOption = ({ isOpen, onClose, studySetId }: IStudySetExportOp
   }, [separator, betweenRows, studySetCards.length]);
 
   const getStudySetCards = () => {
-    Client.getStudySetCards(studySetId)
+    Client.getStudySetCards(studySetId.toString())
       .then((res) => {
         const { data } = res.data;
         console.log(data);

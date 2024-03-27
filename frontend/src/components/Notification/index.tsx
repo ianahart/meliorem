@@ -42,7 +42,7 @@ const Notification = () => {
   });
 
   const connect = () => {
-    let Sock = new SockJS('http://localhost:8080/ws');
+    let Sock = new SockJS('https://api-meliorem-731d447a39bf.herokuapp.com/wss');
     stompClient = over(Sock);
     stompClient.connect({}, onConnected, onError);
   };

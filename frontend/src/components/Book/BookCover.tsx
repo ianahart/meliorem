@@ -1,4 +1,4 @@
-import { Box, Image } from '@chakra-ui/react';
+import { Image } from '@chakra-ui/react';
 import { IBook } from '../../interfaces';
 import bookImg from '../../assets/book.png';
 import { Link as RouterLink } from 'react-router-dom';

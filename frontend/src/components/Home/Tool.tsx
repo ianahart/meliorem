@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Image, Text } from '@chakra-ui/react';
+import { Flex, Heading, Image, Text } from '@chakra-ui/react';
 
 export interface IToolProps {
   heading: string;

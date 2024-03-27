@@ -1,4 +1,4 @@
-import { Box, FormControl, FormLabel, Input } from '@chakra-ui/react';
+import { FormControl, FormLabel, Input } from '@chakra-ui/react';
 
 interface IFormInputProps {
   updateField: (name: string, value: string, attribute: string) => void;
@@ -10,15 +10,8 @@ interface IFormInputProps {
   type: string;
 }
 
-const FormInput = ({
-  updateField,
-  name,
-  id,
-  label,
-  error,
-  value,
-  type,
-}: IFormInputProps) => {
+const FormInput = ({ updateField, name, id, label, error, value, type }: IFormInputProps) => {
+  console.log(error);
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     updateField(name, value, 'value');
