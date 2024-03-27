@@ -140,4 +140,73 @@ public class Group {
     public void setGroupMessages(List<GroupMessage> groupMessages) {
         this.groupMessages = groupMessages;
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((createdAt == null) ? 0 : createdAt.hashCode());
+        result = prime * result + ((updatedAt == null) ? 0 : updatedAt.hashCode());
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result + ((admin == null) ? 0 : admin.hashCode());
+        result = prime * result + ((groupMembers == null) ? 0 : groupMembers.hashCode());
+        result = prime * result + ((groupStudySets == null) ? 0 : groupStudySets.hashCode());
+        result = prime * result + ((groupMessages == null) ? 0 : groupMessages.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Group other = (Group) obj;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        if (createdAt == null) {
+            if (other.createdAt != null)
+                return false;
+        } else if (!createdAt.equals(other.createdAt))
+            return false;
+        if (updatedAt == null) {
+            if (other.updatedAt != null)
+                return false;
+        } else if (!updatedAt.equals(other.updatedAt))
+            return false;
+        if (name == null) {
+            if (other.name != null)
+                return false;
+        } else if (!name.equals(other.name))
+            return false;
+        if (admin == null) {
+            if (other.admin != null)
+                return false;
+        } else if (!admin.equals(other.admin))
+            return false;
+        if (groupMembers == null) {
+            if (other.groupMembers != null)
+                return false;
+        } else if (!groupMembers.equals(other.groupMembers))
+            return false;
+        if (groupStudySets == null) {
+            if (other.groupStudySets != null)
+                return false;
+        } else if (!groupStudySets.equals(other.groupStudySets))
+            return false;
+        if (groupMessages == null) {
+            if (other.groupMessages != null)
+                return false;
+        } else if (!groupMessages.equals(other.groupMessages))
+            return false;
+        return true;
+    }
+
+
 }

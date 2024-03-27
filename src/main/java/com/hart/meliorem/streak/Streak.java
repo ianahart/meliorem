@@ -172,4 +172,84 @@ public class Streak {
     public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((createdAt == null) ? 0 : createdAt.hashCode());
+        result = prime * result + ((updatedAt == null) ? 0 : updatedAt.hashCode());
+        result = prime * result + ((dayOfWeek == null) ? 0 : dayOfWeek.hashCode());
+        result = prime * result + ((day == null) ? 0 : day.hashCode());
+        result = prime * result + ((month == null) ? 0 : month.hashCode());
+        result = prime * result + ((year == null) ? 0 : year.hashCode());
+        result = prime * result + ((timestamp == null) ? 0 : timestamp.hashCode());
+        result = prime * result + ((user == null) ? 0 : user.hashCode());
+        result = prime * result + ((studySet == null) ? 0 : studySet.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Streak other = (Streak) obj;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        if (createdAt == null) {
+            if (other.createdAt != null)
+                return false;
+        } else if (!createdAt.equals(other.createdAt))
+            return false;
+        if (updatedAt == null) {
+            if (other.updatedAt != null)
+                return false;
+        } else if (!updatedAt.equals(other.updatedAt))
+            return false;
+        if (dayOfWeek == null) {
+            if (other.dayOfWeek != null)
+                return false;
+        } else if (!dayOfWeek.equals(other.dayOfWeek))
+            return false;
+        if (day == null) {
+            if (other.day != null)
+                return false;
+        } else if (!day.equals(other.day))
+            return false;
+        if (month == null) {
+            if (other.month != null)
+                return false;
+        } else if (!month.equals(other.month))
+            return false;
+        if (year == null) {
+            if (other.year != null)
+                return false;
+        } else if (!year.equals(other.year))
+            return false;
+        if (timestamp == null) {
+            if (other.timestamp != null)
+                return false;
+        } else if (!timestamp.equals(other.timestamp))
+            return false;
+        if (user == null) {
+            if (other.user != null)
+                return false;
+        } else if (!user.equals(other.user))
+            return false;
+        if (studySet == null) {
+            if (other.studySet != null)
+                return false;
+        } else if (!studySet.equals(other.studySet))
+            return false;
+        return true;
+    }
+
 }

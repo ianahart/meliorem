@@ -165,4 +165,79 @@ public class BookProgress {
     public void setIsCompleted(Boolean isCompleted) {
         this.isCompleted = isCompleted;
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((createdAt == null) ? 0 : createdAt.hashCode());
+        result = prime * result + ((updatedAt == null) ? 0 : updatedAt.hashCode());
+        result = prime * result + ((currentPage == null) ? 0 : currentPage.hashCode());
+        result = prime * result + ((totalPages == null) ? 0 : totalPages.hashCode());
+        result = prime * result + ((isCompleted == null) ? 0 : isCompleted.hashCode());
+        result = prime * result + ((notes == null) ? 0 : notes.hashCode());
+        result = prime * result + ((user == null) ? 0 : user.hashCode());
+        result = prime * result + ((book == null) ? 0 : book.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        BookProgress other = (BookProgress) obj;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        if (createdAt == null) {
+            if (other.createdAt != null)
+                return false;
+        } else if (!createdAt.equals(other.createdAt))
+            return false;
+        if (updatedAt == null) {
+            if (other.updatedAt != null)
+                return false;
+        } else if (!updatedAt.equals(other.updatedAt))
+            return false;
+        if (currentPage == null) {
+            if (other.currentPage != null)
+                return false;
+        } else if (!currentPage.equals(other.currentPage))
+            return false;
+        if (totalPages == null) {
+            if (other.totalPages != null)
+                return false;
+        } else if (!totalPages.equals(other.totalPages))
+            return false;
+        if (isCompleted == null) {
+            if (other.isCompleted != null)
+                return false;
+        } else if (!isCompleted.equals(other.isCompleted))
+            return false;
+        if (notes == null) {
+            if (other.notes != null)
+                return false;
+        } else if (!notes.equals(other.notes))
+            return false;
+        if (user == null) {
+            if (other.user != null)
+                return false;
+        } else if (!user.equals(other.user))
+            return false;
+        if (book == null) {
+            if (other.book != null)
+                return false;
+        } else if (!book.equals(other.book))
+            return false;
+        return true;
+    }
+
+
 }
