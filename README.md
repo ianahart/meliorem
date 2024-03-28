@@ -6,9 +6,7 @@ An application to help you study better
 ![Spring Boot](https://camo.githubusercontent.com/f4a35c8c4d475cbde11892b5fbb4735de63043c884ca4616f91fcc494200fa00/68747470733a2f2f696d672e736869656c64732e696f2f7374617469632f76313f7374796c653d666f722d7468652d6261646765266d6573736167653d537072696e672b426f6f7426636f6c6f723d364442333346266c6f676f3d537072696e672b426f6f74266c6f676f436f6c6f723d464646464646266c6162656c3d)
 ![PostgreSQL](https://camo.githubusercontent.com/aaf7d409d95158427f9389c20305d66299f4e15d96bfa9d4f0792b21ad01e327/68747470733a2f2f696d672e736869656c64732e696f2f7374617469632f76313f7374796c653d666f722d7468652d6261646765266d6573736167653d506f737467726553514c26636f6c6f723d343136394531266c6f676f3d506f737467726553514c266c6f676f436f6c6f723d464646464646266c6162656c3d)
 
-
 <img width="700" alt="meliorem" src="https://github.com/ianahart/meliorem/assets/29121238/aa1ab0e9-33f7-4a2e-acd5-0340e918ce05">
-
 
 ### Built With
 
@@ -31,22 +29,26 @@ The group section allows you to chat in realtime with one another and also add s
 
 ## Table of Contents
 
-- [Built With](#built-with)
-- [Description](#description)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Credits](#credits)
-- [References](#references)
-- [License](#license)
-- [Contributing](#contributing)
-- [Badges](#badges)
-- [Questions](#questions)
+- [Meliorem](#meliorem)
+    - [Built With](#built-with)
+  - [Description](#description)
+  - [Table of Contents](#table-of-contents)
+  - [Installation (Local)](#installation-local)
+  - [Usage](#usage)
+      - [Test Account](#test-account)
+  - [Credits](#credits)
+  - [References](#references)
+  - [License](#license)
+  - [Contributing](#contributing)
+  - [Badges](#badges)
+  - [Questions](#questions)
 
-
-## Installation
+## Installation (Local)
 
 - `git clone https://github.com/ianahart/meliorem.git`
 - **cd** into the root of the cloned project
+- If you have not downloaded [postgresql](https://www.postgresql.org/) go ahead and do so.
+- In the terminal run `psql postgres` and create a database called `meliorem` and `\c meliorem`
 - in the root of the project, run `mvn clean install`
 - now cd into the folder labeled **frontend** and run `npm install`
 - inside the **frontend** directory run `npm run dev`
