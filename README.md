@@ -42,6 +42,7 @@ The group section allows you to chat in realtime with one another and also add s
 - [Badges](#badges)
 - [Questions](#questions)
 
+
 ## Installation
 
 - `git clone https://github.com/ianahart/meliorem.git`
@@ -60,9 +61,9 @@ Sign up and create an account. Create your first study set and begin studying!
 - username: millie@gmail.com
 - password: Test12345%
 
-[Live Site](#) Coming soon
+[Live Site](https://meliorem.netlify.app/)
 
-[Demo](#) Coming soon
+[Demo](https://drive.google.com/file/d/1t514WCPX5IIyt5xwq7k65hnHkVBkT9rq/view)
 
 ## Credits
 
