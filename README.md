@@ -8,7 +8,7 @@ An application to help you study better
 
 <img width="700" alt="meliorem" src="https://github.com/ianahart/meliorem/assets/29121238/aa1ab0e9-33f7-4a2e-acd5-0340e918ce05">
 
-### Built With
+## Built With
 
 - Spring Boot
 - React
@@ -33,6 +33,7 @@ The group section allows you to chat in realtime with one another and also add s
     - [Built With](#built-with)
   - [Description](#description)
   - [Table of Contents](#table-of-contents)
+  - [Visuals](#visuals)
   - [Installation (Local)](#installation-local)
   - [Usage](#usage)
       - [Test Account](#test-account)
@@ -42,6 +43,14 @@ The group section allows you to chat in realtime with one another and also add s
   - [Contributing](#contributing)
   - [Badges](#badges)
   - [Questions](#questions)
+
+
+## Visuals
+
+<div>
+    <video src="https://github.com/ianahart/meliorem/assets/29121238/f35df0e8-c07f-4926-bf02-8896d8d71dee" width="650" controls type="video/mp4"></video>
+</div>
+
 
 ## Installation (Local)
 
