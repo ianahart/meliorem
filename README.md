@@ -2,9 +2,11 @@
 
 An application to help you study better
 
-![React](https://camo.githubusercontent.com/e95e1cbdf8a6d197063c7e8765a79deb9b853081012d6e892adb6ac2c364397c/68747470733a2f2f696d672e736869656c64732e696f2f7374617469632f76313f7374796c653d666f722d7468652d6261646765266d6573736167653d526561637426636f6c6f723d323232323232266c6f676f3d5265616374266c6f676f436f6c6f723d363144414642266c6162656c3d)
-![Spring Boot](https://camo.githubusercontent.com/f4a35c8c4d475cbde11892b5fbb4735de63043c884ca4616f91fcc494200fa00/68747470733a2f2f696d672e736869656c64732e696f2f7374617469632f76313f7374796c653d666f722d7468652d6261646765266d6573736167653d537072696e672b426f6f7426636f6c6f723d364442333346266c6f676f3d537072696e672b426f6f74266c6f676f436f6c6f723d464646464646266c6162656c3d)
-![PostgreSQL](https://camo.githubusercontent.com/aaf7d409d95158427f9389c20305d66299f4e15d96bfa9d4f0792b21ad01e327/68747470733a2f2f696d672e736869656c64732e696f2f7374617469632f76313f7374796c653d666f722d7468652d6261646765266d6573736167653d506f737467726553514c26636f6c6f723d343136394531266c6f676f3d506f737467726553514c266c6f676f436f6c6f723d464646464646266c6162656c3d)
+![React](https://img.shields.io/badge/React-61DAFB?logo=react&logoColor=white&style=for-the-badge)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-6DB33F?logo=spring-boot&logoColor=white&style=for-the-badge)
+![Java](https://img.shields.io/badge/Java-007396?logo=java&logoColor=white&style=for-the-badge)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black&style=for-the-badge)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-336791?logo=postgresql&logoColor=white&style=for-the-badge)
 
 <img width="700" alt="meliorem" src="https://github.com/ianahart/meliorem/assets/29121238/aa1ab0e9-33f7-4a2e-acd5-0340e918ce05">
 
